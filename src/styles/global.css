@@ -1,0 +1,78 @@
+@font-face {
+  font-family: "Mark Script";
+  src: url("/fonts/MarckScript.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap; /* Tampilkan fallback font dulu, swap setelah font loaded */
+  /* Metrics untuk minimize layout shift dengan fallback serif */
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+  size-adjust: 105%;
+}
+
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("/fonts/SourceSans3.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+  /* Metrics untuk minimize layout shift dengan fallback sans-serif */
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+  size-adjust: 108%;
+}
+
+@import "tailwindcss";
+/*@import "katex/dist/katex.min.css";*/
+
+/* Dark mode: class-based — default is ALWAYS light, dark hanya dari toggle */
+@custom-variant dark (&:is(.dark, .dark *));
+
+/*@plugin "@tailwindcss/typography";*/
+
+@theme {
+  /*Global palette set*/
+  --color-tan: #edeadf;
+  --color-dark: #1a1a1a;
+  --font-mark-script: "Mark Script", ui-serif, Georgia, serif;
+  --font-source-sans: "Source Sans 3", ui-sans-serif, Roboto, sans-serif;
+
+  --color-bg-light: var(--color-tan);
+  --color-bg-dark: var(--color-dark);
+}
+
+@layer base {
+  body {
+    @apply bg-tan text-dark;
+    @apply dark:bg-dark dark:text-tan;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-source-sans leading-[1.2] font-normal;
+  }
+
+  h1 {
+    @apply text-4xl;
+  }
+  h2 {
+    @apply text-2xl;
+  }
+  h3 {
+    @apply text-xl;
+  }
+
+  p {
+    @apply font-light font-source-sans;
+  }
+
+}
+
+@utility nav-hover {
+  @apply transition-colors duration-200 m-5 p-[6px] rounded-2xl
+  hover:bg-orange-400 active:bg-orange-400 hover:text-white
+  dark:hover:bg-orange-400 dark:active:bg-orange-400;
+}

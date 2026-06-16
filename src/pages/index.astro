@@ -1,0 +1,60 @@
+---
+import "../styles/global.css";
+import ThemeInit from "../components/ThemeInit.astro";
+import { ClientRouter } from "astro:transitions";
+import Navbar from "../components/Navbar.svelte";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Axel kenshi — Portofolio</title>
+  <!-- FOUC prevention -->
+    <ThemeInit />
+    <!-- Client-side navigation antar halaman (eliminasi full page reload) -->
+    <ClientRouter />
+	</head>
+	<body>
+	<!-- Navbar component -->
+	<Navbar client:idle transition:persist="navbar" />
+
+	<!-- contents -->
+	<section class="relative min-h-[100dvh] w-full flex items-center justify-center overflow-hidden">
+
+    <div class="absolute inset-0 -z-10">
+      <img
+        src="/img/assets/front_banner.jpg"
+        alt="Hero bg"
+        class="h-full w-full object-cover object-center"
+      />
+      <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px]"></div>
+    </div>
+  
+    <div class="max-w-4xl px-6 text-center text-white">
+      <h1 class="text-4xl font-extrabold tracking-tight sm:text-6xl">
+        Desain Landing Page Profesional
+      </h1>
+      <p class="mt-4 text-xl text-zinc-200">
+        Section ini akan selalu pas satu layar, apa pun perangkat yang digunakan.
+      </p>
+      <div class="mt-8">
+        <button class="rounded-md bg-cyan-500 px-5 py-3 font-semibold text-white hover:bg-cyan-600 transition">
+          Mulai Sekarang
+        </button>
+      </div>
+    </div>
+	</section>
+
+  <section class="bg-zinc-900 py-24 text-white">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="text-3xl font-bold">Fitur Utama Kami</h2>
+      <p class="mt-4 text-zinc-400">Ini adalah konten section berikutnya...</p>
+    </div>
+  </section>
+
+	</body>
+</html>

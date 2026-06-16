@@ -1,0 +1,15 @@
+---
+// Dijalankan sebelum paint — mencegah flash of unstyled content (FOUC).
+// Default SELALU light mode. Dark hanya jika user pernah toggle ke dark.
+---
+<script is:inline>
+  (function () {
+    try {
+      const stored = window.localStorage.getItem("theme");
+      if (stored === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+      // Tidak ada else: kalau tidak ada / 'light' → tidak tambah class apapun
+    } catch (_) {}
+  })();
+</script>
