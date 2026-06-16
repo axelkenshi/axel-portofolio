@@ -1,0 +1,244 @@
+---
+// src/components/AboutMe.astro
+---
+
+<section id="about" class="relative snap-start min-h-[100dvh] flex flex-col justify-between overflow-hidden bg-tan dark:bg-dark text-dark dark:text-tan transition-colors duration-300">
+  
+  <!-- 1. BACKGROUND CANVAS (Pipeline Animation) -->
+  <canvas id="pipeline-canvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-25 dark:opacity-35 z-0"></canvas>
+  
+  <!-- Overlay Gradient Halus (Dinamis Berdasarkan Tema) -->
+  <div class="absolute inset-0 bg-gradient-to-t from-tan via-transparent to-tan/50 dark:from-dark dark:via-transparent dark:to-dark/50 z-10 pointer-events-none"></div>
+
+  <!-- Spacer Atas agar Konten Utama Tetap Center -->
+  <div class="flex-grow flex items-center justify-center">
+    
+    <!-- 2. KONTEN UTAMA (Foto di Atas Teks untuk Mobile, Berdampingan di Desktop) -->
+    <div class="relative z-20 max-w-5xl w-full px-6 py-12 grid md:grid-cols-12 gap-8 md:gap-12 items-center">
+      
+      <!-- KOLOM FOTO (Urutan Pertama di Mobile, Pindah ke Kanan di Desktop) -->
+      <div class="md:col-span-5 flex justify-center md:order-2">
+        <div class="relative group">
+          <!-- Efek Glow di Belakang Foto -->
+          <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-600 opacity-20 dark:opacity-30 blur-xl group-hover:opacity-50 transition duration-500"></div>
+          
+          <!-- Frame Utama Foto -->
+          <div class="relative p-2 bg-white/60 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 rounded-2xl backdrop-blur-sm">
+            <img 
+              src="/img/assets/my.png" 
+              alt="Axel Kenshi Profile Picture" 
+              class="rounded-xl object-cover grayscale hover:grayscale-0 transition duration-500 bg-zinc-100 dark:bg-zinc-800" 
+              width="280" 
+              height="280" 
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- KOLOM TEKS (Urutan Kedua di Mobile, Pindah ke Kiri di Desktop) -->
+      <div class="md:col-span-7 flex flex-col justify-center md:order-1 space-y-6">
+        <div>
+          <span class="font-mark-script text-2xl text-cyan-600 dark:text-cyan-400 tracking-wide block mb-2">About Me</span>
+          <h2 class="text-3xl sm:text-5xl font-black tracking-tight bg-gradient-to-r from-zinc-900 via-zinc-700 to-zinc-500 dark:from-white dark:via-zinc-200 dark:to-zinc-400 bg-clip-text text-transparent">
+            Crafting Clean Code & Aesthetic Interfaces.
+          </h2>
+        </div>
+
+        <div class="space-y-4 text-zinc-600 dark:text-zinc-400 leading-relaxed text-sm sm:text-base">
+          <p>
+            Halo! Saya Axel. seorang developer yang berfokus pada pembangunan aplikasi web dan mobile berskala penuh. Saya sangat menyukai irisan antara logika arsitektur kode yang efisien dan detail estetika visual pada antarmuka pengguna.
+          </p>
+          <p>
+            Melalui pendekatan modern menggunakan alat seperti <span class="text-zinc-800 dark:text-zinc-200 font-semibold">Astro</span> dan <span class="text-zinc-800 dark:text-zinc-200 font-semibold">Svelte</span>, saya mendedikasikan waktu saya untuk merancang sistem digital yang tidak hanya berkinerja tinggi, melainkan juga bermakna bagi penggunanya.
+          </p>
+        </div>
+
+        <!-- Quick Info / Core Pillars Grid -->
+        <div class="grid grid-cols-2 gap-4 pt-4 border-t border-zinc-200 dark:border-zinc-800">
+          <div class="flex items-start gap-2">
+            <span class="text-cyan-600 dark:text-cyan-400 mt-1">✦</span>
+            <div>
+              <h4 class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Clean Architecture</h4>
+              <p class="text-xs text-zinc-500 dark:text-zinc-500">Membangun sistem yang kokoh dan scalable.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-2">
+            <span class="text-purple-600 dark:text-purple-400 mt-1">✦</span>
+            <div>
+              <h4 class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Aesthetic UI Design</h4>
+              <p class="text-xs text-zinc-500 dark:text-zinc-500">Sangat memperhatikan layout dan detail space.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3. TECHSTACK RUNNING TEXT (Menggunakan SVG Lokal dari public/img/techstack/) -->
+  <div class="relative z-20 w-full bg-white/40 dark:bg-zinc-900/40 border-t border-zinc-200/60 dark:border-zinc-800/60 backdrop-blur-sm py-5 overflow-hidden select-none">
+    <!-- Efek Fade Blur di Sisi Kiri & Kanan Slider -->
+    <div class="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-tan dark:from-dark to-transparent z-30 pointer-events-none"></div>
+    <div class="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-tan dark:from-dark to-transparent z-30 pointer-events-none"></div>
+    
+    <!-- Track Container Slider Berjalan -->
+    <div class="flex whitespace-nowrap min-w-full animate-marquee gap-16 items-center">
+      
+      <!-- Set Pertama Ikon SVG -->
+      <div class="flex gap-16 items-center shrink-0">
+        <!-- lang img -->
+        <img src="/img/techstack/html.svg" alt="HTML5" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/css.svg" alt="CSS3" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/js.svg" alt="JavaScript" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/ts.svg" alt="TypeScript" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/php.svg" alt="php" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/mysql.svg" alt="mysql" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/tailwind.svg" alt="Tailwind" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/bootstrap.svg" alt="bootstrap" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/astro.svg" alt="Astro" class="h-8 w-auto opacity-75 grayscale dark:invert dark:hover:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/svelte.svg" alt="Svelte" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/nodejs.svg" alt="NodeJS" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <!-- tools img -->
+        <img src="/img/techstack/vite-tool.svg" alt="vite" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/firebase-tool.svg" alt="firebase" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/zed-tool.svg" alt="zed" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/gemini-tool.svg" alt="gemini" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/claude-tool.svg" alt="claude" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+      </div>
+
+      <!-- Set Kedua Duplikasi Ikon SVG (Wajib Sama Persis untuk Loop Mulus) -->
+      <div class="flex gap-16 items-center shrink-0">
+        <!-- lang img -->
+        <img src="/img/techstack/html.svg" alt="HTML5" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/css.svg" alt="CSS3" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/js.svg" alt="JavaScript" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/ts.svg" alt="TypeScript" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/php.svg" alt="php" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/mysql.svg" alt="mysql" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/tailwind.svg" alt="Tailwind" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/bootstrap.svg" alt="bootstrap" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/astro.svg" alt="Astro" class="h-8 w-auto opacity-75 grayscale dark:invert dark:hover:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/svelte.svg" alt="Svelte" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/nodejs.svg" alt="NodeJS" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <!-- tools img -->
+        <img src="/img/techstack/vite-tool.svg" alt="vite" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/firebase-tool.svg" alt="firebase" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/zed-tool.svg" alt="zed" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/gemini-tool.svg" alt="gemini" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+        <img src="/img/techstack/claude-tool.svg" alt="claude" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<!-- 4. GAYA ANIMASI RUNNING TEXT (Scoped CSS) -->
+<style>
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(calc(-50% - 32px)); } /* Kompensasi gap pembungkus luar */
+  }
+  .animate-marquee {
+    animation: marquee 25s linear infinite;
+  }
+  /* Menghentikan jalan teks saat di-hover kursor */
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+</style>
+
+<!-- 5. ANIMASI CANVAS PIPELINE (Responsive & Adaptif Skema Tema) -->
+<script>
+  function initPipeline() {
+    const canvas = document.getElementById('pipeline-canvas') as HTMLCanvasElement;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const spacing = 40;
+    const speed = 1.5;
+    
+    // Warna Pipa adaptif dual-tema
+    const colors = ['#0891b2', '#7c3aed', '#4f46e5', '#059669']; 
+    
+    class Pipe {
+      x: number;
+      y: number;
+      dir: number;
+      color: string;
+
+      constructor() {
+        this.x = Math.floor(Math.random() * (width / spacing)) * spacing;
+        this.y = Math.floor(Math.random() * (height / spacing)) * spacing;
+        this.dir = Math.floor(Math.random() * 4);
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      update() {
+        if (this.dir === 0) this.y -= speed;
+        else if (this.dir === 1) this.x += speed;
+        else if (this.dir === 2) this.y += speed;
+        else if (this.dir === 3) this.x -= speed;
+
+        if (Math.floor(this.x) % spacing === 0 && Math.floor(this.y) % spacing === 0) {
+          if (Math.random() < 0.25) {
+            const currentDir = this.dir;
+            while (this.dir === currentDir || Math.abs(this.dir - currentDir) === 2) {
+              this.dir = Math.floor(Math.random() * 4);
+            }
+          }
+        }
+
+        if (this.x < -100 || this.x > width + 100 || this.y < -100 || this.y > height + 100) {
+          this.x = Math.floor(Math.random() * (width / spacing)) * spacing;
+          this.y = Math.floor(Math.random() * (height / spacing)) * spacing;
+          this.dir = Math.floor(Math.random() * 4);
+        }
+      }
+
+      draw() {
+        ctx!.fillStyle = this.color;
+        ctx!.beginPath();
+        ctx!.arc(this.x, this.y, 1.2, 0, Math.PI * 2);
+        ctx!.fill();
+      }
+    }
+
+    const maxPipes = 20;
+    const pipes: Pipe[] = [];
+    for (let i = 0; i < maxPipes; i++) {
+      pipes.push(new Pipe());
+    }
+
+    function animate() {
+      // Deteksi kelas tema aktif (dark / light)
+      const isDark = document.documentElement.classList.contains('dark') || document.body.classList.contains('dark');
+      
+      // Jika dark gunakan variabel --color-dark (#1a1a1a), jika light gunakan --color-tan (#edeadf) dengan alpha transparan
+      ctx!.fillStyle = isDark ? 'rgba(26, 26, 26, 0.05)' : 'rgba(237, 234, 223, 0.05)';
+      ctx!.fillRect(0, 0, width, height);
+
+      pipes.forEach((pipe) => {
+        pipe.update();
+        pipe.draw();
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    animate();
+  }
+
+  // Integrasi mulus untuk transisi halaman Astro View Transitions
+  document.addEventListener('astro:page-load', initPipeline);
+  initPipeline();
+</script>

@@ -85,7 +85,7 @@
 <!-- ─────────────────────────── HEADER ─────────────────────────── -->
 <div class="fixed top-0 left-0 right-0 z-50 w-full px-4 sm:px-6 lg:px-8">
   <header
-    class="mx-auto max-w-6xl rounded-b-2xl bg-zinc-100/70 dark:bg-zinc-800/50 backdrop-blur-lg"
+    class="mx-auto max-w-6xl rounded-b-2xl bg-tan/60 dark:bg-zinc-800/50 backdrop-blur-lg"
   >
     <div
       class="w-full mx-auto px-6 h-14 flex items-center justify-between"
@@ -102,11 +102,11 @@
   
       <!-- Center Navigation -->
       <nav class="flex items-center hidden lg:block border rounded-full p-2 m-4">
-        <a href="#about" class=" text-dark dark:text-tan mx-4 nav-hover">About Me</a>
-        <a href="#experience" class=" text-dark dark:text-tan mx-4 nav-hover">Experience</a>
-        <a href="#certification" class=" text-dark dark:text-tan mx-4 nav-hover">Certification</a>
-        <a href="#projects" class=" text-dark dark:text-tan mx-4 nav-hover">Projects</a>
-        <a href="#contact" class=" text-dark dark:text-tan mx-4 nav-hover">Contact</a>
+        <a href="/#about" class=" text-dark dark:text-tan mx-4 nav-hover">About Me</a>
+        <a href="/#experience" class=" text-dark dark:text-tan mx-4 nav-hover">Experience</a>
+        <a href="/#certification" class=" text-dark dark:text-tan mx-4 nav-hover">Certification</a>
+        <a href="/#projects" class=" text-dark dark:text-tan mx-4 nav-hover">Projects</a>
+        <a href="/#contact" class=" text-dark dark:text-tan mx-4 nav-hover">Contact</a>
         <a href="/blogs" class=" text-dark dark:text-tan mx-4 nav-hover">Blogs</a>
       </nav>
   
@@ -225,7 +225,7 @@
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
-                href="#about"
+                href="/#about"
                 data-astro-prefetch
                 onclick={closeMenu}
                 class="px-3 py-2 text-sm font-medium
@@ -240,7 +240,7 @@
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
-                href="#experience"
+                href="/#experience"
                 data-astro-prefetch
                 onclick={closeMenu}
                 class="px-3 py-2 text-sm font-medium
@@ -255,7 +255,7 @@
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
-                href="#certification"
+                href="/#certification"
                 data-astro-prefetch
                 onclick={closeMenu}
                 class="px-3 py-2 text-sm font-medium
@@ -270,7 +270,7 @@
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
-                href="#projects"
+                href="/#projects"
                 data-astro-prefetch
                 onclick={closeMenu}
                 class="px-3 py-2 text-sm font-medium
@@ -285,7 +285,7 @@
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
-                href="#contact"
+                href="/#contact"
                 data-astro-prefetch
                 onclick={closeMenu}
                 class="px-3 py-2 text-sm font-medium

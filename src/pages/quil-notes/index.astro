@@ -1,0 +1,36 @@
+---
+import "../../styles/global.css";
+import Layout from '../../layouts/Layout.astro';
+---
+
+<!-- Kirim data title dan description spesifik halaman ini ke Layout lewat atribut -->
+<Layout title="Axel Kenshi Dev" description="Selamat datang di portofolio digital saya.">
+  <!-- Semua kode di bawah ini akan otomatis masuk ke posisi <slot /> di file Layout -->
+   	<!-- contents -->
+    <!-- Section 1 -->
+  	<section class="relative min-h-[100dvh] w-full flex items-center justify-center overflow-hidden">
+    
+        <div class="absolute inset-0 -z-10">
+          <img
+            src="/img/assets/front_banner.jpg"
+            alt="Hero bg"
+            class="h-full w-full object-cover object-center"
+          />
+          <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px]"></div>
+        </div>
+      
+        <div class="max-w-4xl px-6 text-center text-white">
+          <h1 class="text-4xl font-extrabold tracking-tight sm:text-6xl">
+            Desain Landing Page Profesional
+          </h1>
+          <p class="mt-4 text-xl text-zinc-200">
+            Section ini akan selalu pas satu layar, apa pun perangkat yang digunakan.
+          </p>
+          <div class="mt-8">
+            <button class="rounded-md bg-cyan-500 px-5 py-3 font-semibold text-white hover:bg-cyan-600 transition">
+              Mulai Sekarang
+            </button>
+          </div>
+        </div>
+  	</section>
+</Layout>

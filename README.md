@@ -39,7 +39,12 @@
 
 ## The folder structure
 
+Remember:
+pages/index.astro is the entry point for the home page.
+
 ```text
+├── public/   # Assets statis seperti gambar, favicon, dll.
+│
 ├── content/
 │   ├── blogging/            # File Markdown (.md) untuk blog profesional
 │   │   └── post-1.md
@@ -51,11 +56,14 @@
 │   ├── components/
 │   │   ├── Navbar.svelte    # Menu navigasi responsif (seperti di mockup)
 │   │   ├── Carousel.svelte  # Komponen Svelte untuk Project & Sertifikasi
-│   │   └── Timeline.astro   # Komponen statis untuk Experience
+│   │   ├── Timeline.astro   # Komponen statis untuk Experience
+│   │   └── ThemeInit.astro  # Komponen yang menginisialisasi tema (dark/light)
 │   ├── content/
 │   │   └── config.ts        # Validasi skema Markdown (Astro Content Collections)
 │   ├── layouts/
 │   │   └── Layout.astro     # Main layout (head, navbar, footer)
+│   ├── styles/
+│   │   └── globals.css      # CSS global (reset, font, warna, dll.)
 │   └── pages/
 │       ├── index.astro      # One-page landing (About, Exp, Cert, Project, Contact)
 │       ├── blogs/
@@ -65,8 +73,16 @@
 │       │       └── [tag].astro # Filter blog berdasarkan tag
 │       ├── quil-notes/
 │       │   ├── index.astro  # Feed personal notes
-│       │   └── [slug].astro # Detail isi notes (.md)
+│       │   ├── [slug].astro # Detail isi notes (.md)
+│       │   └── tags/
+│       │       └── [tag].astro # Filter blog berdasarkan tag
 │       └── projects/
 │           ├── index.astro  # Feed projects
 │           └── [slug].astro # Detail isi projects (.md)
+│
+├── astro.config.mjs
+├── bun.lock
+└── package.json
 ```
+
+<!--<img src="/img/assets/front_banner.jpg" alt="Pic" class="w-full h-full object-cover object-center" />-->
