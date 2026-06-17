@@ -97,7 +97,7 @@
         class="flex items-center gap-2 font-mark-script font-bold text-lg tracking-wide
               text-dark dark:text-tan"
       >
-        Axel Kenshi m.
+        Aishime.
       </a>
   
       <!-- Center Navigation -->
@@ -107,7 +107,8 @@
         <a href="/#certification" class=" text-dark dark:text-tan mx-4 nav-hover">Certification</a>
         <a href="/#projects" class=" text-dark dark:text-tan mx-4 nav-hover">Projects</a>
         <a href="/#contact" class=" text-dark dark:text-tan mx-4 nav-hover">Contact</a>
-        <a href="/blogs" class=" text-dark dark:text-tan mx-4 nav-hover">Blogs</a>
+        <a href="/#blogs" class=" text-dark dark:text-tan mx-4 nav-hover">Blogs</a>
+        <a href="/quil-notes" class=" text-dark dark:text-tan mx-4 nav-hover">Qnote</a>
       </nav>
   
       <!-- Right controls -->

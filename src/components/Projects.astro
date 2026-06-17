@@ -1,0 +1,257 @@
+---
+// src/components/Project.astro
+
+const projects = [
+  {
+    imgName: "orb.png",
+    techBadges: ["Astro", "Tailwind CSS", "TypeScript"],
+    title: "Orb Notes/ Static E-Learning",
+    date: "May 2026",
+    longDesc: `Static SSG based open source application for content needs such as textual dominant documentation, E-course sequences, and personal knowledge notes.
+
+Main Features:
+• PWA-based offline mode.
+• left visualization dashboard for content collection, middle for content body, and right for ToC (table of content).
+• The UI style is very thick with neo-brutalism which contrasts with the philosophy of simplicity.`,
+    githubUrl: "https://github.com/Kenshie-Labs/orb-project", // Tautan opsional
+    liveUrl: "https://orb.axelkenshi.web.id/"               // Tautan opsional
+  }
+];
+---
+
+<section id="projects" class="relative snap-start min-h-[100dvh] flex flex-col justify-center items-center overflow-hidden bg-tan dark:bg-dark text-dark dark:text-tan transition-colors duration-300 px-6 py-12">
+
+  <div class="text-center mb-8 relative z-20 w-full max-w-5xl text-left sm:text-center">
+    <span class="text-xs font-mono uppercase tracking-[0.25em] text-purple-600 dark:text-purple-400 font-semibold block mb-2">work showcase</span>
+    <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
+      Featured Projects
+    </h2>
+    <div class="h-[2px] w-12 bg-purple-600 dark:bg-purple-400 mt-4 sm:mx-auto rounded-full"></div>
+  </div>
+
+  <div id="proj-scroll-area" class="relative z-20 w-full max-w-5xl max-h-[68dvh] overflow-y-auto px-2 pr-1 scroll-smooth">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-4 pb-16">
+      {projects.map((proj) => (
+        /* Menyimpan data URL secara aman menggunakan HTML5 Data Attributes */
+        <div
+          class="proj-card flex flex-col rounded-xl bg-white/50 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:shadow-none hover:border-zinc-400 dark:hover:border-zinc-600 transition-all duration-300 overflow-hidden group"
+          data-github={proj.githubUrl || ""}
+          data-live={proj.liveUrl || ""}
+        >
+
+          <div class="relative w-full aspect-[16/10] overflow-hidden bg-zinc-100 dark:bg-zinc-950">
+            <img
+              src={`/img/projects/${proj.imgName}`}
+              alt={proj.title}
+              class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+              loading="eager"
+            />
+            <div class="absolute bottom-3 left-3 bg-zinc-900/80 dark:bg-zinc-100/90 backdrop-blur-sm text-white dark:text-zinc-900 text-[10px] font-medium tracking-wide px-2 py-0.5 rounded-md">
+              {proj.date}
+            </div>
+          </div>
+
+          <div class="p-5 flex-1 flex flex-col justify-between items-start gap-5">
+            <div class="w-full">
+              <div class="flex flex-wrap gap-1.5 mb-3.5">
+                {proj.techBadges.map(badge => (
+                  <span class="text-[10px] font-mono font-medium px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200/50 dark:border-zinc-700/50">
+                    {badge}
+                  </span>
+                ))}
+              </div>
+
+              <h3 class="text-base font-bold text-zinc-900 dark:text-zinc-50 leading-snug tracking-tight mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">
+                {proj.title}
+              </h3>
+
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed line-clamp-2 font-normal">
+                {proj.longDesc}
+              </p>
+            </div>
+
+            <div class="hidden-long-desc hidden" aria-hidden="true">{proj.longDesc}</div>
+
+            <button class="proj-detail-trigger w-full mt-auto inline-flex items-center justify-center gap-1.5 font-sans text-xs font-semibold py-2.5 px-4 bg-zinc-900 hover:bg-zinc-800 text-zinc-50 dark:bg-zinc-100 dark:hover:bg-white dark:text-zinc-900 rounded-lg transition-colors duration-200 cursor-pointer shadow-sm group/btn">
+              <span>See Detail</span>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor" class="w-3.5 h-3.5 transform group-hover/btn:translate-x-0.5 transition-transform duration-200">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </button>
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+  </div>
+
+  <div id="proj-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/40 dark:bg-zinc-950/60 backdrop-blur-md hidden opacity-0 transition-opacity duration-200 pointer-events-none" role="dialog" aria-modal="true">
+
+    <div class="relative bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 max-w-xl w-full p-6 rounded-2xl shadow-2xl transform scale-95 transition-transform duration-200 max-h-[85vh] overflow-y-auto pointer-events-auto">
+
+      <button id="proj-modal-close" class="absolute top-4 right-4 p-2 rounded-full bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-500 dark:text-zinc-400 transition cursor-pointer" aria-label="Close Project Detail">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <div class="flex flex-col gap-4 mt-2">
+        <div class="w-full aspect-[16/10] overflow-hidden rounded-xl border border-zinc-200/60 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950">
+          <img id="proj-modal-img" src="" alt="" class="w-full h-full object-cover" />
+        </div>
+
+        <div>
+          <span id="proj-modal-date" class="text-[10px] font-mono uppercase tracking-wider font-bold text-purple-600 dark:text-purple-400 block mb-1"></span>
+          <h3 id="proj-modal-title" class="text-xl font-extrabold text-zinc-900 dark:text-zinc-50 tracking-tight leading-snug"></h3>
+        </div>
+
+        <div id="proj-modal-badges" class="flex flex-wrap gap-1.5"></div>
+
+        <div class="h-[1px] bg-zinc-200/60 dark:bg-zinc-800 w-full my-1"></div>
+
+        <pre id="proj-modal-desc" class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 whitespace-pre-wrap font-sans leading-relaxed tracking-wide font-normal"></pre>
+
+        <div id="proj-modal-links" class="flex flex-row gap-3 mt-2 w-full">
+          <a
+            id="proj-modal-github"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex-1 inline-flex items-center justify-center gap-2 text-xs font-semibold py-2.5 px-4 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-50 border border-zinc-200 dark:border-zinc-700 rounded-xl transition-colors duration-200 text-center"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+            </svg>
+            <span>Github SC</span>
+          </a>
+
+          <a
+            id="proj-modal-live"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex-1 inline-flex items-center justify-center gap-2 text-xs font-semibold py-2.5 px-4 bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition-colors duration-200 text-center shadow-sm"
+          >
+            <span>Live Preview</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<style>
+  #proj-scroll-area {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  #proj-scroll-area::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+
+<script>
+  function initProjectSection() {
+    const section = document.getElementById('projects');
+    if (!section || section.dataset.initialized) return;
+    section.dataset.initialized = "true";
+
+    const modal = document.getElementById('proj-modal');
+    const modalInner = modal?.querySelector('.transform');
+    const modalImg = document.getElementById('proj-modal-img') as HTMLImageElement;
+    const modalTitle = document.getElementById('proj-modal-title');
+    const modalDate = document.getElementById('proj-modal-date');
+    const modalBadges = document.getElementById('proj-modal-badges');
+    const modalDesc = document.getElementById('proj-modal-desc');
+    const closeBtn = document.getElementById('proj-modal-close');
+
+    // Element Button Baru
+    const btnGithub = document.getElementById('proj-modal-github') as HTMLAnchorElement;
+    const btnLive = document.getElementById('proj-modal-live') as HTMLAnchorElement;
+
+    if (!modal || !modalImg || !closeBtn || !btnGithub || !btnLive) return;
+
+    section.addEventListener('click', (e) => {
+      const trigger = (e.target as HTMLElement).closest('.proj-detail-trigger');
+      if (!trigger) return;
+
+      const card = trigger.closest('.proj-card');
+      if (!card) return;
+
+      const titleText = card.querySelector('h3')?.textContent || '';
+      const dateText = card.querySelector('.absolute')?.textContent || '';
+      const imgSrc = card.querySelector('img')?.getAttribute('src') || '';
+      const badgesHTML = card.querySelector('.flex.flex-wrap')?.innerHTML || '';
+      const fullDescText = card.querySelector('.hidden-long-desc')?.textContent || '';
+
+      // Ambil nilai string tautan langsung dari dataset kartu induk
+      const githubUrl = card.getAttribute('data-github') || '';
+      const liveUrl = card.getAttribute('data-live') || '';
+
+      // Isikan konten utama modal
+      modalImg.src = imgSrc;
+      if (modalTitle) modalTitle.textContent = titleText;
+      if (modalDate) modalDate.textContent = dateText;
+      if (modalBadges) modalBadges.innerHTML = badgesHTML;
+      if (modalDesc) modalDesc.textContent = fullDescText.trim();
+
+      /* ========================================================
+         LOGIKA EVALUASI LINK OPSIONAL (SHOW / HIDDEN)
+         ======================================================== */
+      if (githubUrl.trim() !== "") {
+        btnGithub.href = githubUrl;
+        btnGithub.classList.remove('hidden');
+      } else {
+        btnGithub.classList.add('hidden');
+      }
+
+      if (liveUrl.trim() !== "") {
+        btnLive.href = liveUrl;
+        btnLive.classList.remove('hidden');
+      } else {
+        btnLive.classList.add('hidden');
+      }
+
+      // Jalankan animasi pop-up modal masuk
+      modal.classList.remove('hidden');
+      modal.classList.remove('pointer-events-none');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        if (modalInner) modalInner.classList.remove('scale-95');
+      }, 10);
+    });
+
+    const closeModal = () => {
+      modal.classList.add('opacity-0');
+      if (modalInner) modalInner.classList.add('scale-95');
+      modal.classList.add('pointer-events-none');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modalImg.src = '';
+        btnGithub.href = '#';
+        btnLive.href = '#';
+      }, 200);
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', initProjectSection);
+  initProjectSection();
+</script>

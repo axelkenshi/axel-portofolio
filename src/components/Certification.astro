@@ -1,0 +1,215 @@
+---
+// src/components/Certification.astro
+
+const certifications = [
+  {
+    imgName: "ce.jpg", 
+    year: "2026",
+    title: "Full-Stack Web Engineer Certification",
+    issuer: "Tech Academy International",
+    desc: "Sertifikasi kompetensi tingkat lanjut dalam arsitektur modern Jamstack menggunakan Astro, database relasional, dan integrasi API."
+  },
+  {
+    imgName: "cm.jpg",
+    year: "2026",
+    title: "Progressive Web Apps (PWA) Specialist",
+    issuer: "Global Tech Institute",
+    desc: "Validasi keahlian dalam optimasi performa web offline, caching service workers, dan instalabilitas aplikasi di perangkat mobile."
+  },
+  {
+    imgName: "intro-ai.jpg",
+    year: "2025",
+    title: "Advanced Responsive UI/UX Design",
+    issuer: "Design Craft Studio",
+    desc: "Pendalaman eksplorasi layout estetika Neo-Brutalism, aksesibilitas kontras warna, dan responsivitas antarmuka multi-viewport."
+  },
+  {
+    imgName: "intro-genai.jpg",
+    year: "2025",
+    title: "Cloud Backend Architecture",
+    issuer: "AWS Training Partner",
+    desc: "Eksperimen integrasi arsitektur cloud serverless, manajemen cluster container, dan optimasi kueri database performa tinggi."
+  },
+  {
+    imgName: "js-bc.jpg",
+    year: "2025",
+    title: "Cloud Backend Architecture",
+    issuer: "AWS Training Partner",
+    desc: "Eksperimen integrasi arsitektur cloud serverless, manajemen cluster container, dan optimasi kueri database performa tinggi."
+  },
+  {
+    imgName: "dcd-ai.jpg",
+    year: "2025",
+    title: "Cloud Backend Architecture",
+    issuer: "AWS Training Partner",
+    desc: "Eksperimen integrasi arsitektur cloud serverless, manajemen cluster container, dan optimasi kueri database performa tinggi."
+  },
+  {
+    imgName: "dcd-bed.jpg",
+    year: "2025",
+    title: "Cloud Backend Architecture",
+    issuer: "AWS Training Partner",
+    desc: "Eksperimen integrasi arsitektur cloud serverless, manajemen cluster container, dan optimasi kueri database performa tinggi."
+  },
+  {
+    imgName: "dcd-dai.jpg",
+    year: "2025",
+    title: "Cloud Backend Architecture",
+    issuer: "AWS Training Partner",
+    desc: "Eksperimen integrasi arsitektur cloud serverless, manajemen cluster container, dan optimasi kueri database performa tinggi."
+  },
+  {
+    imgName: "dcd-dgenai.jpg",
+    year: "2025",
+    title: "Cloud Backend Architecture",
+    issuer: "AWS Training Partner",
+    desc: "Eksperimen integrasi arsitektur cloud serverless, manajemen cluster container, dan optimasi kueri database performa tinggi."
+  },
+  {
+    imgName: "dcd-fnl.jpg",
+    year: "2025",
+    title: "Cloud Backend Architecture",
+    issuer: "AWS Training Partner",
+    desc: "Eksperimen integrasi arsitektur cloud serverless, manajemen cluster container, dan optimasi kueri database performa tinggi."
+  }
+];
+---
+
+<section id="certification" class="relative snap-start min-h-[100dvh] flex flex-col justify-center items-center overflow-hidden bg-tan dark:bg-dark text-dark dark:text-tan transition-colors duration-300 px-6 py-12">
+  
+  <div class="text-center mb-8 relative z-20">
+    <span class="font-mark-script text-2xl text-purple-600 dark:text-purple-400 tracking-wide block mb-2">Credentials</span>
+    <h2 class="text-3xl sm:text-5xl font-black tracking-tight bg-gradient-to-r from-zinc-900 via-zinc-700 to-zinc-500 dark:from-white dark:via-zinc-200 dark:to-zinc-400 bg-clip-text text-transparent">
+      Certifications
+    </h2>
+  </div>
+
+  <div id="cert-scroll-area" class="relative z-20 w-full max-w-5xl max-h-[58dvh] overflow-y-auto pr-2 scroll-smooth">
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-1">
+      {certifications.map((cert) => (
+        <div class="cert-card group flex flex-col rounded-2xl bg-white/80 dark:bg-zinc-900/60 border border-zinc-200/60 dark:border-zinc-800/60 shadow-sm overflow-hidden hover:border-purple-500/50 dark:hover:border-purple-400/50 transition duration-300 isolate transform-gpu">
+          
+          <div 
+            class="cert-trigger relative w-full aspect-video overflow-hidden bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center cursor-pointer md:active:scale-[0.98] transition-transform duration-200"
+            data-src={`/img/certificate/${cert.imgName}`}
+            data-title={cert.title}
+          >
+            <img 
+              src={`/img/certificate/${cert.imgName}`} 
+              alt={cert.title}
+              class="w-full h-full object-cover transition-transform duration-500 md:group-hover:scale-105 will-change-transform"
+              loading="eager"
+            />
+            
+            <div class="absolute inset-0 bg-black/40 opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10 pointer-events-none">
+              <div class="p-3 rounded-full bg-white text-zinc-900 shadow-md transform translate-y-2 md:group-hover:translate-y-0 transition-transform duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-xs font-bold text-purple-600 dark:text-purple-400 tracking-widest uppercase">{cert.year}</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-zinc-200/60 dark:bg-zinc-800/60 text-zinc-500 dark:text-zinc-400 font-medium">{cert.issuer}</span>
+              </div>
+              <h3 class="text-base font-bold text-zinc-900 dark:text-white leading-snug mb-2">{cert.title}</h3>
+              <p class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">{cert.desc}</p>
+            </div>
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+  </div>
+
+  <div id="cert-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-md hidden opacity-0 transition-opacity duration-300 pointer-events-none" role="dialog" aria-modal="true">
+    <button id="cert-modal-close" class="absolute top-4 right-4 p-3 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 text-white transition z-50 cursor-pointer" aria-label="Close Preview">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <div class="relative max-w-4xl w-full max-h-[85vh] flex flex-col items-center justify-center pointer-events-auto">
+      <img id="cert-modal-img" src="" alt="" class="max-w-full max-h-[75vh] object-contain rounded-lg shadow-2xl border border-white/10" />
+      <p id="cert-modal-caption" class="text-white text-xs sm:text-sm font-medium mt-4 text-center tracking-wide px-4 drop-shadow-md"></p>
+    </div>
+  </div>
+
+</section>
+
+<style>
+  #cert-scroll-area {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  #cert-scroll-area::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+
+<script>
+  function initCertification() {
+    const section = document.getElementById('certification');
+    if (!section || section.dataset.initialized) return;
+    section.dataset.initialized = "true";
+
+    const modal = document.getElementById('cert-modal');
+    const modalImg = document.getElementById('cert-modal-img') as HTMLImageElement;
+    const modalCaption = document.getElementById('cert-modal-caption');
+    const closeBtn = document.getElementById('cert-modal-close');
+
+    if (!modal || !modalImg || !closeBtn) return;
+
+    // Event Delegation menangkap klik pada elemen .cert-trigger dengan andal
+    section.addEventListener('click', (e) => {
+      const trigger = (e.target as HTMLElement).closest('.cert-trigger');
+      if (!trigger) return;
+
+      const imgSrc = trigger.getAttribute('data-src');
+      const imgTitle = trigger.getAttribute('data-title');
+
+      if (imgSrc) {
+        modalImg.src = imgSrc;
+        if (modalCaption && imgTitle) modalCaption.textContent = imgTitle;
+
+        modal.classList.remove('hidden');
+        // Mengaktifkan interaksi klik dalam modal
+        modal.classList.remove('pointer-events-none');
+        setTimeout(() => {
+          modal.classList.remove('opacity-0');
+        }, 10);
+      }
+    });
+
+    function closeModal() {
+      modal!.classList.add('opacity-0');
+      modal!.classList.add('pointer-events-none');
+      setTimeout(() => {
+        modal!.classList.add('hidden');
+        if (modalImg) modalImg.src = ''; 
+      }, 300);
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    
+    // Menutup modal jika area hitam di luar gambar diklik (sangat intuitif di HP)
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', initCertification);
+  initCertification();
+</script>

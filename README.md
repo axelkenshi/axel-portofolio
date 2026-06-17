@@ -55,8 +55,10 @@ pages/index.astro is the entry point for the home page.
 ├── src/
 │   ├── components/
 │   │   ├── Navbar.svelte    # Menu navigasi responsif (seperti di mockup)
-│   │   ├── Carousel.svelte  # Komponen Svelte untuk Project & Sertifikasi
-│   │   ├── Timeline.astro   # Komponen statis untuk Experience
+│   │   ├── AboutMe.astro  # Komponen statis untuk Hero Canvas (animasi hero)
+│   │   ├── HeroCanvas.astro  # Komponen statis untuk Hero Canvas (animasi hero)
+│   │   ├── Certification.astro  # Komponen statis untuk Project & Sertifikasi
+│   │   ├── Milestone.astro   # Komponen statis untuk Experience
 │   │   └── ThemeInit.astro  # Komponen yang menginisialisasi tema (dark/light)
 │   ├── content/
 │   │   └── config.ts        # Validasi skema Markdown (Astro Content Collections)

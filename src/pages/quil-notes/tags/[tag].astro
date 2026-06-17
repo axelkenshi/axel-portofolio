@@ -1,0 +1,20 @@
+---
+// src/pages/blogs/tags/[tag].astro
+export async function getStaticPaths() {
+  // adjust the glob path to where your posts live
+  const postModules = Object.values(import.meta.glob('../../**/*.md', { eager: true }));
+  const tagsSet = new Set();
+
+  for (const mod of postModules) {
+    const front = mod.frontmatter ?? mod.meta ?? {};
+    if (front.tags) {
+      for (const t of front.tags) tagsSet.add(String(t));
+    }
+  }
+
+  return [...tagsSet].map((tag) => ({
+    params: { tag },
+  }));
+}
+---
+<!-- rest of your component template here -->
