@@ -35,8 +35,48 @@
     isMenuOpen = !isMenuOpen;
   }
 
-  function closeMenu() {
-    isMenuOpen = false;
+  // INTERCEPTOR & SMOOTH SCROLL ENGINE CONTROL
+  function handleAnchorClick(e: MouseEvent) {
+    const target = e.currentTarget as HTMLAnchorElement;
+    const href = target.getAttribute("href");
+
+    if (!href) return;
+
+    // Normalisasi pencocokan path URL saat ini vs URL target
+    const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+
+    // Kasus 1: Klik Logo / Home saat sudah di Beranda -> Gulung Halus ke Atas
+    if (href === "/" || href === "") {
+      if (currentPath === "/") {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.history.pushState(null, "", "/");
+        isMenuOpen = false;
+      }
+      return;
+    }
+
+    // Kasus 2: Deteksi Tautan Jangkar Internal (Mengandung Karakter '#')
+    if (href.includes("#")) {
+      const [path, hashId] = href.split("#");
+      const targetPath = path.replace(/\/$/, "") || "/";
+
+      // Jika kita berada di halaman yang sama, lakukan eksekusi animasi animasi scroll
+      if (currentPath === targetPath) {
+        e.preventDefault();
+        const targetElement = document.getElementById(hashId);
+        
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
+          // Perbarui hash URL tanpa memicu lonjakan layout
+          window.history.pushState(null, "", `#${hashId}`);
+        }
+        isMenuOpen = false; // Otomatis menutup dropdown menu mobile
+      }
+    } else {
+      // Kasus 3: Tautan Navigasi Biasa Luar Halaman (Misal: /quil-notes)
+      isMenuOpen = false;
+    }
   }
 
   onMount(() => {
@@ -47,8 +87,6 @@
     handleScroll(); // inisialisasi nilai awal
 
     // ── View Transitions: jalankan setiap halaman baru selesai load ──
-    // Karena Navbar di-persist (tidak di-destroy), onMount tidak jalan ulang.
-    // astro:page-load menggantikan perannya untuk reset state per-halaman.
     const onPageLoad = () => {
       // Reset scroll ring ke 0 (halaman baru selalu mulai dari atas)
       handleScroll();
@@ -62,12 +100,10 @@
           document.documentElement.classList.add("dark");
           isDark = true;
         } else {
-          // If storedTheme is 'light' or null/undefined, ensure 'dark' class is removed
           document.documentElement.classList.remove("dark");
           isDark = false;
         }
       } catch (e) {
-        // Fallback in case localStorage is not available (e.g., security restrictions)
         console.error("Error accessing localStorage for theme:", e);
         isDark = document.documentElement.classList.contains("dark"); // Revert to DOM check as fallback
       }
@@ -94,21 +130,22 @@
       <!-- Logo + Brand -->
       <a
         href="/"
+        onclick={handleAnchorClick}
         class="flex items-center gap-2 font-mark-script font-bold text-lg tracking-wide
               text-dark dark:text-tan"
       >
         Aishime.
       </a>
   
-      <!-- Center Navigation -->
+      <!-- Center Navigation (Desktop View) -->
       <nav class="flex items-center hidden lg:block border rounded-full p-2 m-4">
-        <a href="/#about" class=" text-dark dark:text-tan mx-4 nav-hover">About Me</a>
-        <a href="/#experience" class=" text-dark dark:text-tan mx-4 nav-hover">Experience</a>
-        <a href="/#certification" class=" text-dark dark:text-tan mx-4 nav-hover">Certification</a>
-        <a href="/#projects" class=" text-dark dark:text-tan mx-4 nav-hover">Projects</a>
-        <a href="/#contact" class=" text-dark dark:text-tan mx-4 nav-hover">Contact</a>
-        <a href="/#blogs" class=" text-dark dark:text-tan mx-4 nav-hover">Blogs</a>
-        <a href="/quil-notes" class=" text-dark dark:text-tan mx-4 nav-hover">Qnote</a>
+        <a href="/#about" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">About Me</a>
+        <a href="/#experience" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Experience</a>
+        <a href="/#certification" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Certification</a>
+        <a href="/#projects" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Projects</a>
+        <a href="/#contact" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Contact</a>
+        <a href="/#blog-section" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Blogs</a>
+        <a href="/quil-notes" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Qnote</a>
       </nav>
   
       <!-- Right controls -->
@@ -150,13 +187,12 @@
         >
           <!-- Ring container -->
           <div class="relative w-11 h-11 flex items-center justify-center">
-            <!-- SVG progress ring — rotated -90° agar start dari atas -->
             <svg
               class="absolute inset-0 w-full h-full"
               viewBox="0 0 44 44"
               aria-hidden="true"
             >
-              <!-- Track (background circle) -->
+              <!-- Track -->
               <circle
                 cx="22"
                 cy="22"
@@ -183,7 +219,6 @@
               />
             </svg>
   
-            <!-- Icon: grid atau X -->
             {#if isMenuOpen}
               <X size={16} strokeWidth={2} />
             {:else}
@@ -191,143 +226,88 @@
             {/if}
           </div>
   
-          <!-- Label -->
           <span class="text-[9px] tracking-[0.18em] uppercase -mt-0.5 font-medium">
             menu
           </span>
         </button>
   
-        <!-- ── Dropdown Menu ── -->
+        <!-- ── Dropdown Menu (Mobile View) ── -->
         {#if isMenuOpen}
           <div
             transition:slide={{ duration: 180 }}
-            class="absolute right-0 top-full mt-2 w-48 // Positioning dan ukuran popup
-                  bg-zinc-100/90 text-dark
-                  dark:bg-zinc-800/90 dark:text-tan // Warna latar belakang dan teks (gunakan kelas dark/light Anda)
-                  rounded-xl shadow-lg // Bentuk dan bayangan
-                  z-50 // Pastikan muncul di atas elemen lain
-                  overflow-hidden // Untuk menampung sudut bundar
-                  "
+            class="absolute right-0 top-full mt-2 w-48 bg-zinc-100/90 text-dark dark:bg-zinc-800/90 dark:text-tan rounded-xl shadow-lg z-50 overflow-hidden"
           >
-            <nav class="p-2 flex flex-col gap-1 // Padding dan tata letak vertikal">
+            <nav class="p-2 flex flex-col gap-1">
               <a
                 href="/"
                 data-astro-prefetch
-                onclick={closeMenu}
-                class="px-3 py-2 text-sm font-medium
-                      rounded-lg flex items-center justify-between // Untuk ikon di kanan
-                      hover:bg-gray-700 hover:text-white // Efek hover
-                      active:bg-gray-800 active:text-white // Efek aktif
-                      transition-colors w-full"
+                onclick={handleAnchorClick}
+                class="px-3 py-2 text-sm font-medium rounded-lg flex items-center justify-between hover:bg-gray-700 hover:text-white active:bg-gray-800 active:text-white transition-colors w-full"
               >
-                <span class="flex items-center">
-                    <Home class="mr-2 h-4 w-4" /> Home
-                </span>
+                <span class="flex items-center"><Home class="mr-2 h-4 w-4" /> Home</span>
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
                 href="/#about"
                 data-astro-prefetch
-                onclick={closeMenu}
-                class="px-3 py-2 text-sm font-medium
-                      rounded-lg flex items-center justify-between
-                      hover:bg-gray-700 hover:text-white
-                      active:bg-gray-800 active:text-white
-                      transition-colors w-full"
+                onclick={handleAnchorClick}
+                class="px-3 py-2 text-sm font-medium rounded-lg flex items-center justify-between hover:bg-gray-700 hover:text-white active:bg-gray-800 active:text-white transition-colors w-full"
               >
-                <span class="flex items-center">
-                    <User class="mr-2 h-4 w-4" /> About Me
-                </span>
+                <span class="flex items-center"><User class="mr-2 h-4 w-4" /> About Me</span>
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
                 href="/#experience"
                 data-astro-prefetch
-                onclick={closeMenu}
-                class="px-3 py-2 text-sm font-medium
-                      rounded-lg flex items-center justify-between
-                      hover:bg-gray-700 hover:text-white
-                      active:bg-gray-800 active:text-white
-                      transition-colors w-full"
+                onclick={handleAnchorClick}
+                class="px-3 py-2 text-sm font-medium rounded-lg flex items-center justify-between hover:bg-gray-700 hover:text-white active:bg-gray-800 active:text-white transition-colors w-full"
               >
-                <span class="flex items-center">
-                    <Briefcase class="mr-2 h-4 w-4" /> Experience
-                </span>
+                <span class="flex items-center"><Briefcase class="mr-2 h-4 w-4" /> Experience</span>
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
                 href="/#certification"
                 data-astro-prefetch
-                onclick={closeMenu}
-                class="px-3 py-2 text-sm font-medium
-                      rounded-lg flex items-center justify-between
-                      hover:bg-gray-700 hover:text-white
-                      active:bg-gray-800 active:text-white
-                      transition-colors w-full"
+                onclick={handleAnchorClick}
+                class="px-3 py-2 text-sm font-medium rounded-lg flex items-center justify-between hover:bg-gray-700 hover:text-white active:bg-gray-800 active:text-white transition-colors w-full"
               >
-                <span class="flex items-center">
-                    <Award class="mr-2 h-4 w-4" /> Certification
-                </span>
+                <span class="flex items-center"><Award class="mr-2 h-4 w-4" /> Certification</span>
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
                 href="/#projects"
                 data-astro-prefetch
-                onclick={closeMenu}
-                class="px-3 py-2 text-sm font-medium
-                      rounded-lg flex items-center justify-between
-                      hover:bg-gray-700 hover:text-white
-                      active:bg-gray-800 active:text-white
-                      transition-colors w-full"
+                onclick={handleAnchorClick}
+                class="px-3 py-2 text-sm font-medium rounded-lg flex items-center justify-between hover:bg-gray-700 hover:text-white active:bg-gray-800 active:text-white transition-colors w-full"
               >
-                <span class="flex items-center">
-                    <FolderKanban class="mr-2 h-4 w-4" /> Projects
-                </span>
+                <span class="flex items-center"><FolderKanban class="mr-2 h-4 w-4" /> Projects</span>
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
                 href="/#contact"
                 data-astro-prefetch
-                onclick={closeMenu}
-                class="px-3 py-2 text-sm font-medium
-                      rounded-lg flex items-center justify-between
-                      hover:bg-gray-700 hover:text-white
-                      active:bg-gray-800 active:text-white
-                      transition-colors w-full"
+                onclick={handleAnchorClick}
+                class="px-3 py-2 text-sm font-medium rounded-lg flex items-center justify-between hover:bg-gray-700 hover:text-white active:bg-gray-800 active:text-white transition-colors w-full"
               >
-                <span class="flex items-center">
-                    <Mail class="mr-2 h-4 w-4" /> Contact
-                </span>
+                <span class="flex items-center"><Mail class="mr-2 h-4 w-4" /> Contact</span>
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
-                href="/blogs"
+                href="/#blog-section"
                 data-astro-prefetch
-                onclick={closeMenu}
-                class="px-3 py-2 text-sm font-medium
-                      rounded-lg flex items-center justify-between
-                      hover:bg-gray-700 hover:text-white
-                      active:bg-gray-800 active:text-white
-                      transition-colors w-full"
+                onclick={handleAnchorClick}
+                class="px-3 py-2 text-sm font-medium rounded-lg flex items-center justify-between hover:bg-gray-700 hover:text-white active:bg-gray-800 active:text-white transition-colors w-full"
               >
-                <span class="flex items-center">
-                    <LibraryBig class="mr-2 h-4 w-4" /> Blogs
-                </span>
+                <span class="flex items-center"><LibraryBig class="mr-2 h-4 w-4" /> Blogs</span>
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
                 href="/quil-notes"
                 data-astro-prefetch
-                onclick={closeMenu}
-                class="px-3 py-2 text-sm font-medium
-                      rounded-lg flex items-center justify-between
-                      hover:bg-gray-700 hover:text-white
-                      active:bg-gray-800 active:text-white
-                      transition-colors w-full"
+                onclick={handleAnchorClick}
+                class="px-3 py-2 text-sm font-medium rounded-lg flex items-center justify-between hover:bg-gray-700 hover:text-white active:bg-gray-800 active:text-white transition-colors w-full"
               >
-                <span class="flex items-center">
-                    <Feather class="mr-2 h-4 w-4" /> Quil Notes
-                </span>
+                <span class="flex items-center"><Feather class="mr-2 h-4 w-4" /> Quil Notes</span>
                 <ExternalLink class="h-4 w-4 text-tan" />
               </a>
             </nav>
@@ -335,6 +315,5 @@
         {/if}
       </div>
     </div>
-  
   </header>
 </div>

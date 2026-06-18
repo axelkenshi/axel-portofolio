@@ -18,29 +18,15 @@ const notesCollection = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './content/notes' }),
   schema: z.object({
     title: z.string(),
-    description: z.string(),
-    img: z.string(),
-    tags: z.array(z.string()),
+    description: z.string().optional(), // Opsional, jika kosong bisa kita slice dari isi konten
+    img: z.string().optional(),         // Opsional, agar tidak wajib ada gambar di setiap catatan
+    tags: z.array(z.string()).default([]), // Jika lupa menulis tag, otomatis jadi array kosong []
     date: z.coerce.date(),
-  }),
-});
-
-// 3. Koleksi Projects Documentation
-const projectsCollection = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './content/projects' }),
-  schema: z.object({
-    title: z.string(),
-    shortDesc: z.string(),
-    img: z.string(),
-    date: z.coerce.date(),
-    stack: z.array(z.string()),
-    github: z.string().url().optional(),
-    preview: z.string().url().optional(),
+    category: z.string().default('Uncategorized'), // Tambahan untuk fitur kategori seperti di mockup
   }),
 });
 
 export const collections = {
   'blogging': bloggingCollection,
   'notes': notesCollection,
-  'projects': projectsCollection,
 };

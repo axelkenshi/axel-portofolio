@@ -1,0 +1,426 @@
+---
+// src/components/BlogFeeds.astro
+import { getCollection, render } from 'astro:content';
+
+// 1. Ambil seluruh data dari koleksi 'blogging'
+const allPosts = await getCollection('blogging');
+
+// 2. Urutkan berdasarkan tanggal terbaru (descending)
+const sortedPosts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Helper format tanggal standar lokal Indonesia
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString('id-ID', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+---
+
+<section id="blog-section" class="relative snap-start min-h-[100dvh] flex flex-col justify-center items-center bg-tan dark:bg-dark text-dark dark:text-tan transition-colors duration-300 px-6 py-12">
+
+  <div class="w-full max-w-5xl flex flex-col gap-6">
+
+    <div class="grid grid-cols-2 gap-4 w-full">
+      <button
+        id="blog-refresh-btn"
+        class="w-full inline-flex items-center justify-center gap-2 text-xs font-mono uppercase tracking-wider font-bold py-3 px-4 bg-zinc-900 text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white rounded-xl transition cursor-pointer shadow-sm active:scale-[0.99]"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+        </svg>
+        <span>Refresh Feed</span>
+      </button>
+
+      <button
+        id="blog-see-all-btn"
+        class="w-full inline-flex items-center justify-center gap-2 text-xs font-mono uppercase tracking-wider font-bold py-3 px-4 bg-white/60 dark:bg-zinc-900/40 text-zinc-900 dark:text-zinc-50 border border-zinc-200/80 dark:border-zinc-800/80 hover:border-zinc-400 dark:hover:border-zinc-600 rounded-xl transition cursor-pointer shadow-sm active:scale-[0.99]"
+      >
+        <span>See All Blogs</span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full items-stretch">
+
+      <div
+        id="main-featured-card"
+        class="lg:col-span-5 flex flex-col justify-between p-5 rounded-2xl bg-white/50 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 group shadow-xs h-full"
+      >
+        <div class="w-full flex flex-col gap-4">
+          <div class="overflow-hidden rounded-xl aspect-[16/10] bg-zinc-100 dark:bg-zinc-950 border border-zinc-200/40 dark:border-zinc-800/40">
+            <img data-feed="img" src="" alt="" class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.015]" />
+          </div>
+          <h3 data-feed="title" class="text-xl font-extrabold text-zinc-900 dark:text-zinc-50 leading-tight tracking-tight cursor-pointer hover:text-purple-600 dark:hover:text-purple-400 transition-colors"></h3>
+          <div class="flex flex-wrap items-center gap-2 text-[11px] font-mono font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+            <span data-feed="date"></span>
+            <span class="text-zinc-300 dark:text-zinc-700">•</span>
+            <span data-feed="tags"></span>
+          </div>
+          <p data-feed="desc" class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed font-normal line-clamp-4 lg:line-clamp-5"></p>
+        </div>
+        <button data-feed="trigger" class="w-full mt-6 text-center py-2.5 px-4 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 text-xs font-semibold rounded-xl cursor-pointer transition">
+          Read More
+        </button>
+      </div>
+
+      <div id="main-mini-container" class="lg:col-span-7 flex flex-col gap-4 justify-between h-full">
+        {/* Render 3 Slot Konten Mini Menggunakan Skema Placeholder Loop */}
+        {[0, 1, 2].map((slotIdx) => (
+          <div
+            class="mini-feed-card flex flex-row gap-4 p-4 rounded-2xl bg-white/50 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 shadow-xs items-center group h-full min-h-[115px]"
+            data-slot={slotIdx}
+          >
+            <div class="w-20 h-20 sm:w-24 sm:h-24 overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-950 shrink-0 border border-zinc-200/40 dark:border-zinc-800/40">
+              <img data-feed="img" src="" alt="" class="w-full h-full object-cover" />
+            </div>
+            <div class="flex flex-col gap-1 flex-1 min-w-0">
+              <h4 data-feed="title" class="text-sm font-extrabold text-zinc-900 dark:text-zinc-50 tracking-tight leading-snug cursor-pointer hover:text-purple-600 dark:hover:text-purple-400 transition-colors line-clamp-1"></h4>
+              <div class="flex items-center gap-2 text-[10px] font-mono text-zinc-400 dark:text-zinc-500 font-medium uppercase tracking-wider">
+                <span data-feed="date"></span>
+                <span>•</span>
+                <span data-feed="tags" class="text-purple-600 dark:text-purple-400 font-bold"></span>
+              </div>
+              <p data-feed="desc" class="text-[11px] text-zinc-500 dark:text-zinc-400 font-normal leading-relaxed line-clamp-2 mt-0.5"></p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </div>
+
+  <div id="blog-vault" class="hidden" aria-hidden="true" data-total={sortedPosts.length}>
+    {sortedPosts.map(async (post, index) => {
+
+      // PERBAIKAN: Gunakan fungsi render(post) bukan post.render()
+      const { Content } = await render(post);
+
+      return (
+        <div
+          id={`vault-item-${index}`}
+          data-title={post.data.title}
+          data-date={formatDate(post.data.date)}
+          data-img={post.data.img}
+          data-tags={post.data.tags.join(', ')}
+          data-desc={post.data.description}
+        >
+          <div class="markdown-html-content">
+            <Content />
+          </div>
+        </div>
+      );
+    })}
+  </div>
+
+  <div id="popup-archive" class="fixed inset-0 z-40 flex items-center justify-center p-0 bg-zinc-950/40 dark:bg-zinc-950/60 backdrop-blur-md hidden opacity-0 transition-opacity duration-200 pointer-events-none" role="dialog" aria-modal="true">
+    <div class="relative bg-white dark:bg-zinc-900 w-full h-full sm:w-[92vw] sm:h-[88vh] sm:max-w-4xl sm:rounded-2xl shadow-2xl transform scale-95 transition-transform duration-200 flex flex-col overflow-hidden pointer-events-auto">
+
+      <div class="flex justify-between items-center px-6 py-4 border-b border-zinc-100 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 backdrop-blur sticky top-0 z-10">
+        <div>
+          <h3 class="text-base font-extrabold text-zinc-900 dark:text-zinc-50 tracking-tight">All Publications</h3>
+          <p class="text-[10px] text-zinc-400 dark:text-zinc-500 font-mono uppercase">Koleksi Catatan & Artikel Portofolio</p>
+        </div>
+        <button id="popup-archive-close" class="p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-500 dark:text-zinc-400 transition cursor-pointer" aria-label="Close Archive">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto px-6 py-6 scroll-smooth">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pb-12">
+          {sortedPosts.map((post, index) => (
+            <div class="archive-card flex flex-row gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/50 dark:border-zinc-800/60 items-center group">
+              <div class="w-16 h-16 overflow-hidden rounded-lg bg-zinc-200 dark:bg-zinc-900 shrink-0">
+                <img src={post.data.img} alt={post.data.title} class="w-full h-full object-cover" />
+              </div>
+              <div class="min-w-0 flex-1 flex flex-col gap-0.5">
+                <h4 class="archive-item-title text-xs font-bold text-zinc-900 dark:text-zinc-100 hover:text-purple-600 dark:hover:text-purple-400 transition-colors line-clamp-1 cursor-pointer" data-index={index}>
+                  {post.data.title}
+                </h4>
+                <span class="text-[9px] font-mono text-zinc-400 uppercase tracking-wider">{formatDate(post.data.date)}</span>
+                <p class="text-[10px] text-zinc-500 dark:text-zinc-400 line-clamp-1 font-normal">{post.data.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- close floating pill button on responsive mobile -->
+      <button 
+        id="popup-archive-close-mobile" 
+        class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 inline-flex items-center gap-2 px-5 py-3 bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900 font-mono text-xs font-bold uppercase tracking-wider rounded-full shadow-xl hover:scale-102 active:scale-98 transition-all cursor-pointer border border-zinc-800/20 dark:border-zinc-200/20"
+        aria-label="Close Archive"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        <span>Close Archive</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="popup-reader" class="fixed inset-0 z-50 flex items-center justify-center p-0 bg-zinc-950/50 dark:bg-zinc-950/70 backdrop-blur-md hidden opacity-0 transition-opacity duration-200 pointer-events-none" role="dialog" aria-modal="true">
+    <div class="relative bg-white dark:bg-zinc-900 w-full h-full sm:w-[90vw] sm:h-[90vh] sm:max-w-3xl sm:rounded-2xl shadow-2xl transform scale-95 transition-transform duration-200 flex flex-col overflow-hidden pointer-events-auto">
+
+      <div class="flex justify-end items-center px-6 py-4 border-b border-zinc-100 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 backdrop-blur sticky top-0 z-10">
+        <button id="popup-reader-close" class="p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-500 dark:text-zinc-400 transition cursor-pointer" aria-label="Close Article">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto px-6 py-8 sm:px-12 scroll-smooth">
+        <div class="max-w-2xl mx-auto flex flex-col gap-6">
+
+          <div class="flex flex-col gap-2">
+            <h3 id="r-modal-title" class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-zinc-50 tracking-tight leading-tight"></h3>
+            <div class="flex flex-wrap items-center gap-2 text-xs font-mono font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">
+              <span id="r-modal-date"></span>
+              <span class="text-zinc-300 dark:text-zinc-700">•</span>
+              <span id="r-modal-tags"></span>
+            </div>
+          </div>
+
+          <div class="w-full aspect-video sm:aspect-[21/9] overflow-hidden rounded-xl border border-zinc-200/60 dark:border-zinc-800/80 bg-zinc-100 dark:bg-zinc-950">
+            <img id="r-modal-img" src="" alt="" class="w-full h-full object-cover" />
+          </div>
+
+          <div class="border-b-2 border-red-500 pb-4">
+            <p id="r-modal-desc" class="text-xs sm:text-sm font-medium text-zinc-500 dark:text-zinc-400 leading-relaxed italic font-sans"></p>
+          </div>
+
+          <article id="r-modal-body" class="blog-prose py-4">
+            </article>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<script>
+  function initBlogSystem() {
+    const section = document.getElementById('blog-section');
+    if (!section || section.dataset.initialized) return;
+    section.dataset.initialized = "true";
+
+    const vault = document.getElementById('blog-vault');
+    if (!vault) return;
+
+    const totalPosts = parseInt(vault.dataset.total || '0');
+    let currentOffset = 0; // State offset rotasi index lokal
+
+    // DOM Target Viewport Utama
+    const featuredCard = document.getElementById('main-featured-card');
+    const miniCards = document.querySelectorAll('.mini-feed-card');
+    const refreshBtn = document.getElementById('blog-refresh-btn');
+
+    // DOM Popup Modals & Controls
+    const popArchive = document.getElementById('popup-archive');
+    const popReader = document.getElementById('popup-reader');
+    const btnSeeAll = document.getElementById('blog-see-all-btn');
+    const btnCloseArchive = document.getElementById('popup-archive-close');
+    const btnCloseReader = document.getElementById('popup-reader-close');
+
+    // Reader Form Fields
+    const rTitle = document.getElementById('r-modal-title');
+    const rDate = document.getElementById('r-modal-date');
+    const rTags = document.getElementById('r-modal-tags');
+    const rImg = document.getElementById('r-modal-img') as HTMLImageElement;
+    const rDesc = document.getElementById('r-modal-desc');
+    const rBody = document.getElementById('r-modal-body');
+
+    if (!popArchive || !popReader || !rTitle || !rDate || !rTags || !rImg || !rDesc || !rBody) return;
+
+    // Active Open Modals Counter Stack (Mencegah bug pelepasan scroll body lock)
+    let openModalsCount = 0;
+    function toggleBodyScroll(isOpen: boolean) {
+      if (isOpen) {
+        openModalsCount++;
+        document.body.classList.add('overflow-hidden');
+      } else {
+        openModalsCount = Math.max(0, openModalsCount - 1);
+        if (openModalsCount === 0) {
+          document.body.classList.remove('overflow-hidden');
+        }
+      }
+    }
+
+    // FUNGSI INJEKSI METADATA KE KARTU VIEWPORT
+    function populateCardElement(element: HTMLElement, vaultIndex: number) {
+      const item = document.getElementById(`vault-item-${vaultIndex}`);
+      if (!item) return;
+
+      const title = item.getAttribute('data-title') || '';
+      const date = item.getAttribute('data-date') || '';
+      const img = item.getAttribute('data-img') || '';
+      const tags = item.getAttribute('data-tags') || '';
+      const desc = item.getAttribute('data-desc') || '';
+
+      element.setAttribute('data-vault-idx', vaultIndex.toString());
+
+      const imgEl = element.querySelector('[data-feed="img"]') as HTMLImageElement;
+      const titleEl = element.querySelector('[data-feed="title"]');
+      const dateEl = element.querySelector('[data-feed="date"]');
+      const tagsEl = element.querySelector('[data-feed="tags"]');
+      const descEl = element.querySelector('[data-feed="desc"]');
+
+      if (imgEl) { imgEl.src = img; imgEl.alt = title; }
+      if (titleEl) titleEl.textContent = title;
+      if (dateEl) dateEl.textContent = date;
+      if (tagsEl) tagsEl.textContent = tags;
+      if (descEl) descEl.textContent = desc;
+    }
+
+    // FUNGSI UTAMA ROTASI RENDER FEED VIEWPORT
+    function updateFeedView() {
+      if (totalPosts === 0) return;
+
+      // 1. Render Featured Card Utama
+      if (featuredCard) {
+        populateCardElement(featuredCard, currentOffset);
+      }
+
+      // 2. Render 3 Mini Cards di Sisi Samping
+      miniCards.forEach((card, idx) => {
+        const slotElement = card as HTMLElement;
+        const targetIndex = (currentOffset + 1 + idx) % totalPosts;
+
+        // Sembunyikan slot card jika jumlah data total tidak mencukupi
+        if (targetIndex === currentOffset || totalPosts <= 1 + idx) {
+          slotElement.classList.add('hidden');
+        } else {
+          slotElement.classList.remove('hidden');
+          populateCardElement(slotElement, targetIndex);
+        }
+      });
+    }
+
+    // FUNGSI MEMBUKA READER MODAL POPUP B
+    function openReaderModal(vaultIndex: number) {
+      const item = document.getElementById(`vault-item-${vaultIndex}`);
+      if (!item) return;
+
+      rTitle.textContent = item.getAttribute('data-title') || '';
+      rDate.textContent = item.getAttribute('data-date') || '';
+      rTags.textContent = item.getAttribute('data-tags') || '';
+      rImg.src = item.getAttribute('data-img') || '';
+      rImg.alt = item.getAttribute('data-title') || '';
+      rDesc.textContent = item.getAttribute('data-desc') || '';
+
+      const payload = item.querySelector('.markdown-html-content')?.innerHTML || '';
+      rBody.innerHTML = payload;
+
+      popReader.classList.remove('hidden');
+      popReader.classList.remove('pointer-events-none');
+      toggleBodyScroll(true);
+
+      setTimeout(() => {
+        popReader.classList.remove('opacity-0');
+        popReader.querySelector('.transform')?.classList.remove('scale-95');
+      }, 10);
+    }
+
+    // ANIMASI PENUTUPAN MODAL CONTROL
+    function animateCloseModal(modal: HTMLElement, callback?: () => void) {
+      modal.classList.add('opacity-0');
+      modal.querySelector('.transform')?.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.add('pointer-events-none');
+        toggleBodyScroll(false);
+        if (callback) callback();
+      }, 200);
+    }
+
+    // ========================================================
+    // BINDING EVENT LISTENERS CONTROL
+    // ========================================================
+
+    // Rotasi Maju 4 Langkah saat klik Refresh Feed
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', () => {
+        currentOffset = (currentOffset + 4) % totalPosts;
+        updateFeedView();
+      });
+    }
+
+    // Event Delegation Pembuka Reader dari Viewport Luar
+    section.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+
+      // Deteksi klik pada Judul atau Tombol Read More di Viewport Utama
+      const triggerCard = target.closest('#main-featured-card, .mini-feed-card') as HTMLElement;
+      if (triggerCard && (target.closest('[data-feed="title"]') || target.closest('[data-feed="trigger"]'))) {
+        const idxStr = triggerCard.getAttribute('data-vault-idx');
+        if (idxStr !== null) openReaderModal(parseInt(idxStr));
+      }
+
+      // Deteksi klik pada Judul List Artikel di dalam Popup A Archive
+      const archiveTitleTrigger = target.closest('.archive-item-title') as HTMLElement;
+      if (archiveTitleTrigger) {
+        const idxStr = archiveTitleTrigger.getAttribute('data-index');
+        if (idxStr !== null) openReaderModal(parseInt(idxStr));
+      }
+    });
+
+    // Manajemen Open/Close Popup A Archive
+    if (btnSeeAll) {
+      btnSeeAll.addEventListener('click', () => {
+        popArchive.classList.remove('hidden');
+        popArchive.classList.remove('pointer-events-none');
+        toggleBodyScroll(true);
+        setTimeout(() => {
+          popArchive.classList.remove('opacity-0');
+          popArchive.querySelector('.transform')?.classList.remove('scale-95');
+        }, 10);
+      });
+    }
+
+    if (btnCloseArchive) btnCloseArchive.addEventListener('click', () => animateCloseModal(popArchive));
+    popArchive.addEventListener('click', (e) => { if (e.target === popArchive) animateCloseModal(popArchive); });
+
+    // TRIGGER HUBUNGAN UNTUK TOMBOL CLOSE ARCHIVEMOBILE DI SINI:
+    const btnCloseArchiveMobile = document.getElementById('popup-archive-close-mobile');
+    if (btnCloseArchiveMobile) {
+      btnCloseArchiveMobile.addEventListener('click', () => animateCloseModal(popArchive));
+    }
+    
+    // Menutup modal mobile jika area luar di-klik
+    popArchive.addEventListener('click', (e) => { if (e.target === popArchive) animateCloseModal(popArchive); });
+    
+    // Manajemen Close Popup B Reader
+    if (btnCloseReader) {
+      btnCloseReader.addEventListener('click', () => {
+        animateCloseModal(popReader, () => { rImg.src = ''; rBody.innerHTML = ''; });
+      });
+    }
+    popReader.addEventListener('click', (e) => {
+      if (e.target === popReader) {
+        animateCloseModal(popReader, () => { rImg.src = ''; rBody.innerHTML = ''; });
+      }
+    });
+
+    // Integrasi Global Escape Keyboard Control
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (!popReader.classList.contains('hidden')) {
+          animateCloseModal(popReader, () => { rImg.src = ''; rBody.innerHTML = ''; });
+        } else if (!popArchive.classList.contains('hidden')) {
+          animateCloseModal(popArchive);
+        }
+      }
+    });
+
+    // Jalankan Inisialisasi Render Awal Saat Masuk Viewport
+    updateFeedView();
+  }
+
+  // Siklus navigasi Astro View Transitions
+  document.addEventListener('astro:page-load', initBlogSystem);
+  initBlogSystem();
+</script>

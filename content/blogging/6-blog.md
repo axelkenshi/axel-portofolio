@@ -1,5 +1,5 @@
 ---
-title: "Judul Artikel Blog Profesional Anda Di Sini"
+title: "NKRI harga mati"
 description: "Cuplikan deskripsi singkat dan padat yang akan tampil di kartu feed depan dan di bawah gambar pada popup reader. Usahakan tidak lebih dari dua kalimat agar rapi."
 date: "2026-05-15" # Format wajib YYYY-MM-DD
 img: "/assets/front_banner.jpg" # Jika lokal di folder public/, atau gunakan URL eksternal "https://example.com/image.jpg"

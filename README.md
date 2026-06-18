@@ -48,39 +48,41 @@ pages/index.astro is the entry point for the home page.
 ├── content/
 │   ├── blogging/            # File Markdown (.md) untuk blog profesional
 │   │   └── post-1.md
-│   └── notes/               # File Markdown (.md) untuk Quil Notes (brainstorming)
+│   ├── notes/               # File Markdown (.md) untuk Quil Notes (brainstorming)
 │   │   └── note-1.md
-│   └── projects/            # File Markdown (.md) untuk proyek (details)
-│       └── prjct-1.md
 ├── src/
 │   ├── components/
-│   │   ├── Navbar.svelte    # Menu navigasi responsif (seperti di mockup)
+│   │   ├── Navbar.svelte    # (Sudah ada dahulu) Menu navigasi responsif (seperti di mockup)
 │   │   ├── AboutMe.astro  # Komponen statis untuk Hero Canvas (animasi hero)
 │   │   ├── HeroCanvas.astro  # Komponen statis untuk Hero Canvas (animasi hero)
-│   │   ├── Certification.astro  # Komponen statis untuk Project & Sertifikasi
+│   │   ├── Certification.astro  # Komponen statis untuk bukti Sertifikasi
 │   │   ├── Milestone.astro   # Komponen statis untuk Experience
-│   │   └── ThemeInit.astro  # Komponen yang menginisialisasi tema (dark/light)
-│   ├── content/
-│   │   └── config.ts        # Validasi skema Markdown (Astro Content Collections)
+│   │   ├── BlogFeeds.astro   # Komponen statis untuk Blog khusus portofolio
+│   │   ├── Projects.astro   # Komponen statis untuk Blog khusus show proyek
+│   │   └── ThemeInit.astro  # (Sudah ada dahulu) Komponen yang menginisialisasi tema (dark/light)
 │   ├── layouts/
 │   │   └── Layout.astro     # Main layout (head, navbar, footer)
 │   ├── styles/
 │   │   └── globals.css      # CSS global (reset, font, warna, dll.)
+│   ├── content.config.ts
 │   └── pages/
-│       ├── index.astro      # One-page landing (About, Exp, Cert, Project, Contact)
-│       ├── blogs/
-│       │   ├── index.astro  # Feed blog profesional
-│       │   ├── [slug].astro # Detail isi blog (.md)
-│       │   └── tags/
-│       │       └── [tag].astro # Filter blog berdasarkan tag
-│       ├── quil-notes/
-│       │   ├── index.astro  # Feed personal notes
-│       │   ├── [slug].astro # Detail isi notes (.md)
-│       │   └── tags/
-│       │       └── [tag].astro # Filter blog berdasarkan tag
-│       └── projects/
-│           ├── index.astro  # Feed projects
-│           └── [slug].astro # Detail isi projects (.md)
+│       ├── index.astro      # One-page landing (panggil komponen; About, Exp, Cert, Project..etc)
+│       └── quil-notes/
+│           ├── _layouts/
+│           │   └── QuilLayout.astro   # Layout utama khusus untuk semua halaman Quil Notes
+│           │
+│           ├── _components/
+│           │   ├── QuilNavbar.astro   # Navigasi atas (Xnshi Note's, Home, Archive, About, Search Bar)
+│           │   ├── QuilSidebar.astro  # Sidebar kiri (Profil Axel Kenshi, Categories, Tags)
+│           │   ├── SearchBar.svelte   # Search Bar dengan Vanilla JS Logic + Dropdown Popup Overlay
+│           │   └── Pagination.astro   # Komponen kontrol halaman (1, 2, 3... 25)
+│           │
+│           ├── index.astro            # Feed utama (Ekuivalen dengan Home)
+│           ├── archive.astro          # Halaman Arsip/Lini Masa (seperti di screenshot archive)
+│           ├── about.astro            # Halaman statis "About The Writer"
+│           ├── [slug].astro           # Detail bacaan Markdown catatan
+│           └── tags/
+│               └── [tag].astro        # Filter catatan berdasarkan Tag
 │
 ├── astro.config.mjs
 ├── bun.lock
