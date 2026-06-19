@@ -33,7 +33,7 @@ const tags = Array.from(uniqueTags);
     <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-right bg-quilAccent"></div>
     
     <!-- Lingkaran Avatar / Inisial -->
-    <div class="w-20 h-20 rounded-2xl bg-zinc-900 border border-zinc-800 overflow-hidden shadow-inner mb-4 group-hover:border-quilAccent transition-colors duration-300 flex items-center justify-center">
+    <div class="w-20 h-20 rounded-2xl bg-zinc-900 border border-zinc-800 overflow-hidden shadow-inner mb-4 group-hover:border-quilAccent group-active:border-quilAccent transition-colors duration-300 flex items-center justify-center">
       <img 
         src="/assets/nikaidou.jpg" 
         alt="pic" 
@@ -43,12 +43,19 @@ const tags = Array.from(uniqueTags);
     </div>
     
     <h2 class="text-zinc-100 font-bold text-lg leading-tight">Axel Kenshi</h2>
-    <p class="text-xs text-zinc-500 mt-1 mb-4">IT Student & Full-stack Web/Mobile Dev</p>
+    <p class="text-xs text-zinc-500 mt-1 mb-4">A passionate web developer and tech enthusiast, majoring in computer science student. As critical and analytical thinker.
+    </p>
     
     <!-- Jembatan Sosial Mini -->
     <div class="flex gap-2">
-      <a href="https://github.com" target="_blank" class="p-2 rounded-xl bg-zinc-900 text-zinc-400 border border-zinc-800/60 hover:text-quilAccent hover:border-quilAccent transition-all text-xs flex items-center gap-1.5 font-medium">
-        GitHub
+      <a href="https://github.com/axelkenshi" target="_blank" class="p-2 rounded-xl bg-zinc-900 text-zinc-400 border border-zinc-800/60 hover:text-quilAccent hover:border-quilAccent active:text-quilAccent active:border-quilAccent transition-all text-xs flex items-center gap-1.5 font-medium">
+        GitHub Me
+      </a>
+      <a href="https://axelkenshi.my.id/" target="_self" class="p-2 rounded-xl bg-zinc-900 text-zinc-400 border border-zinc-800/60 hover:text-quilAccent hover:border-quilAccent active:text-quilAccent active:border-quilAccent transition-all text-xs flex items-center gap-1.5 font-medium">
+        Work Me
+      </a>
+      <a href="https://anilist.co/user/cellin/" target="_self" class="p-2 rounded-xl bg-zinc-900 text-zinc-400 border border-zinc-800/60 hover:text-quilAccent hover:border-quilAccent active:text-quilAccent active:border-quilAccent transition-all text-xs flex items-center gap-1.5 font-medium">
+        AniList
       </a>
     </div>
   </div>
@@ -66,10 +73,10 @@ const tags = Array.from(uniqueTags);
         categories.map((cat) => (
           <a 
             href={`/quil-notes/categories/${cat.name.toLowerCase()}`}
-            class="flex items-center justify-between text-xs font-medium text-zinc-400 hover:text-quilText hover:bg-zinc-800/30 px-3 py-2.5 rounded-xl transition-all duration-150"
+            class="flex items-center justify-between text-xs font-medium text-zinc-400 hover:text-quilText hover:bg-zinc-800/30 active:text-quilText active:bg-zinc-800/30 px-3 py-2.5 rounded-xl transition-all duration-150"
           >
             <span>{cat.name}</span>
-            <span class="px-2 py-0.5 rounded-md bg-zinc-900 text-zinc-500 text-[10px] border border-zinc-800 font-mono group-hover:text-quilAccent">
+            <span class="px-2 py-0.5 rounded-md bg-zinc-900 text-zinc-500 text-[10px] border border-zinc-800 font-mono group-hover:text-quilAccent group-active:text-quilAccent">
               {cat.count}
             </span>
           </a>
@@ -91,7 +98,7 @@ const tags = Array.from(uniqueTags);
         tags.map((tag) => (
           <a 
             href={`/quil-notes/tags/${tag.toLowerCase()}`}
-            class="text-[11px] font-medium text-zinc-400 bg-zinc-900 border border-zinc-800/80 px-2.5 py-1.5 rounded-xl hover:text-quilText hover:border-quilAccent hover:bg-quilAccentMuted transition-all duration-150"
+            class="text-[11px] font-medium text-zinc-400 bg-zinc-900 border border-zinc-800/80 px-2.5 py-1.5 rounded-xl hover:text-quilText hover:border-quilAccent hover:bg-quilAccentMuted active:text-quilText active:border-quilAccent active:bg-quilAccentMuted transition-all duration-150"
           >
             #{tag}
           </a>

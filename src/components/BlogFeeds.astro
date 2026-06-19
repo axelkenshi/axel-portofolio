@@ -10,7 +10,7 @@ const sortedPosts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.
 
 // Helper format tanggal standar lokal Indonesia
 const formatDate = (date: Date) => {
-  return date.toLocaleDateString('id-ID', {
+  return date.toLocaleDateString('en-EN', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',

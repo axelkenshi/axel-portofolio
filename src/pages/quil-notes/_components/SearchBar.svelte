@@ -85,14 +85,14 @@
       <!-- Area Hasil Pencarian -->
       <div class="flex-grow overflow-y-auto p-4 space-y-2 quil-scrollbar bg-quilCard">
         {#if searchQuery.trim() === ''}
-          <p class="text-xs text-zinc-500 italic text-center py-4">Mulai mengetik untuk mencari catatan...</p>
+          <p class="text-xs text-zinc-500 italic text-center py-4">Start typing to search for notes...</p>
         {:else if results.length === 0}
-          <p class="text-xs text-zinc-600 italic text-center py-8">Tidak menemukan hasil untuk kata kunci "{searchQuery}"</p>
+          <p class="text-xs text-zinc-600 italic text-center py-8">No results found for this keyword "{searchQuery}"</p>
         {:else}
           {#each results as item}
             <a 
               href="/quil-notes/{item.id}" 
-              class="block p-3 rounded-xl bg-zinc-900/40 hover:bg-quilAccentMuted/20 border border-zinc-900 hover:border-quilAccent/20 transition-all group"
+              class="block p-3 rounded-xl bg-zinc-900/40 hover:bg-quilAccentMuted/20 active:bg-quilAccentMuted/20 border border-zinc-900 hover:border-quilAccent/20 active:border-quilAccent/20 transition-all group"
               on:click={closeModal}
             >
               <div class="flex items-center justify-between gap-2">
@@ -103,7 +103,7 @@
                   {/each}
                 </div>
               </div>
-              <h4 class="text-sm font-bold text-zinc-200 group-hover:text-zinc-50 mt-1 transition-colors">{item.title}</h4>
+              <h4 class="text-sm font-bold text-zinc-200 group-hover:text-zinc-50 group-active:text-zinc-50 mt-1 transition-colors">{item.title}</h4>
               {#if item.description}
                 <p class="text-xs text-zinc-400 font-light mt-0.5 line-clamp-1">{item.description}</p>
               {/if}

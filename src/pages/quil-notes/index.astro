@@ -31,27 +31,27 @@ const searchIndex = sortedNotes.map((note) => ({
     <div class="pb-4 border-b border-zinc-900">
       <h2 class="text-xl font-bold text-zinc-100 flex items-center gap-2">
         <span class="w-1.5 h-4 bg-quilAccent rounded-full"></span>
-        Recent Garden Entries
+        Recent Notes Entries
       </h2>
-      <p class="text-xs text-zinc-500 mt-1">Mengarsip fragmen pemikiran logis, rancangan kode, dan catatan harian.</p>
+      <p class="text-xs text-zinc-500 mt-1">Archiving logical thought fragments, code drafts, and diary entries.</p>
     </div>
 
     <!-- FEED CARD UTAMA -->
     <div class="space-y-4">
       {paginatedNotes.length === 0 ? (
         <div class="text-center py-12 text-zinc-600 italic text-sm">
-          Belum ada catatan yang ditulis di folder content/notes/.
+          There are no notes written in the content/notes/ folder yet.
         </div>
       ) : (
         paginatedNotes.map((note) => {
-          const formattedDate = new Date(note.data.date).toLocaleDateString('id-ID', {
+          const formattedDate = new Date(note.data.date).toLocaleDateString('en-EN', {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
           });
 
           return (
-            <article class="p-5 bg-zinc-900/10 border border-zinc-800/50 hover:border-quilAccent/20 rounded-2xl transition-all duration-200 shadow-sm hover:shadow-md flex flex-col md:flex-row gap-5 group relative overflow-hidden">
+            <article class="p-5 bg-zinc-900/10 border border-zinc-800/50 hover:border-quilAccent/20 active:border-quilAccent/20 rounded-2xl transition-all duration-200 shadow-sm hover:shadow-md active:shadow-md flex flex-col md:flex-row gap-5 group relative overflow-hidden">
               
               <!-- Thumbnail Kecil Samping (Jika Ada Gambar Spasial) -->
               {note.data.img && (
@@ -71,7 +71,7 @@ const searchIndex = sortedNotes.map((note) => ({
                   </div>
 
                   <a href={`/quil-notes/${note.id}`} class="block group">
-                    <h3 class="text-base font-bold text-zinc-200 group-hover:text-quilText transition-colors line-clamp-1">
+                    <h3 class="text-base font-bold text-zinc-200 group-hover:text-quilText group-active:text-quilText transition-colors line-clamp-1">
                       {note.data.title}
                     </h3>
                   </a>
@@ -89,7 +89,7 @@ const searchIndex = sortedNotes.map((note) => ({
                     {note.data.tags.map((tag: string) => (
                       <a 
                         href={`/quil-notes/tags/${tag.toLowerCase()}`}
-                        class="text-[9px] font-medium font-mono bg-zinc-900 text-zinc-500 border border-zinc-900 px-2 py-0.5 rounded hover:border-quilAccent/20 hover:text-zinc-400 transition-all"
+                        class="text-[9px] font-medium font-mono bg-zinc-900 text-zinc-500 border border-zinc-900 px-2 py-0.5 rounded hover:border-quilAccent/20 hover:text-zinc-400 active:border-quilAccent/20 active:text-zinc-400 transition-all"
                       >
                         #{tag}
                       </a>

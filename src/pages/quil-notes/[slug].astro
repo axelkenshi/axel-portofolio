@@ -1,24 +1,41 @@
 ---
 import { getCollection, render } from 'astro:content';
 import QuilLayout from '../../layouts/QuilLayout.astro';
+import NextPrev from './_components/NextPrev.svelte';
 
 // 1. Definisikan jalur statis untuk seluruh catatan saat build-time
 export async function getStaticPaths() {
   const notes = await getCollection('notes');
-  return notes.map((note) => ({
-    params: { slug: note.id }, // Menggunakan ID unik file sebagai slug rute URL
-    props: { note },
-  }));
+  
+  // Selaraskan urutan dengan halaman feed (Terbaru -> Terlama)
+  const sortedNotes = notes.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+  return sortedNotes.map((note, index) => {
+    // Jika indeks > 0, berarti ada artikel yang LEBIH BARU (Previous di dalam feed list)
+    const prevNote = index > 0 ? sortedNotes[index - 1] : null;
+    
+    // Jika indeks < total item, berarti ada artikel yang LEBIH LAMA (Next di dalam feed list)
+    const nextNote = index < sortedNotes.length - 1 ? sortedNotes[index + 1] : null;
+
+    return {
+      params: { slug: note.id },
+      props: { 
+        note,
+        prevPage: prevNote ? { title: prevNote.data.title, url: `/quil-notes/${prevNote.id}` } : null,
+        nextPage: nextNote ? { title: nextNote.data.title, url: `/quil-notes/${nextNote.id}` } : null,
+      },
+    };
+  });
 }
 
-const { note } = Astro.props;
+const { note, prevPage, nextPage } = Astro.props; // Destructure props navigasi
 const { title, date, tags, category, description, img } = note.data;
 
 // 2. Render isi konten Markdown menjadi komponen HTML (<Content />)
 const { Content } = await render(note);
 
 // Format tanggal lokal (id-ID)
-const formattedDate = new Date(date).toLocaleDateString('id-ID', {
+const formattedDate = new Date(date).toLocaleDateString('en-EN', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
@@ -51,7 +68,7 @@ const formattedDate = new Date(date).toLocaleDateString('id-ID', {
     <!-- Gambar Banner Utama (Jika Ada) -->
     {img && (
       <div class="overflow-hidden rounded-2xl border border-zinc-800/80 max-h-[380px] shadow-inner">
-        <img src={img} alt={title} class="w-full h-full object-cover transform hover:scale-[1.01] transition-transform duration-300" />
+        <img src={img} alt={title} class="w-full h-full object-cover transform hover:scale-[1.01] active:scale-[1.01] transition-transform duration-300" />
       </div>
     )}
 
@@ -70,12 +87,15 @@ const formattedDate = new Date(date).toLocaleDateString('id-ID', {
         {tags.map((tag: string) => (
           <a
             href={`/quil-notes/tags/${tag.toLowerCase()}`}
-            class="text-[11px] bg-zinc-900 hover:bg-quilAccentMuted/30 text-zinc-400 hover:text-quilText border border-zinc-800/80 hover:border-quilAccent/30 px-2.5 py-1 rounded-md transition-colors font-medium"
+            class="text-[11px] bg-zinc-900 hover:bg-quilAccentMuted/30 active:bg-quilAccentMuted/30 text-zinc-400 hover:text-quilText active:text-quilText border border-zinc-800/80 hover:border-quilAccent/30 active:border-quilAccent/30 px-2.5 py-1 rounded-md transition-colors font-medium"
           >
             #{tag}
           </a>
         ))}
       </div>
     )}
+
+    <!-- Sisipkan Navigasi Statis Tepat di Bagian Paling Bawah Artikel -->
+    <NextPrev prevPage={prevPage} nextPage={nextPage} />
   </article>
 </QuilLayout>

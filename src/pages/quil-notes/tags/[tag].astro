@@ -33,27 +33,27 @@ const { tagName, notes } = Astro.props;
     <div class="pb-4 border-b border-zinc-900">
       <h2 class="text-xl font-bold text-zinc-100 flex items-center gap-2">
         <svg class="w-4 h-4 text-quilAccent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M6 20n4 4V10a2 2 0 00-2-2h-3a2 2 0 00-2 2v10a2 2 0 002 2h3a2 2 0 002-2zM14 4h6m0 0v6m0-6L10 14" /></svg>
-        Daftar Catatan Tersemat: <span class="text-quilText">#{tagName}</span>
+        Pinned Notes List: <span class="text-quilText">#{tagName}</span>
       </h2>
-      <p class="text-xs text-zinc-500 mt-1">Ditemukan {notes.length} entri catatan yang relevan.</p>
+      <p class="text-xs text-zinc-500 mt-1">Founded {notes.length} relevant record entries.</p>
     </div>
 
     <!-- DAFTAR FEED HASIL FILTRASI -->
     <div class="grid grid-cols-1 gap-4">
       {notes.map((note) => (
-        <div class="p-5 bg-zinc-900/20 border border-zinc-800/60 rounded-xl hover:border-quilAccent/30 transition-all group flex flex-col justify-between gap-3">
+        <div class="p-5 bg-zinc-900/20 border border-zinc-800/60 rounded-xl hover:border-quilAccent/30 active:border-quilAccent/30 transition-all group flex flex-col justify-between gap-3">
           
           <div class="space-y-2">
             <!-- Tanggal dan Kategori -->
             <div class="flex items-center gap-3 text-[11px] font-mono text-zinc-500">
-              <time>{new Date(note.data.date).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
+              <time>{new Date(note.data.date).toLocaleDateString('en-EN', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
               <span>•</span>
               <span class="text-zinc-400">{note.data.category}</span>
             </div>
             
             <!-- Judul Tautan -->
             <a href={`/quil-notes/${note.id}`} class="block">
-              <h3 class="text-base font-bold text-zinc-200 group-hover:text-quilText transition-colors line-clamp-1">
+              <h3 class="text-base font-bold text-zinc-200 group-hover:text-quilText group-active:text-quilText transition-colors line-clamp-1">
                 {note.data.title}
               </h3>
             </a>
@@ -74,7 +74,7 @@ const { tagName, notes } = Astro.props;
                 class={`text-[9px] font-mono px-1.5 py-0.5 rounded border transition-colors
                   ${t.toLowerCase() === tagName.toLowerCase() 
                     ? 'bg-quilAccentMuted border-quilAccent/40 text-quilText' 
-                    : 'bg-zinc-950 border-zinc-900 text-zinc-500 hover:text-zinc-400'}`}
+                    : 'bg-zinc-950 border-zinc-900 text-zinc-500 hover:text-zinc-400 active:text-zinc-400'}`}
               >
                 #{t}
               </a>

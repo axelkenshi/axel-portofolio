@@ -23,10 +23,29 @@ const techStacks = [
 
     <div class="space-y-4 text-sm leading-relaxed text-zinc-300 font-light">
       <p>
-        Selamat datang di <span class="text-quilText font-semibold">Quil Notes</span>! Ini adalah sepetak <span class="italic">Digital Garden</span> personal—sebuah ruang alternatif di luar portofolio utama yang saya gunakan untuk mencatat perjalanan belajar, merangkum dokumentasi teknis, menanam cetak biru arsitektur kode, hingga membagikan pemikiran acak seputar teknologi.
+        Halo! Saya <span class="text-quilText font-semibold">Axel</span>, izinkan saya memperkenalkan diri.
+        
+        Saya adalah orang yang selalu ingin tahu dan terus menjelajahi lanskap digital yang luas. Perjalanan saya adalah perjalanan penemuan yang berkelanjutan, didorong oleh hasrat yang tenang untuk memahami bagaimana segala sesuatu bekerja.
+        
+        Anda akan sering menemukan saya menyelami dunia teknologi dan ilmu komputer yang rumit. Saya terpesona oleh logika, pemecahan masalah, dan kreativitas yang mendorong inovasi di bidang ini.
+      </p>
+      <p>
+        Lebih dari sekadar belajar, saya benar-benar senang berbagi apa yang saya temukan dan menghubungkan berbagai ide. Tujuan saya selalu untuk memicu wawasan baru dan berkontribusi pada pemahaman kolektif kita. Pikiran saya cenderung mengembara melalui konsep-konsep abstrak, tetapi saya selalu mencari cara untuk memahami jalinan informasi yang kompleks yang mengelilingi kita.
+      </p>
+      <p>
+        Ini adalah sepetak <span class="italic">Digital Garden</span> personal—sebuah ruang alternatif di luar portofolio utama yang saya gunakan untuk mencatat perjalanan belajar, merangkum dokumentasi random, menanam cetak biru arsitektur kode, hingga membagikan pemikiran acak seputar teknologi.
       </p>
       <p>
         Berbeda dengan blog konvensional yang kaku, ruang ini dirancang dengan filosofi kebun digital: catatan di sini akan terus bertumbuh, diperbarui, dan saling terhubung satu sama lain seiring berkembangnya pemahaman saya terhadap suatu topik.
+      </p>
+      <p>
+        Bila anda terinspirasi oleh karya ini, jangan ragu untuk mengunjungi repositori GitHub yang terkait.
+        Kamu boleh melakukan Fork dan mengembangkan platform ini sesuai kebutuhanmu. Karena project ini adalah open-source, kamu bisa berkontribusi untuk kemajuan project ini, Salam hormat. Axel.
+      </p>
+      <p>
+        Semoga karya ini dapat bermanfaat bagi Anda dan komunitas open-source.
+        Untuk informasi lebih lanjut, kunjungi <a href="https://github.com/axelkenshi/axel-portofolio" class="text-quilAccent hover:underline">repositori GitHub</a>.
+        Terkecuali konten kreatif disini, seperti karya tulisan personal dilisensikan <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="text-quilAccent hover:underline">CC BY-NC-SA 4.0</a>.
       </p>
     </div>
 
@@ -41,12 +60,12 @@ const techStacks = [
       
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {techStacks.map((tech) => (
-          <div class="p-3.5 bg-zinc-900/40 border border-zinc-800/80 rounded-xl flex items-start gap-3 hover:border-quilAccent/20 transition-colors group">
-            <span class="text-xl p-1 bg-zinc-950 border border-zinc-900 rounded-lg group-hover:scale-110 transition-transform shrink-0">
+          <div class="p-3.5 bg-zinc-900/40 border border-zinc-800/80 rounded-xl flex items-start gap-3 hover:border-quilAccent/20 hover:active-quilAccent/20 transition-colors group">
+            <span class="text-xl p-1 bg-zinc-950 border border-zinc-900 rounded-lg group-hover:scale-110 group-active:scale-110 transition-transform shrink-0">
               {tech.icon}
             </span>
             <div>
-              <h4 class="text-xs font-bold text-zinc-200 group-hover:text-quilText transition-colors">{tech.name}</h4>
+              <h4 class="text-xs font-bold text-zinc-200 group-hover:text-quilText group-active:text-quilText transition-colors">{tech.name}</h4>
               <p class="text-[11px] text-zinc-500 font-light mt-0.5 leading-snug">{tech.role}</p>
             </div>
           </div>
@@ -56,7 +75,7 @@ const techStacks = [
 
     <div class="pt-6">
       <div class="p-4 bg-gradient-to-br from-zinc-900/80 to-zinc-950/40 border border-zinc-800/60 rounded-2xl relative overflow-hidden group">
-        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-quilAccentMuted/10 rounded-full blur-xl group-hover:bg-quilAccentMuted/20 transition-all"></div>
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-quilAccentMuted/10 rounded-full blur-xl group-hover:bg-quilAccentMuted/20 group-active:bg-quilAccentMuted/20 transition-all"></div>
         
         <p class="text-xs text-zinc-400 italic text-center leading-relaxed">
           "Satu baris kode atau satu paragraf jurnal hari ini adalah investasi pemahaman bagi diri kita sendiri di masa depan."

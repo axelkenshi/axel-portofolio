@@ -33,7 +33,7 @@ const navLinks = [
   
   <a href="/quil-notes" class="flex items-center gap-2 group transition-all active:scale-95">
     <div class="w-3 h-3 rounded-full bg-quilAccent animate-pulse"></div>
-    <span class="text-quilAccent font-extrabold tracking-tight text-lg group-hover:text-quilText transition-colors">
+    <span class="text-quilAccent font-extrabold tracking-tight text-lg group-hover:text-quilText group-active:text-quilText transition-colors">
       Xnshi Note's
     </span>
   </a>
@@ -42,7 +42,7 @@ const navLinks = [
     {navLinks.map((link) => (
       <a
         href={link.href}
-        class={`text-sm font-medium transition-all duration-200 hover:text-quilText relative py-1
+        class={`text-sm font-medium transition-all duration-200 hover:text-quilText active:text-quilText relative py-1
           ${active === link.id ? 'text-quilAccent font-semibold' : 'text-zinc-400'}`}
       >
         {link.name}
@@ -52,13 +52,13 @@ const navLinks = [
       </a>
     ))}
     <a 
-      href="https://github.com" 
+      href="https://github.com/axelkenshi/axel-portofolio" 
       target="_blank" 
       rel="noopener noreferrer" 
-      class="text-sm font-medium text-zinc-400 hover:text-quilText flex items-center gap-1 transition-colors group"
+      class="text-sm font-medium text-zinc-400 hover:text-quilText active:text-quilText flex items-center gap-1 transition-colors group"
     >
-      GitHub 
-      <svg class="w-3 h-3 opacity-60 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+      GitHub SC
+      <svg class="w-3 h-3 opacity-60 group-hover:opacity-100 group-active:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
     </a>
   </div>
 
@@ -66,7 +66,7 @@ const navLinks = [
     
     <button 
       onclick="window.openQuilSearch?.()"
-      class="relative hidden sm:flex items-center bg-zinc-900/80 border border-zinc-800 text-xs text-zinc-500 pl-8 pr-4 py-2 rounded-lg w-42 text-left hover:border-zinc-700 cursor-pointer transition-all active:scale-[0.98]"
+      class="relative hidden sm:flex items-center bg-zinc-900/80 border border-zinc-800 text-xs text-zinc-500 pl-8 pr-4 py-2 rounded-lg w-42 text-left hover:border-zinc-700 active:border-zinc-700 cursor-pointer transition-all active:scale-[0.98]"
     >
       <svg class="w-3.5 h-3.5 text-zinc-500 absolute left-2.5 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
       <span>Search...</span>
@@ -75,7 +75,7 @@ const navLinks = [
 
     <button 
       id="paletteBtn"
-      class="p-2 bg-zinc-900 hover:bg-quilAccentMuted border border-zinc-800 rounded-lg text-zinc-400 hover:text-quilAccent transition-all cursor-pointer active:scale-95"
+      class="p-2 bg-zinc-900 hover:bg-quilAccentMuted active:bg-quilAccentMuted border border-zinc-800 rounded-lg text-zinc-400 hover:text-quilAccent active:text-quilAccent transition-all cursor-pointer active:scale-95"
       aria-label="Ubah Warna Aksen"
     >
       <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
@@ -86,11 +86,11 @@ const navLinks = [
       class="md:hidden flex flex-col items-center justify-center gap-1 group cursor-pointer focus:outline-none"
       aria-expanded="false"
     >
-      <div class="w-9 h-9 rounded-full border border-zinc-800 group-hover:border-zinc-700 bg-zinc-900/40 flex items-center justify-center relative overflow-hidden transition-colors">
-        <svg id="hamburgerMenuIcon" class="w-4 h-4 text-zinc-400 group-hover:text-quilText transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div class="w-9 h-9 rounded-full border border-zinc-800 group-hover:border-zinc-700 group-active:border-zinc-700 bg-zinc-900/40 flex items-center justify-center relative overflow-hidden transition-colors">
+        <svg id="hamburgerMenuIcon" class="w-4 h-4 text-zinc-400 group-hover:text-quilText group-active:text-quilText transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
-        <svg id="closeMenuIcon" class="w-4 h-4 text-zinc-400 group-hover:text-quilText absolute opacity-0 scale-75 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg id="closeMenuIcon" class="w-4 h-4 text-zinc-400 group-hover:text-quilText group-active:text-quilText absolute opacity-0 scale-75 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </div>
@@ -106,7 +106,7 @@ const navLinks = [
           Theme Color
         </div>
         <div class="flex items-center gap-2">
-          <button id="resetHue" class="p-1 hover:bg-zinc-800 text-zinc-500 hover:text-zinc-300 rounded transition-colors cursor-pointer" title="Reset">
+          <button id="resetHue" class="p-1 hover:bg-zinc-800 active:bg-zinc-800 text-zinc-500 hover:text-zinc-300 active:text-zinc-300 rounded transition-colors cursor-pointer" title="Reset">
             <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H17" /></svg>
           </button>
           <span id="hueValDisplay" class="text-[10px] font-mono px-1.5 py-0.5 bg-quilAccentMuted text-quilText rounded border border-quilAccent/20">180</span>
@@ -123,15 +123,15 @@ const navLinks = [
         <a 
           href={link.href}
           class={`flex items-center justify-between px-3 py-2.5 rounded-xl border border-transparent transition-all group/item
-            ${active === link.id ? 'bg-quilAccentMuted/20 border-quilAccent/20 text-quilText' : 'hover:bg-zinc-900/60 text-zinc-400 hover:text-zinc-200'}`}
+            ${active === link.id ? 'bg-quilAccentMuted/20 border-quilAccent/20 text-quilText' : 'hover:bg-zinc-900/60 active:bg-zinc-900/60 text-zinc-400 hover:text-zinc-200 active:text-zinc-200'}`}
         >
           <div class="flex items-center gap-3">
-            <svg class={`w-4 h-4 transition-colors ${active === link.id ? 'text-quilAccent' : 'text-zinc-500 group-hover/item:text-quilAccent'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class={`w-4 h-4 transition-colors ${active === link.id ? 'text-quilAccent' : 'text-zinc-500 group-hover/item:text-quilAccent group-active/item:text-quilAccent'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={link.icon} />
             </svg>
             <span class="text-xs font-semibold tracking-wide">{link.name}</span>
           </div>
-          <svg class="w-3.5 h-3.5 text-zinc-600 group-hover/item:text-zinc-400 group-hover/item:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg class="w-3.5 h-3.5 text-zinc-600 group-hover/item:text-zinc-400 group-hover/item:translate-x-0.5 group-active/item:text-zinc-400 group-active/item:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
           </svg>
         </a>
@@ -140,18 +140,18 @@ const navLinks = [
       <div class="border-t border-zinc-900/80 my-1 mx-2"></div>
 
       <a 
-        href="https://github.com" 
+        href="https://github.com/axelkenshi/axel-portofolio" 
         target="_blank" 
         rel="noopener noreferrer"
-        class="flex items-center justify-between px-3 py-2.5 rounded-xl text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/60 transition-all group/item"
+        class="flex items-center justify-between px-3 py-2.5 rounded-xl text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/60 active:text-zinc-200 active:bg-zinc-900/60 transition-all group/item"
       >
         <div class="flex items-center gap-3">
-          <svg class="w-4 h-4 text-zinc-500 group-hover/item:text-quilAccent transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg class="w-4 h-4 text-zinc-500 group-hover/item:text-quilAccent group-active/item:text-quilAccent transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
           </svg>
-          <span class="text-xs font-semibold tracking-wide">GitHub Project</span>
+          <span class="text-xs font-semibold tracking-wide">Repo Project?</span>
         </div>
-        <svg class="w-3.5 h-3.5 text-zinc-600 group-hover/item:text-zinc-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="w-3.5 h-3.5 text-zinc-600 group-hover/item:text-zinc-400 group-active/item:text-zinc-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
         </svg>
       </a>
