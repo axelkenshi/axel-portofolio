@@ -28,13 +28,15 @@
 @plugin "@tailwindcss/typography";
 /*@import "katex/dist/katex.min.css";*/
 
+:root {
+  --theme-hue: 180; /* Default: Hijau Teal khas Quil Notes */
+}
+
 /* Dark mode: class-based — default is ALWAYS light, dark hanya dari toggle */
 @custom-variant dark (&:is(.dark, .dark *));
 
-/*@plugin "@tailwindcss/typography";*/
-
 @theme {
-  /*Global palette set*/
+  /* Global palette set lama Anda */
   --color-tan: #edeadf;
   --color-dark: #1a1a1a;
   --font-mark-script: "Mark Script", ui-serif, Georgia, serif;
@@ -42,6 +44,24 @@
 
   --color-bg-light: var(--color-tan);
   --color-bg-dark: var(--color-dark);
+
+  /* ==========================================================================
+     EKSPANSI TOKEN BARU UNTUK INDEPENDENSI QUIL NOTES (TAILWIND V4)
+     ========================================================================== */
+  
+  /* 1. Jalur Kebab-Case (Untuk mengamankan .quil-garden Anda) */
+  --color-quil-bg: #0b0f12;
+  --color-quil-card: #12181d;
+  --color-quil-accent: hsl(var(--theme-hue) 85% 55%);
+  --color-quil-accent-muted: hsl(var(--theme-hue) 65% 20% / 0.4);
+  --color-quil-text: hsl(var(--theme-hue) 90% 65%);
+
+  /* 2. Jalur CamelCase (Untuk menyembuhkan QuilNavbar & QuilSidebar secara instan!) */
+  --color-quilBg: #0b0f12;
+  --color-quilCard: #12181d;
+  --color-quilAccent: hsl(var(--theme-hue) 85% 55%);
+  --color-quilAccentMuted: hsl(var(--theme-hue) 65% 20% / 0.4);
+  --color-quilText: hsl(var(--theme-hue) 90% 65%);
 }
 
 @layer base {
@@ -50,43 +70,21 @@
     @apply dark:bg-dark dark:text-tan;
   }
 
-  h1,
-  h2,
-  h3 {
-    @apply font-source-sans leading-[1.2] font-normal;
-  }
-
-  h1 {
-    @apply text-4xl;
-  }
-  h2 {
-    @apply text-2xl;
-  }
-  h3 {
-    @apply text-xl;
-  }
-
-  p {
-    @apply font-light font-source-sans;
-  }
-
+  h1, h2, h3 { @apply font-source-sans leading-[1.2] font-normal; }
+  h1 { @apply text-4xl; }
+  h2 { @apply text-2xl; }
+  h3 { @apply text-xl; }
+  p { @apply font-light font-source-sans; }
 }
 
 @layer utilities {
-  /* ==========================================================================
-     CUSTOM OVERRIDES UNTUK TAILWIND TYPOGRAPHY (PROSE)
-     ========================================================================== */
-  
+  /* .blog-prose orisinil milik Anda */
   .blog-prose {
-    /* Menggunakan base class typography bawaan */
     @apply prose prose-sm sm:prose-base max-w-none;
-    
-    /* Pengaturan teks umum dan paragraf */
     @apply text-zinc-700 dark:text-zinc-300 leading-relaxed tracking-wide;
     
-    /* Kustomisasi Judul (Headings) agar Bold dan Tegas */
-    --tw-prose-headings: #18181b; /* zinc-900 */
-    --tw-prose-invert-headings: #f4f4f5; /* zinc-100 */
+    --tw-prose-headings: #18181b;
+    --tw-prose-invert-headings: #f4f4f5;
     
     & h1, & h2, & h3, & h4 {
       @apply font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 mt-8 mb-4;
@@ -94,40 +92,69 @@
     & h2 { @apply text-xl sm:text-2xl border-b border-zinc-200/60 dark:border-zinc-800/60 pb-2; }
     & h3 { @apply text-lg sm:text-xl; }
 
-    /* Kustomisasi Tautan (Links) dengan Aksen Ungu */
+    /* Default warna link portofolio utama: Ungu */
     & a {
       @apply text-purple-600 dark:text-purple-400 font-semibold no-underline border-b border-transparent hover:border-purple-500 transition-colors duration-200;
     }
 
-    /* Kustomisasi List (Kutipan & Poin) */
     & ul { @apply list-disc pl-5 my-4; }
     & ol { @apply list-decimal pl-5 my-4; }
     & li { @apply mb-2 pl-1; }
     & li::marker { @apply text-purple-500 font-bold; }
 
-    /* Kustomisasi Blok Kode (Code Blocks - Pre & Code) */
     & pre {
       @apply p-4 bg-zinc-950 dark:bg-zinc-950 text-zinc-100 rounded-xl overflow-x-auto my-6 border border-zinc-800 font-mono text-xs sm:text-sm shadow-sm;
     }
     
-    /* Inline Code (Teks kode di dalam paragraf) */
     & :not(pre) > code {
       @apply font-mono bg-zinc-100 dark:bg-zinc-800/80 text-purple-600 dark:text-purple-400 px-1.5 py-0.5 rounded text-[0.875em] font-semibold before:content-none after:content-none;
     }
 
-    /* Kustomisasi Blockquote (Kutipan Kata) */
     & blockquote {
       @apply pl-4 italic border-l-4 border-purple-500 text-zinc-500 dark:text-zinc-400 my-6 font-normal;
     }
 
-    /* Kustomisasi Elemen Pendukung */
     & hr { @apply border-zinc-200 dark:border-zinc-800 my-8; }
     & strong { @apply font-bold text-zinc-900 dark:text-zinc-50; }
     
-    /* Kustomisasi Gambar di dalam Markdown */
     & img {
       @apply rounded-xl border border-zinc-200/60 dark:border-zinc-800/80 my-6 mx-auto object-cover max-h-[400px] w-full;
     }
+  }
+
+  /* ==========================================================================
+     TRIK KONTEKSTUAL: OTOMATIS SWAP UNGU -> HUE ACCENT DI QUIL GARDEN
+     ========================================================================== */
+  .quil-garden {
+    .blog-prose {
+      & a {
+        @apply text-quil-text dark:text-quil-text hover:border-quil-accent!;
+      }
+      & li::marker {
+        @apply text-quil-accent!;
+      }
+      & :not(pre) > code {
+        @apply text-quil-text dark:text-quil-text bg-quil-accent-muted!;
+      }
+      & blockquote {
+        @apply border-quil-accent! text-zinc-400 dark:text-zinc-400;
+      }
+    }
+  }
+
+  /* Kustomisasi Scrollbar Halus khas Fuwari */
+  .quil-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .quil-scrollbar::-webkit-scrollbar-track {
+    background: #0b0f12;
+  }
+  .quil-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--theme-hue) 50% 20%);
+    border-radius: 9px;
+  }
+  .quil-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--theme-hue) 85% 55%);
   }
 }
 

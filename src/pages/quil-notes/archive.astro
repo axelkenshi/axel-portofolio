@@ -1,0 +1,87 @@
+---
+import { getCollection } from 'astro:content';
+import QuilLayout from '../../layouts/QuilLayout.astro';
+
+// 1. Ambil seluruh catatan dan urutkan berdasarkan tanggal terbaru
+const allNotes = await getCollection('notes');
+const sortedNotes = allNotes.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// 2. Strukturkan data: Kelompokkan catatan ke dalam objek { [tahun]: [catatan, catatan] }
+const groupedByYear: Record<number, typeof sortedNotes> = {};
+sortedNotes.forEach((note) => {
+  const year = new Date(note.data.date).getFullYear();
+  if (!groupedByYear[year]) {
+    groupedByYear[year] = [];
+  }
+  groupedByYear[year].push(note);
+});
+
+// Urutkan tahun dari yang terbesar (paling baru)
+const years = Object.keys(groupedByYear).map(Number).sort((a, b) => b - a);
+---
+
+<QuilLayout title="Arsip Catatan" activeMenu="archive">
+  <div class="space-y-8">
+    <div>
+      <h2 class="text-xl font-bold text-zinc-100 flex items-center gap-2">
+        <span class="w-1.5 h-4 bg-quilAccent rounded-full"></span>
+        Archive Timeline
+      </h2>
+      <p class="text-xs text-zinc-500 mt-1">Total merekam {allNotes.length} entri catatan pemikiran.</p>
+    </div>
+
+    <!-- CONTAINER STRUKTUR LINI MASA -->
+    <div class="relative border-l border-zinc-800/80 pl-6 ml-2 space-y-10">
+      
+      {years.map((year) => (
+        <div class="relative">
+          
+          <!-- Penanda Simpul Tahun (Timeline Node) -->
+          <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-quilBg border-2 border-quilAccent flex items-center justify-center shadow-lg">
+            <div class="w-1.5 h-1.5 rounded-full bg-quilAccent animate-ping"></div>
+          </div>
+          
+          <!-- Judul Tahun -->
+          <h3 class="text-xl font-extrabold text-quilText font-mono tracking-tight mb-4">
+            {year}
+          </h3>
+
+          <!-- Daftar Artikel di Tahun Tersebut -->
+          <div class="space-y-3">
+            {groupedByYear[year].map((note) => {
+              const formattedDate = new Date(note.data.date).toLocaleDateString('id-ID', {
+                month: 'short',
+                day: '2-digit',
+              });
+
+              return (
+                <a 
+                  href={`/quil-notes/${note.id}`}
+                  class="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-xl bg-zinc-900/30 hover:bg-quilAccentMuted/10 border border-transparent hover:border-quilAccent/20 transition-all group gap-2"
+                >
+                  <div class="flex items-baseline gap-4">
+                    <!-- Tanggal Rilis Pendek -->
+                    <span class="text-xs font-mono text-zinc-500 group-hover:text-quilText transition-colors shrink-0">
+                      {formattedDate}
+                    </span>
+                    <!-- Judul Catatan -->
+                    <span class="text-sm font-medium text-zinc-300 group-hover:text-zinc-100 transition-colors line-clamp-1">
+                      {note.data.title}
+                    </span>
+                  </div>
+                  
+                  <!-- Tag Kategori Kecil di Sebelah Kanan -->
+                  <span class="text-[10px] font-mono text-zinc-600 bg-zinc-950 border border-zinc-900 px-2 py-0.5 rounded group-hover:border-quilAccent/20 group-hover:text-zinc-400 self-start sm:self-center transition-colors">
+                    {note.data.category}
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+
+        </div>
+      ))}
+
+    </div>
+  </div>
+</QuilLayout>

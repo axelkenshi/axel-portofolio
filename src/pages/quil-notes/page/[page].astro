@@ -1,0 +1,118 @@
+---
+import { getCollection } from 'astro:content';
+import QuilLayout from '../../../layouts/QuilLayout.astro';
+import Pagination from '../_components/Pagination.astro';
+import SearchBar from '../_components/SearchBar.svelte';
+
+// 1. Manfaatkan fungsi paginate bawaan Astro untuk kebutuhan SSG
+export async function getStaticPaths({ paginate }) {
+  const allNotes = await getCollection('notes');
+  
+  // Urutkan persis seperti index.astro: b.data.date.valueOf() - a.data.date.valueOf()
+  const sortedNotes = allNotes.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+  // POSTS_PER_PAGE = 5, dikunci agar serasi dengan pemotong slice di index
+  return paginate(sortedNotes, { pageSize: 5 });
+}
+
+// 2. Tangkap objek halaman hasil kalkulasi otomatis milik Astro
+const { page } = Astro.props;
+
+// 3. Tarik ulang indeks data penuh khusus di sisi server untuk penyuplai data SearchBar Svelte
+const allNotes = await getCollection('notes');
+const sortedNotes = allNotes.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const searchIndex = sortedNotes.map((note) => ({
+  id: note.id,
+  title: note.data.title,
+  description: note.data.description || '',
+  category: note.data.category,
+  tags: note.data.tags || [],
+}));
+---
+
+<QuilLayout title={`Digital Garden Feed - Page ${page.currentPage}`} activeMenu="home">
+  <div class="space-y-6">
+    
+    <!-- Ucapan Selamat Datang / Preamble Hub -->
+    <div class="pb-4 border-b border-zinc-900">
+      <h2 class="text-xl font-bold text-zinc-100 flex items-center gap-2">
+        <span class="w-1.5 h-4 bg-quilAccent rounded-full"></span>
+        Recent Garden Entries
+      </h2>
+      <p class="text-xs text-zinc-500 mt-1">Mengarsip fragmen pemikiran logis, rancangan kode, dan catatan harian.</p>
+    </div>
+
+    <!-- FEED CARD UTAMA (Sama persis dengan tata letak index.astro) -->
+    <div class="space-y-4">
+      {page.data.map((note) => {
+        const formattedDate = new Date(note.data.date).toLocaleDateString('id-ID', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
+
+        return (
+          <article class="p-5 bg-zinc-900/10 border border-zinc-800/50 hover:border-quilAccent/20 rounded-2xl transition-all duration-200 shadow-sm hover:shadow-md flex flex-col md:flex-row gap-5 group relative overflow-hidden">
+            
+            <!-- Thumbnail Kecil Samping (Jika Ada Gambar Spasial) -->
+            {note.data.img && (
+              <div class="w-full md:w-40 h-28 rounded-xl overflow-hidden border border-zinc-900 shrink-0 bg-zinc-950">
+                <img 
+                  src={note.data.img} 
+                  alt={note.data.title} 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-80 group-hover:opacity-100" 
+                />
+              </div>
+            )}
+
+            <!-- Informasi Konten Utama -->
+            <div class="flex flex-col justify-between flex-grow gap-2">
+              <div class="space-y-1">
+                
+                <div class="flex items-center gap-2.5 text-[10px] font-mono text-zinc-500">
+                  <time datetime={note.data.date.toISOString()}>{formattedDate}</time>
+                  <span>•</span>
+                  <span class="text-zinc-400">{note.data.category}</span>
+                </div>
+
+                <a href={`/quil-notes/${note.id}`} class="block group">
+                  <h3 class="text-base font-bold text-zinc-200 group-hover:text-quilText transition-colors line-clamp-1">
+                    {note.data.title}
+                  </h3>
+                </a>
+
+                {note.data.description && (
+                  <p class="text-xs text-zinc-400 font-light leading-relaxed line-clamp-2 pt-0.5">
+                    {note.data.description}
+                  </p>
+                )}
+              </div>
+
+              <!-- Cetak Tag di Bawah Kartu -->
+              {note.data.tags && note.data.tags.length > 0 && (
+                <div class="flex flex-wrap gap-1.5 pt-1">
+                  {note.data.tags.map((tag: string) => (
+                    <a 
+                      href={`/quil-notes/tags/${tag.toLowerCase()}`}
+                      class="text-[9px] font-medium font-mono bg-zinc-900 text-zinc-500 border border-zinc-900 px-2 py-0.5 rounded hover:border-quilAccent/20 hover:text-zinc-400 transition-all"
+                    >
+                      #{tag}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+
+          </article>
+        );
+      })}
+    </div>
+
+    <!-- KOMPONEN PAGINATION CONTROLLER -->
+    <Pagination currentPage={page.currentPage} totalPages={page.lastPage} />
+
+  </div>
+</QuilLayout>
+
+<!-- Hidrasikan Svelte Component di Sisi Klien agar fitur cari tetap hidup di page dinamis -->
+<SearchBar searchIndex={searchIndex} client:idle />

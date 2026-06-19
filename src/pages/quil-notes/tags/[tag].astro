@@ -1,20 +1,89 @@
 ---
-// src/pages/blogs/tags/[tag].astro
+import { getCollection } from 'astro:content';
+import QuilLayout from '../../../layouts/QuilLayout.astro';
+
+// 1. Ekstrak seluruh variasi tag yang unik untuk dipetakan sebagai rute URL statis
 export async function getStaticPaths() {
-  // adjust the glob path to where your posts live
-  const postModules = Object.values(import.meta.glob('../../**/*.md', { eager: true }));
-  const tagsSet = new Set();
+  const allNotes = await getCollection('notes');
+  
+  // Ambil semua tag, bersihkan string, hilangkan duplikasi
+  const allTags = allNotes.flatMap((note) => note.data.tags || []);
+  const uniqueTags = [...new Set(allTags)].filter((t) => t.trim() !== '');
 
-  for (const mod of postModules) {
-    const front = mod.frontmatter ?? mod.meta ?? {};
-    if (front.tags) {
-      for (const t of front.tags) tagsSet.add(String(t));
-    }
-  }
+  return uniqueTags.map((tag) => {
+    // Saring catatan yang memiliki tag ini (case-insensitive)
+    const filteredNotes = allNotes.filter((note) =>
+      note.data.tags?.some((t: string) => t.toLowerCase() === tag.toLowerCase())
+    );
 
-  return [...tagsSet].map((tag) => ({
-    params: { tag },
-  }));
+    return {
+      params: { tag: tag.toLowerCase() },
+      props: { tagName: tag, notes: filteredNotes },
+    };
+  });
 }
+
+const { tagName, notes } = Astro.props;
 ---
-<!-- rest of your component template here -->
+
+<QuilLayout title={`Tag: #${tagName}`}>
+  <div class="space-y-6">
+    
+    <!-- Judul Header Filtrasi -->
+    <div class="pb-4 border-b border-zinc-900">
+      <h2 class="text-xl font-bold text-zinc-100 flex items-center gap-2">
+        <svg class="w-4 h-4 text-quilAccent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M6 20n4 4V10a2 2 0 00-2-2h-3a2 2 0 00-2 2v10a2 2 0 002 2h3a2 2 0 002-2zM14 4h6m0 0v6m0-6L10 14" /></svg>
+        Daftar Catatan Tersemat: <span class="text-quilText">#{tagName}</span>
+      </h2>
+      <p class="text-xs text-zinc-500 mt-1">Ditemukan {notes.length} entri catatan yang relevan.</p>
+    </div>
+
+    <!-- DAFTAR FEED HASIL FILTRASI -->
+    <div class="grid grid-cols-1 gap-4">
+      {notes.map((note) => (
+        <div class="p-5 bg-zinc-900/20 border border-zinc-800/60 rounded-xl hover:border-quilAccent/30 transition-all group flex flex-col justify-between gap-3">
+          
+          <div class="space-y-2">
+            <!-- Tanggal dan Kategori -->
+            <div class="flex items-center gap-3 text-[11px] font-mono text-zinc-500">
+              <time>{new Date(note.data.date).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
+              <span>•</span>
+              <span class="text-zinc-400">{note.data.category}</span>
+            </div>
+            
+            <!-- Judul Tautan -->
+            <a href={`/quil-notes/${note.id}`} class="block">
+              <h3 class="text-base font-bold text-zinc-200 group-hover:text-quilText transition-colors line-clamp-1">
+                {note.data.title}
+              </h3>
+            </a>
+            
+            <!-- Deskripsi / Potongan Ringkasan Catatan -->
+            {note.data.description && (
+              <p class="text-xs text-zinc-400 font-light line-clamp-2 leading-relaxed">
+                {note.data.description}
+              </p>
+            )}
+          </div>
+
+          <!-- Kaki Kartu: Render Kumpulan Tag -->
+          <div class="flex flex-wrap gap-1.5 pt-2">
+            {note.data.tags.map((t: string) => (
+              <a
+                href={`/quil-notes/tags/${t.toLowerCase()}`}
+                class={`text-[9px] font-mono px-1.5 py-0.5 rounded border transition-colors
+                  ${t.toLowerCase() === tagName.toLowerCase() 
+                    ? 'bg-quilAccentMuted border-quilAccent/40 text-quilText' 
+                    : 'bg-zinc-950 border-zinc-900 text-zinc-500 hover:text-zinc-400'}`}
+              >
+                #{t}
+              </a>
+            ))}
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+  </div>
+</QuilLayout>

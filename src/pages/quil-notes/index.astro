@@ -1,36 +1,114 @@
 ---
-import "../../styles/global.css";
-import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import QuilLayout from '../../layouts/QuilLayout.astro';
+import Pagination from './_components/Pagination.astro';
+import SearchBar from './_components/SearchBar.svelte';
+
+// 1. Tarik & urutkan catatan berdasarkan tanggal eksekusi terbaru
+const allNotes = await getCollection('notes');
+const sortedNotes = allNotes.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// 2. Konfigurasi kalkulasi pemotong halaman statis (Simulasi Page 1)
+const POSTS_PER_PAGE = 5;
+const totalPages = Math.ceil(sortedNotes.length / POSTS_PER_PAGE);
+const currentPage = 1;
+const paginatedNotes = sortedNotes.slice(0, POSTS_PER_PAGE);
+
+// Siapkan payload JSON statis di level server untuk dioper ke props Svelte
+const searchIndex = sortedNotes.map((note) => ({
+  id: note.id,
+  title: note.data.title,
+  description: note.data.description || '',
+  category: note.data.category,
+  tags: note.data.tags || [],
+}));
 ---
 
-<!-- Kirim data title dan description spesifik halaman ini ke Layout lewat atribut -->
-<Layout title="Axel Kenshi Dev" description="Selamat datang di portofolio digital saya.">
-  <!-- Semua kode di bawah ini akan otomatis masuk ke posisi <slot /> di file Layout -->
-   	<!-- contents -->
-    <!-- Section 1 -->
-  	<section class="relative min-h-[100dvh] w-full flex items-center justify-center overflow-hidden">
+<QuilLayout title="Digital Garden Feed" activeMenu="home">
+  <div class="space-y-6">
     
-        <div class="absolute inset-0 -z-10">
-          <img
-            src="/assets/front_banner.jpg"
-            alt="Hero bg"
-            class="h-full w-full object-cover object-center"
-          />
-          <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px]"></div>
+    <!-- Ucapan Selamat Datang / Preamble Hub -->
+    <div class="pb-4 border-b border-zinc-900">
+      <h2 class="text-xl font-bold text-zinc-100 flex items-center gap-2">
+        <span class="w-1.5 h-4 bg-quilAccent rounded-full"></span>
+        Recent Garden Entries
+      </h2>
+      <p class="text-xs text-zinc-500 mt-1">Mengarsip fragmen pemikiran logis, rancangan kode, dan catatan harian.</p>
+    </div>
+
+    <!-- FEED CARD UTAMA -->
+    <div class="space-y-4">
+      {paginatedNotes.length === 0 ? (
+        <div class="text-center py-12 text-zinc-600 italic text-sm">
+          Belum ada catatan yang ditulis di folder content/notes/.
         </div>
-      
-        <div class="max-w-4xl px-6 text-center text-white">
-          <h1 class="text-4xl font-extrabold tracking-tight sm:text-6xl">
-            Desain Landing Page Profesional
-          </h1>
-          <p class="mt-4 text-xl text-zinc-200">
-            Section ini akan selalu pas satu layar, apa pun perangkat yang digunakan.
-          </p>
-          <div class="mt-8">
-            <button class="rounded-md bg-cyan-500 px-5 py-3 font-semibold text-white hover:bg-cyan-600 transition">
-              Mulai Sekarang
-            </button>
-          </div>
-        </div>
-  	</section>
-</Layout>
+      ) : (
+        paginatedNotes.map((note) => {
+          const formattedDate = new Date(note.data.date).toLocaleDateString('id-ID', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          });
+
+          return (
+            <article class="p-5 bg-zinc-900/10 border border-zinc-800/50 hover:border-quilAccent/20 rounded-2xl transition-all duration-200 shadow-sm hover:shadow-md flex flex-col md:flex-row gap-5 group relative overflow-hidden">
+              
+              <!-- Thumbnail Kecil Samping (Jika Ada Gambar Spasial) -->
+              {note.data.img && (
+                <div class="w-full md:w-40 h-28 rounded-xl overflow-hidden border border-zinc-900 shrink-0 bg-zinc-950">
+                  <img src={note.data.img} alt={note.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-80 group-hover:opacity-100" />
+                </div>
+              )}
+
+              <!-- Informasi Konten Utama -->
+              <div class="flex flex-col justify-between flex-grow gap-2">
+                <div class="space-y-1">
+                  
+                  <div class="flex items-center gap-2.5 text-[10px] font-mono text-zinc-500">
+                    <time datetime={note.data.date.toISOString()}>{formattedDate}</time>
+                    <span>•</span>
+                    <span class="text-zinc-400">{note.data.category}</span>
+                  </div>
+
+                  <a href={`/quil-notes/${note.id}`} class="block group">
+                    <h3 class="text-base font-bold text-zinc-200 group-hover:text-quilText transition-colors line-clamp-1">
+                      {note.data.title}
+                    </h3>
+                  </a>
+
+                  {note.data.description && (
+                    <p class="text-xs text-zinc-400 font-light leading-relaxed line-clamp-2 pt-0.5">
+                      {note.data.description}
+                    </p>
+                  )}
+                </div>
+
+                <!-- Cetak Tag di Bawah Kartu -->
+                {note.data.tags && note.data.tags.length > 0 && (
+                  <div class="flex flex-wrap gap-1.5 pt-1">
+                    {note.data.tags.map((tag: string) => (
+                      <a 
+                        href={`/quil-notes/tags/${tag.toLowerCase()}`}
+                        class="text-[9px] font-medium font-mono bg-zinc-900 text-zinc-500 border border-zinc-900 px-2 py-0.5 rounded hover:border-quilAccent/20 hover:text-zinc-400 transition-all"
+                      >
+                        #{tag}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+            </article>
+          );
+        })
+      )}
+    </div>
+
+    <!-- KOMPONEN PAGINATION CONTROLLER -->
+    <Pagination currentPage={currentPage} totalPages={totalPages} />
+
+  </div>
+</QuilLayout>
+
+<!-- Hidrasikan Svelte Component di Sisi Klien -->
+<SearchBar searchIndex={searchIndex} client:load />

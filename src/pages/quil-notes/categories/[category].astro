@@ -1,0 +1,84 @@
+---
+import { getCollection } from 'astro:content';
+import QuilLayout from '../../../layouts/QuilLayout.astro';
+
+// 1. Ekstrak seluruh variasi kategori yang unik untuk dipetakan sebagai rute URL statis
+export async function getStaticPaths() {
+  const allNotes = await getCollection('notes');
+  
+  // Ambil semua kategori dari frontmatter catatan, bersihkan string, hilangkan duplikasi
+  const allCategories = allNotes.map((note) => note.data.category).filter(Boolean);
+  const uniqueCategories = [...new Set(allCategories)].filter((c) => c.trim() !== '');
+
+  return uniqueCategories.map((category) => {
+    // Saring catatan yang memiliki kategori ini (case-insensitive)
+    const filteredNotes = allNotes.filter((note) =>
+      note.data.category?.toLowerCase() === category.toLowerCase()
+    );
+
+    return {
+      params: { category: category.toLowerCase() }, // Menghasilkan URL: /quil-notes/categories/dream
+      props: { categoryName: category, notes: filteredNotes },
+    };
+  });
+}
+
+const { categoryName, notes } = Astro.props;
+---
+
+<QuilLayout title={`Category: ${categoryName}`}>
+  <div class="space-y-6">
+    
+    <div class="pb-4 border-b border-zinc-900">
+      <h2 class="text-xl font-bold text-zinc-100 flex items-center gap-2">
+        <svg class="w-4 h-4 text-quilAccent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+        </svg>
+        Daftar Catatan Kategori: <span class="text-quilText">{categoryName}</span>
+      </h2>
+      <p class="text-xs text-zinc-500 mt-1">Ditemukan {notes.length} entri catatan yang relevan.</p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4">
+      {notes.map((note) => (
+        <div class="p-5 bg-zinc-900/20 border border-zinc-800/60 rounded-xl hover:border-quilAccent/30 transition-all group flex flex-col justify-between gap-3">
+          
+          <div class="space-y-2">
+            <div class="flex items-center gap-3 text-[11px] font-mono text-zinc-500">
+              <time>{new Date(note.data.date).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
+              <span>•</span>
+              <span class="text-quilText font-medium">{note.data.category}</span>
+            </div>
+            
+            <a href={`/quil-notes/${note.id}`} class="block">
+              <h3 class="text-base font-bold text-zinc-200 group-hover:text-quilText transition-colors line-clamp-1">
+                {note.data.title}
+              </h3>
+            </a>
+            
+            {note.data.description && (
+              <p class="text-xs text-zinc-400 font-light line-clamp-2 leading-relaxed">
+                {note.data.description}
+              </p>
+            )}
+          </div>
+
+          {note.data.tags && note.data.tags.length > 0 && (
+            <div class="flex flex-wrap gap-1.5 pt-2">
+              {note.data.tags.map((t: string) => (
+                <a
+                  href={`/quil-notes/tags/${t.toLowerCase()}`}
+                  class="text-[9px] font-mono px-1.5 py-0.5 rounded border bg-zinc-950 border-zinc-900 text-zinc-500 hover:text-zinc-400 transition-colors"
+                >
+                  #{t}
+                </a>
+              ))}
+            </div>
+          )}
+
+        </div>
+      ))}
+    </div>
+
+  </div>
+</QuilLayout>

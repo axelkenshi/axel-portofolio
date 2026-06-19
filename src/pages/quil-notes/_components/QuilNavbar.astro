@@ -1,0 +1,245 @@
+---
+import SearchBar from './SearchBar.svelte';
+import { getCollection } from 'astro:content';
+
+interface Props {
+  active?: 'home' | 'archive' | 'about' | 'portfolio';
+}
+
+const { active = 'home' } = Astro.props;
+
+// 📑 1. AMBIL DATA UNTUK SEARCH INDEX (BUILD-TIME)
+// Catatan: Ganti 'quil-notes' dengan nama folder koleksi markdown Anda jika berbeda
+const notesCollection = await getCollection('quil-notes').catch(() => []);
+
+const searchIndex = notesCollection.map((note) => ({
+  id: note.slug || note.id,
+  title: note.data.title || 'Untitled',
+  description: note.data.description || '',
+  category: note.data.category || 'General',
+  tags: note.data.tags || [],
+}));
+
+// Navigasi data terpusat lengkap dengan path ikon SVG heroic-style
+const navLinks = [
+  { name: 'Home', href: '/quil-notes', id: 'home', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
+  { name: 'Archive', href: '/quil-notes/archive', id: 'archive', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+  { name: 'About Me', href: '/quil-notes/about', id: 'about', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' },
+  { name: 'Portofolio', href: '/', id: 'hero-section', icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+];
+---
+
+<nav class="w-full max-w-7xl mx-auto bg-quilCard/90 backdrop-blur-md border border-zinc-800/60 rounded-xl h-16 flex items-center justify-between px-6 shadow-xl relative z-50">
+  
+  <a href="/quil-notes" class="flex items-center gap-2 group transition-all active:scale-95">
+    <div class="w-3 h-3 rounded-full bg-quilAccent animate-pulse"></div>
+    <span class="text-quilAccent font-extrabold tracking-tight text-lg group-hover:text-quilText transition-colors">
+      Xnshi Note's
+    </span>
+  </a>
+
+  <div class="hidden md:flex items-center space-x-8">
+    {navLinks.map((link) => (
+      <a
+        href={link.href}
+        class={`text-sm font-medium transition-all duration-200 hover:text-quilText relative py-1
+          ${active === link.id ? 'text-quilAccent font-semibold' : 'text-zinc-400'}`}
+      >
+        {link.name}
+        {active === link.id && (
+          <span class="absolute bottom-0 left-0 w-full h-[2px] bg-quilAccent rounded-full" />
+        )}
+      </a>
+    ))}
+    <a 
+      href="https://github.com" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      class="text-sm font-medium text-zinc-400 hover:text-quilText flex items-center gap-1 transition-colors group"
+    >
+      GitHub 
+      <svg class="w-3 h-3 opacity-60 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+    </a>
+  </div>
+
+  <div class="flex items-center gap-4 relative">
+    
+    <button 
+      onclick="window.openQuilSearch?.()"
+      class="relative hidden sm:flex items-center bg-zinc-900/80 border border-zinc-800 text-xs text-zinc-500 pl-8 pr-4 py-2 rounded-lg w-42 text-left hover:border-zinc-700 cursor-pointer transition-all active:scale-[0.98]"
+    >
+      <svg class="w-3.5 h-3.5 text-zinc-500 absolute left-2.5 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+      <span>Search...</span>
+      <span class="absolute right-2 px-1.5 py-0.5 bg-zinc-950 text-[9px] rounded border border-zinc-800 font-mono">/</span>
+    </button>
+
+    <button 
+      id="paletteBtn"
+      class="p-2 bg-zinc-900 hover:bg-quilAccentMuted border border-zinc-800 rounded-lg text-zinc-400 hover:text-quilAccent transition-all cursor-pointer active:scale-95"
+      aria-label="Ubah Warna Aksen"
+    >
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
+    </button>
+
+    <button 
+      id="mobileMenuToggleBtn"
+      class="md:hidden flex flex-col items-center justify-center gap-1 group cursor-pointer focus:outline-none"
+      aria-expanded="false"
+    >
+      <div class="w-9 h-9 rounded-full border border-zinc-800 group-hover:border-zinc-700 bg-zinc-900/40 flex items-center justify-center relative overflow-hidden transition-colors">
+        <svg id="hamburgerMenuIcon" class="w-4 h-4 text-zinc-400 group-hover:text-quilText transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="closeMenuIcon" class="w-4 h-4 text-zinc-400 group-hover:text-quilText absolute opacity-0 scale-75 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </div>
+    </button>
+
+    <div 
+      id="paletteDropdown"
+      class="absolute right-0 top-16 bg-quilCard border border-zinc-800/80 rounded-xl p-4 shadow-2xl w-64 space-y-3 transform scale-95 opacity-0 pointer-events-none transition-all duration-200 z-50"
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-1.5 text-xs font-semibold text-zinc-300">
+          <span class="w-1.5 h-3 bg-quilAccent rounded-full"></span>
+          Theme Color
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="resetHue" class="p-1 hover:bg-zinc-800 text-zinc-500 hover:text-zinc-300 rounded transition-colors cursor-pointer" title="Reset">
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H17" /></svg>
+          </button>
+          <span id="hueValDisplay" class="text-[10px] font-mono px-1.5 py-0.5 bg-quilAccentMuted text-quilText rounded border border-quilAccent/20">180</span>
+        </div>
+      </div>
+      <input type="range" id="hueSlider" min="0" max="360" value="180" class="w-full h-2 rounded-lg appearance-none cursor-pointer border border-zinc-800/50 accent-quilAccent" style="background: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);"/>
+    </div>
+
+    <div 
+      id="mobileMenuDropdownPanel"
+      class="absolute right-0 top-16 bg-zinc-950/95 backdrop-blur-md border border-zinc-900 rounded-2xl p-2.5 shadow-2xl w-60 flex flex-col space-y-1 transform scale-95 opacity-0 pointer-events-none transition-all duration-200 z-50 md:hidden"
+    >
+      {navLinks.map((link) => (
+        <a 
+          href={link.href}
+          class={`flex items-center justify-between px-3 py-2.5 rounded-xl border border-transparent transition-all group/item
+            ${active === link.id ? 'bg-quilAccentMuted/20 border-quilAccent/20 text-quilText' : 'hover:bg-zinc-900/60 text-zinc-400 hover:text-zinc-200'}`}
+        >
+          <div class="flex items-center gap-3">
+            <svg class={`w-4 h-4 transition-colors ${active === link.id ? 'text-quilAccent' : 'text-zinc-500 group-hover/item:text-quilAccent'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={link.icon} />
+            </svg>
+            <span class="text-xs font-semibold tracking-wide">{link.name}</span>
+          </div>
+          <svg class="w-3.5 h-3.5 text-zinc-600 group-hover/item:text-zinc-400 group-hover/item:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      ))}
+
+      <div class="border-t border-zinc-900/80 my-1 mx-2"></div>
+
+      <a 
+        href="https://github.com" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="flex items-center justify-between px-3 py-2.5 rounded-xl text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/60 transition-all group/item"
+      >
+        <div class="flex items-center gap-3">
+          <svg class="w-4 h-4 text-zinc-500 group-hover/item:text-quilAccent transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+          </svg>
+          <span class="text-xs font-semibold tracking-wide">GitHub Project</span>
+        </div>
+        <svg class="w-3.5 h-3.5 text-zinc-600 group-hover/item:text-zinc-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</nav>
+
+{/* 🛠️ 2. PENYUNTIKAN KOMPONEN SVELTE DENGAN STRATEGI HIDRASI AKTIF */}
+<SearchBar client:load searchIndex={searchIndex} />
+
+<script>
+  // --- INISIALISASI ELEMEN ---
+  const paletteBtn = document.getElementById('paletteBtn');
+  const paletteDropdown = document.getElementById('paletteDropdown');
+  const hueSlider = document.getElementById('hueSlider') as HTMLInputElement;
+  const hueValDisplay = document.getElementById('hueValDisplay');
+  const resetHue = document.getElementById('resetHue');
+
+  const mobileMenuToggleBtn = document.getElementById('mobileMenuToggleBtn');
+  const mobileMenuDropdownPanel = document.getElementById('mobileMenuDropdownPanel');
+  const hamburgerMenuIcon = document.getElementById('hamburgerMenuIcon');
+  const closeMenuIcon = document.getElementById('closeMenuIcon');
+
+  // --- LOGIKA TOGGLE MENU UTAMA MOBILE ---
+  mobileMenuToggleBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    paletteDropdown?.classList.add('scale-95', 'opacity-0', 'pointer-events-none'); 
+
+    const isExpanded = mobileMenuToggleBtn.getAttribute('aria-expanded') === 'true';
+    if (isExpanded) {
+      closeMobileMenu();
+    } else {
+      openMobileMenu();
+    }
+  });
+
+  function openMobileMenu() {
+    mobileMenuToggleBtn?.setAttribute('aria-expanded', 'true');
+    mobileMenuDropdownPanel?.classList.remove('scale-95', 'opacity-0', 'pointer-events-none');
+    hamburgerMenuIcon?.classList.add('opacity-0', 'scale-75');
+    closeMenuIcon?.classList.remove('opacity-0', 'scale-75');
+  }
+
+  function closeMobileMenu() {
+    mobileMenuToggleBtn?.setAttribute('aria-expanded', 'false');
+    mobileMenuDropdownPanel?.classList.add('scale-95', 'opacity-0', 'pointer-events-none');
+    hamburgerMenuIcon?.classList.remove('opacity-0', 'scale-75');
+    closeMenuIcon?.classList.add('opacity-0', 'scale-75');
+  }
+
+  // --- INTERAKSI PALETTE HUE SLIDER ---
+  paletteBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeMobileMenu(); 
+    paletteDropdown?.classList.toggle('scale-95');
+    paletteDropdown?.classList.toggle('opacity-0');
+    paletteDropdown?.classList.toggle('pointer-events-none');
+  });
+
+  document.addEventListener('click', () => {
+    paletteDropdown?.classList.add('scale-95', 'opacity-0', 'pointer-events-none');
+    closeMobileMenu();
+  });
+  
+  paletteDropdown?.addEventListener('click', (e) => e.stopPropagation());
+  mobileMenuDropdownPanel?.addEventListener('click', (e) => e.stopPropagation());
+
+  // Sinkronisasi status Hue CSS variabel dengan LocalStorage
+  const initialHue = localStorage.getItem('quil-theme-hue') || '180';
+  if (hueSlider && hueValDisplay) {
+    hueSlider.value = initialHue;
+    hueValDisplay.textContent = initialHue;
+  }
+
+  hueSlider?.addEventListener('input', (e) => {
+    const value = (e.target as HTMLInputElement).value;
+    if (hueValDisplay) hueValDisplay.textContent = value;
+    document.documentElement.style.setProperty('--theme-hue', value);
+    localStorage.setItem('quil-theme-hue', value);
+  });
+
+  resetHue?.addEventListener('click', () => {
+    if (hueSlider && hueValDisplay) {
+      hueSlider.value = '180';
+      hueValDisplay.textContent = '180';
+      document.documentElement.style.setProperty('--theme-hue', '180');
+      localStorage.setItem('quil-theme-hue', '180');
+    }
+  });
+</script>

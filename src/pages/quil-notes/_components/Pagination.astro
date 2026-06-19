@@ -1,0 +1,48 @@
+---
+interface Props {
+  currentPage: number;
+  totalPages: number;
+}
+
+const { currentPage, totalPages } = Astro.props;
+
+const hasPrev = currentPage > 1;
+const hasNext = currentPage < totalPages;
+---
+
+{totalPages > 1 && (
+  <div class="flex items-center justify-between pt-6 border-t border-zinc-900 mt-4">
+    <!-- Tombol Previous -->
+    {hasPrev ? (
+      <a 
+        href={currentPage === 2 ? "/quil-notes" : `/quil-notes/page/${currentPage - 1}`}
+        class="px-3 py-1.5 text-xs font-medium rounded-lg bg-zinc-900 text-zinc-400 hover:text-quilText border border-zinc-800 hover:border-quilAccent/30 transition-colors"
+      >
+        ← Newer Posts
+      </a>
+    ) : (
+      <span class="px-3 py-1.5 text-xs text-zinc-600 bg-zinc-900/20 border border-zinc-900 rounded-lg cursor-not-allowed opacity-50">
+        ← Newer Posts
+      </span>
+    )}
+
+    <!-- Indikator Halaman Tengah -->
+    <span class="text-xs font-mono text-zinc-500">
+      Page <span class="text-quilText font-bold">{currentPage}</span> of {totalPages}
+    </span>
+
+    <!-- Tombol Next -->
+    {hasNext ? (
+      <a 
+        href={`/quil-notes/page/${currentPage + 1}`}
+        class="px-3 py-1.5 text-xs font-medium rounded-lg bg-zinc-900 text-zinc-400 hover:text-quilText border border-zinc-800 hover:border-quilAccent/30 transition-colors"
+      >
+        Older Posts →
+      </a>
+    ) : (
+      <span class="px-3 py-1.5 text-xs text-zinc-600 bg-zinc-900/20 border border-zinc-900 rounded-lg cursor-not-allowed opacity-50">
+        Older Posts →
+      </span>
+    )}
+  </div>
+)}

@@ -1,0 +1,68 @@
+---
+import QuilLayout from '../../layouts/QuilLayout.astro';
+
+// Definisikan tech stack yang kita gunakan untuk Quil Notes sebagai data statis
+const techStacks = [
+  { name: 'Astro 5.x', role: 'Meta-framework & Island Architecture', icon: '🚀' },
+  { name: 'Tailwind CSS v4', role: 'Next-gen CSS Utility Engine & Theme Hue Variable', icon: '🎨' },
+  { name: 'Svelte 5', role: 'Reactive Client-side Instant Search Engine', icon: '⚡' },
+  { name: 'Astro Content Layer', role: 'Type-safe Markdown Data Fetching', icon: '📂' },
+];
+---
+
+<QuilLayout title="About Me & This Garden" activeMenu="about">
+  <div class="space-y-8 animate-fade-in">
+    
+    <div class="pb-4 border-b border-zinc-900">
+      <h2 class="text-xl font-bold text-zinc-100 flex items-center gap-2">
+        <span class="w-1.5 h-4 bg-quilAccent rounded-full"></span>
+        About This Space
+      </h2>
+      <p class="text-xs text-zinc-500 mt-1">Mengenal lebih dekat di balik layar pembuatan Quil Notes.</p>
+    </div>
+
+    <div class="space-y-4 text-sm leading-relaxed text-zinc-300 font-light">
+      <p>
+        Selamat datang di <span class="text-quilText font-semibold">Quil Notes</span>! Ini adalah sepetak <span class="italic">Digital Garden</span> personal—sebuah ruang alternatif di luar portofolio utama yang saya gunakan untuk mencatat perjalanan belajar, merangkum dokumentasi teknis, menanam cetak biru arsitektur kode, hingga membagikan pemikiran acak seputar teknologi.
+      </p>
+      <p>
+        Berbeda dengan blog konvensional yang kaku, ruang ini dirancang dengan filosofi kebun digital: catatan di sini akan terus bertumbuh, diperbarui, dan saling terhubung satu sama lain seiring berkembangnya pemahaman saya terhadap suatu topik.
+      </p>
+    </div>
+
+    <div class="space-y-4 pt-4">
+      <h3 class="text-sm font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-2">
+        <svg class="w-4 h-4 text-quilAccent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        Behind The Core Tech
+      </h3>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {techStacks.map((tech) => (
+          <div class="p-3.5 bg-zinc-900/40 border border-zinc-800/80 rounded-xl flex items-start gap-3 hover:border-quilAccent/20 transition-colors group">
+            <span class="text-xl p-1 bg-zinc-950 border border-zinc-900 rounded-lg group-hover:scale-110 transition-transform shrink-0">
+              {tech.icon}
+            </span>
+            <div>
+              <h4 class="text-xs font-bold text-zinc-200 group-hover:text-quilText transition-colors">{tech.name}</h4>
+              <p class="text-[11px] text-zinc-500 font-light mt-0.5 leading-snug">{tech.role}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="pt-6">
+      <div class="p-4 bg-gradient-to-br from-zinc-900/80 to-zinc-950/40 border border-zinc-800/60 rounded-2xl relative overflow-hidden group">
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-quilAccentMuted/10 rounded-full blur-xl group-hover:bg-quilAccentMuted/20 transition-all"></div>
+        
+        <p class="text-xs text-zinc-400 italic text-center leading-relaxed">
+          "Satu baris kode atau satu paragraf jurnal hari ini adalah investasi pemahaman bagi diri kita sendiri di masa depan."
+        </p>
+      </div>
+    </div>
+
+  </div>
+</QuilLayout>

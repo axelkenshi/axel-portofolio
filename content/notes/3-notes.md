@@ -1,10 +1,10 @@
 ---
-title: "second"
+title: "Aviation"
 description: "blabla"
 img: "https://plus.unsplash.com/premium_photo-1679917737872-1ad9402cf39f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D"
 tags: ["Opinion"]
-date: 2026-05-16
-category: "Dream"
+date: 2026-05-12
+category: "school"
 ---
 
 ## Dentuman Keras di Awan: Saat Rutinitas Pagiku Diganggu Airbus yang Terbang Terbalik

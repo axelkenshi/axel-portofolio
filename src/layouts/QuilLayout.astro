@@ -1,0 +1,65 @@
+---
+// 1. Sekarang jalurnya sangat pendek dan dijamin terbaca sempurna oleh Vite
+import '../styles/global.css';
+// 2. Sesuaikan jalur impor ke arah komponen Quil yang berada di folder pages
+import QuilNavbar from '../pages/quil-notes/_components/QuilNavbar.astro';
+import QuilSidebar from '../pages/quil-notes/_components/QuilSidebar.astro';
+
+interface Props {
+  title: string;
+  activeMenu?: 'home' | 'archive' | 'about';
+}
+
+const { title, activeMenu = 'home' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="id" class="quil-scrollbar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | Quil Notes</title>
+    
+    <!-- SCRIPT ANTI-KEDIP (BLOCKING EXECUTION) -->
+    <script is:inline>
+      // Ambil hue tersimpan atau gunakan default 180 (Teal)
+      const savedHue = localStorage.getItem('quil-theme-hue') || '180';
+      document.documentElement.style.setProperty('--theme-hue', savedHue);
+      
+      // Paksa halaman Quil Notes selalu menggunakan basis tema gelap ekosistem Fuwari
+      document.documentElement.classList.add('dark');
+    </script>
+  </head>
+  
+  <body class="bg-quilBg text-zinc-300 font-source-sans antialiased min-h-screen flex flex-col selection:bg-quil-accent-muted selection:text-quil-text">
+    
+    <!-- HEADER / NAVIGATION (Akan kita isi di Tahap 3) -->
+    <header class="sticky top-0 z-40 w-full px-4 pt-4">
+      <QuilNavbar active={activeMenu} />
+    </header>
+
+    <!-- CONTAINER DUA KOLOM UTAMA -->
+    <main class="w-full max-w-7xl mx-auto px-4 py-6 flex-grow grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- KOLOM KIRI: SIDEBAR (PROFIL, KATEGORI, TAGS) SIDEBAR AUTOMATED TAKSONOMI -->
+      <aside class="lg:col-span-3">
+        <QuilSidebar />
+      </aside>
+
+      <!-- KOLOM KANAN: KONTEN DINAMIS (DIUNGKUS .quil-garden AGAR KONTEN PROSE IKUT DINAMIS) -->
+      <section class="lg:col-span-9 quil-garden flex flex-col gap-6">
+        <div class="bg-quilCard border border-zinc-800/60 rounded-2xl p-6 lg:p-8 shadow-xl flex-grow">
+          <slot />
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="w-full text-center py-8 text-xs text-zinc-600 border-t border-zinc-900/60 mt-12 bg-quilCard/20">
+      <p>© {new Date().getFullYear()} Axel Kenshi. All Rights Reserved. / <span class="text-quilText">RSS</span> / <span class="text-quilText">Sitemap</span></p>
+      <p class="text-[10px] text-zinc-700 mt-1">Powered by Astro & Custom Fuwari-style Engine</p>
+    </footer>
+
+  </body>
+</html>
