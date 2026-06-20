@@ -1,15 +1,15 @@
 ---
-title: "why you so lazy"
-description: "idk care"
+title: "Mimpi pesawat menukik terbalik"
+description: "Aneh tapi riil loh. random amat"
 img: "https://plus.unsplash.com/premium_photo-1679917737872-1ad9402cf39f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D"
-tags: ["Opinion"]
-date: 2026-01-11
-category: "holiday"
+tags: ["DayDream"]
+date: 2026-06-16
+category: "Dream"
 ---
 
 ## Dentuman Keras di Awan: Saat Rutinitas Pagiku Diganggu Airbus yang Terbang Terbalik
 
-Hai semuanya, selamat datang kembali di sudut kecil internet milikku.  
+Hai semuanya, selamat datang kembali di sudut kecil catatan milikku.  
 Kalau kamu udah lama di sini, kamu pasti tahu aku suka cerita hal-hal aneh dan nggak biasa yang lewat di hidupku. Tapi yang kejadian pagi ini masih nempel banget di kepala. Itu nggak nyata, setidaknya belum, dan semoga nggak pernah. Itu cuma mimpi. Tapi serius, rasanya _bener-bener_ nyata. Pas kebangun, jantungku masih deg-degan, dan aku langsung tahu harus ngetik ini sebelum detailnya keburu hilang.
 
 Jadi, gini ceritanya...
@@ -49,5 +49,3 @@ Belum lagi ending gantungnya. Denger dentuman keras tanpa tahu nasib pesawatnya,
 Jemur pakaian pagi hari itu simbol paling pas buat ketenangan dan rutinitas, yang tiba-tiba diserbu kekacauan dari langit.
 
 Kalian pernah nggak mimpi sejelas dan seaneh ini? Yang bikin kamu duduk di pinggir kasur 10 menit cuma buat nyerna mana yang nyata?
-
-Tulis pendapatmu di kolom komentar ya, kita tukeran cerita aneh minggu ini. _Stay safe, semuanya!_
