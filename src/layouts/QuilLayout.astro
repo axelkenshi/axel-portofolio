@@ -25,7 +25,14 @@ const { title, activeMenu = 'home' } = Astro.props;
     <meta name="apple-mobile-web-app-title" content="Axel" />
     <link rel="manifest" href="/site.webmanifest" />
     <title>{title} | Quil Notes</title>
-    
+
+    <!-- rss -->
+    <link 
+      rel="alternate" 
+      type="application/rss+xml" 
+      title="RSS Feed untuk Quil Notes" 
+      href="/rss.xml" 
+    />
     <!-- SCRIPT ANTI-KEDIP (BLOCKING EXECUTION) -->
     <script is:inline>
       // Ambil hue tersimpan atau gunakan default 180 (Teal)
@@ -63,7 +70,30 @@ const { title, activeMenu = 'home' } = Astro.props;
 
     <!-- FOOTER -->
     <footer class="w-full text-center py-8 text-xs text-zinc-600 border-t border-zinc-900/60 mt-12 bg-quilCard/20">
-      <p>© {new Date().getFullYear()} Axel Kenshi. All Rights Reserved. / <span class="text-quilText">RSS</span> / <span class="text-quilText">Sitemap</span></p>
+      <p>
+        © {new Date().getFullYear()} Axel Kenshi. All Rights Reserved. 
+        <span class="mx-1.5 text-zinc-800">/</span> 
+        
+        <a 
+          href="/rss.xml" 
+          target="_blank" 
+          data-astro-reload
+          class="text-quilText hover:text-quilAccent transition-colors duration-200 font-medium hover:underline"
+        >
+          RSS
+        </a> 
+        
+        <span class="mx-1.5 text-zinc-800">/</span> 
+        
+        <a 
+          href="/sitemap-index.xml" 
+          target="_blank" 
+          data-astro-reload
+          class="text-quilText hover:text-quilAccent transition-colors duration-200 font-medium hover:underline"
+        >
+          Sitemap
+        </a>
+      </p>
       <p class="text-[10px] text-zinc-700 mt-1">Powered by Astro + Svelte & Refers Fuwari-style Engine</p>
     </footer>
 

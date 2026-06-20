@@ -3,7 +3,7 @@ title: "Mimpi pesawat menukik terbalik"
 description: "Aneh tapi riil loh. random amat"
 img: "https://plus.unsplash.com/premium_photo-1679917737872-1ad9402cf39f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D"
 tags: ["DayDream"]
-date: 2026-06-16
+date: 2026-06-14
 category: "Dream"
 ---
 

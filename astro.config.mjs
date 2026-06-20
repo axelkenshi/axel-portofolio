@@ -4,6 +4,8 @@ import svelte from "@astrojs/svelte";
 import tailwindcss from "@tailwindcss/vite";
 import remarkDirective from "remark-directive";
 import { visit } from "unist-util-visit";
+// rss & sitemap
+import sitemap from "@astrojs/sitemap";
 
 // custom remark plugin to embed YouTube videos
 function remarkEmbed() {
@@ -98,13 +100,14 @@ function remarkCallouts() {
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://axelkenshi.my.id",
   devToolbar: {
     enabled: false,
   },
   markdown: {
     remarkPlugins: [remarkDirective, remarkEmbed, remarkCallouts],
   },
-  integrations: [svelte()],
+  integrations: [svelte(),sitemap()],
   prefetch: {
     prefetchAll: false, // Hanya prefetch link dengan data-astro-prefetch
     defaultStrategy: "hover", // download HTML saat user hover link

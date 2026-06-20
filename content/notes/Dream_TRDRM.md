@@ -3,7 +3,7 @@ title: "Mengintip Alam Bawah Sadar: Kisah Tiga Mimpi dalam Satu Malam"
 description: "Sebagian dari Anda mungkin pernah mengalami serangkaian mimpi semalam, dan Anda mungkin berpikir mimpi-mimpi itu acak dan tidak bermakna. Tetapi jika Anda memikirkannya, mimpi-mimpi itu mungkin memiliki benang merah yang sama."
 img: "https://images.unsplash.com/photo-1695149567315-05ad426115ae?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTMwfHxob3RzcHJpbmd8ZW58MHx8MHx8fDA%3D"
 tags: ["DayDream"]
-date: 2026-05-28
+date: 2026-05-12
 category: "Dream"
 ---
 

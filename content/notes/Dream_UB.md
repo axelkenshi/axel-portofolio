@@ -3,7 +3,7 @@ title: "Mimpi Bertemu Gadis Aneh di Pohon Misterius"
 description: "Mimpi ini menggambarkan pertemuan dengan sosok roh gadis di pohon misterius, yang menjadi simbol unfinished business masa lalu sekaligus pesan pelepasan agar kita bisa hidup tenang tanpa ganjalan."
 img: "https://plus.unsplash.com/premium_photo-1723983556769-47fd055e9286?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDI3fHx8ZW58MHx8fHx8"
 tags: ["DayDream"]
-date: 2026-06-16
+date: 2026-05-27
 category: "Dream"
 ---
 

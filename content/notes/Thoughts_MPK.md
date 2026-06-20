@@ -18,8 +18,6 @@ Inilah esensi dari pengetahuan: senjata sunyi yang menentukan hasil akhir jauh s
 
 ---
 
-![gif](https://media.tenor.com/hPgnr1WxKTMAAAAM/classroom-of-the-elite-kiyotaka-ayanokoji.gif)
-
 ## Pengetahuan sebagai Senjata
 
 Pengetahuan lebih dari sekadar informasi. Pengetahuan adalah **wawasan (*insight*)** — kemampuan untuk menghubungkan berbagai titik, mengantisipasi hasil, dan bertindak dengan kejelasan. Dalam situasi apa pun, mereka yang memahami lebih banyak akan:  
@@ -32,6 +30,8 @@ Pengetahuan dapat digunakan sebagai alat untuk mencapai kemenangan/superioritas/
 Sebaliknya, ketidaktahuan adalah sebuah kelemahan. Menjadi tidak terampil atau tidak berwawasan di bidang tertentu sama saja dengan berjalan ke medan perang tanpa senjata dan tanpa taktik, hanya bisa berharap keberuntungan akan melindungi kita.
 
 ---
+
+![gif](https://media.tenor.com/rqqRD_Fon9UAAAAM/classroom-of-the-elite-classroom-of-the-elite-season-3.gif)
 
 ## Contoh dalam Kehidupan Nyata
 
