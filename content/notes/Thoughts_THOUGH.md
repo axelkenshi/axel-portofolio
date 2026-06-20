@@ -48,6 +48,6 @@ Kesadaran ini membuatku merasa kecil sekaligus rendah hati. Ia mengingatkanku ba
 
 Dunia mungkin tidak dapat diprediksi, tetapi pikiran kita tetap menjadi benih dari setiap ciptaan. Mereka adalah arsitek tak kasatmata dari segala hal yang kita lihat di sekitar kita, bidak-bidak domino yang jatuh satu demi satu untuk membentuk jalannya peradaban.  
 
-> *“Peradaban adalah efek domino dari imajinasi manusia, yang runtuh berantai melintasi generasi.”*  
+> *Peradaban adalah efek domino dari imajinasi manusia, yang runtuh berantai melintasi generasi.*  
 
 ---

@@ -92,6 +92,6 @@ Dari kisah-kisah ini, beberapa strategi dapat diterapkan:
 Satu blunder bisa menghapus seribu prestasi. Namun, setiap blunder juga membawa benih kebijaksanaan. Tantangannya bukan hanya bagaimana menghindari kesalahan, melainkan bagaimana belajar darinya, bangkit dengan lebih kuat, dan menjaga satu-satunya harta karun yang tidak bisa digantikan: reputasi.  
 Hal ini mengajarkan kita bukan untuk sempurna, tapi untuk terus belajar dan beradaptasi dalam menghadapi perubahan dan tantangan yang beresiko.  
 
-> *“Kesalahan bisa diperbaiki, prestasi bisa diulang, tetapi reputasi hanya dibangun sekali — dan harus dilindungi hingga akhir.”*  
+> Kesalahan bisa diperbaiki, prestasi bisa diulang, tetapi reputasi hanya dibangun sekali — dan harus dilindungi hingga akhir.  
 
 ---

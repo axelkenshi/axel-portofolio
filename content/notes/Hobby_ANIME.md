@@ -11,11 +11,12 @@ category: "Hobby"
 > I'll explain with my own delivery as an overview, not a spoiler.  
 > the purpose of documenting all of this is so that I don't forget the many masterpieces I've enjoyed.  
 
-> If you want to translate into another language, please use the translate feature in your browser, it might be a bit messy, like the title changing its meaning-- so I suggest translating only for the purpose of seeing the overview.  
-
+:::tip
+If you want to translate into another language, please use the translate feature in your browser, it might be a bit messy, like the title changing its meaning-- so I suggest translating only for the purpose of seeing the overview.  
+:::
 
 > Save this blog url if you like the content I present is relavant to you.  
-> My notes are eternal, I'll keep updating them.  
+> My notes are eternal, I'll keep updating them everytime.  
 > So maybe you can come back to read them later.  
 
 

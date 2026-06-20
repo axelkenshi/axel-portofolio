@@ -41,7 +41,7 @@ Sensasinya terasa begitu nyata dan menyiksa, mendorongku hingga ke batas maksima
 
 Setelah merenungkan bagaimana mimpi ini berkembang—dari kegembiraan tanpa beban di pemandian air panas hingga kepanikan total di tengah kerumunan—aku menyadari sebuah kebenaran mendalam tentang apa yang sedang terjadi dalam hidupku saat ini:  
 
-> **"Setiap kali kita memiliki keinginan yang kuat untuk melepaskan diri dan berkembang (Mimpi 1), kita pasti akan menghadapi risiko yang mengintai atau ketakutan yang mendalam di sepanjang jalan (Mimpi 2). Gesekan antara keinginan kita untuk maju dan ketakutan akan kegagalan dialah yang pada akhirnya memicu kecemasan akan kehilangan kendali di depan orang lain (Mimpi 3)."**  
+> **Setiap kali kita memiliki keinginan yang kuat untuk melepaskan diri dan berkembang (Mimpi 1), kita pasti akan menghadapi risiko yang mengintai atau ketakutan yang mendalam di sepanjang jalan (Mimpi 2). Gesekan antara keinginan kita untuk maju dan ketakutan akan kegagalan dialah yang pada akhirnya memicu kecemasan akan kehilangan kendali di depan orang lain (Mimpi 3).**  
 
 Mimpi ini adalah sebuah teguran keras (*wakeup call*) dari sisi dalam diriku, mengingatkan bahwa saat ini aku sedang menghadapi keputusan atau transisi besar dalam hidup. Sangat wajar untuk merasa takut dan ragu. Kuncinya bukanlah menghindari "buaya-buaya" di jalan kita atau memendam tekanan hingga kita meledak—melainkan mengenali kapan harus melangkah hati-hati dan kapan harus berdamai dengan kecemasan kita sendiri.  
 

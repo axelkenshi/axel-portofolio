@@ -112,10 +112,10 @@ const navLinks = [
           <button id="resetHue" class="p-1 hover:bg-zinc-800 active:bg-zinc-800 text-zinc-500 hover:text-zinc-300 active:text-zinc-300 rounded transition-colors cursor-pointer" title="Reset">
             <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H17" /></svg>
           </button>
-          <span id="hueValDisplay" class="text-[10px] font-mono px-1.5 py-0.5 bg-quilAccentMuted text-quilText rounded border border-quilAccent/20">180</span>
+          <span id="hueValDisplay" class="text-[10px] font-mono px-1.5 py-0.5 bg-quilAccentMuted text-quilText rounded border border-quilAccent/20">72</span>
         </div>
       </div>
-      <input type="range" id="hueSlider" min="0" max="360" value="180" class="w-full h-2 rounded-lg appearance-none cursor-pointer border border-zinc-800/50 accent-quilAccent" style="background: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);"/>
+      <input type="range" id="hueSlider" min="0" max="360" value="72" class="w-full h-2 rounded-lg appearance-none cursor-pointer border border-zinc-800/50 accent-quilAccent" style="background: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);"/>
     </div>
 
     <div 
@@ -224,7 +224,7 @@ const navLinks = [
   mobileMenuDropdownPanel?.addEventListener('click', (e) => e.stopPropagation());
 
   // Sinkronisasi status Hue CSS variabel dengan LocalStorage
-  const initialHue = localStorage.getItem('quil-theme-hue') || '180';
+  const initialHue = localStorage.getItem('quil-theme-hue') || '72';
   if (hueSlider && hueValDisplay) {
     hueSlider.value = initialHue;
     hueValDisplay.textContent = initialHue;
@@ -239,10 +239,10 @@ const navLinks = [
 
   resetHue?.addEventListener('click', () => {
     if (hueSlider && hueValDisplay) {
-      hueSlider.value = '180';
-      hueValDisplay.textContent = '180';
-      document.documentElement.style.setProperty('--theme-hue', '180');
-      localStorage.setItem('quil-theme-hue', '180');
+      hueSlider.value = '72';
+      hueValDisplay.textContent = '72';
+      document.documentElement.style.setProperty('--theme-hue', '72');
+      localStorage.setItem('quil-theme-hue', '72');
     }
   });
 </script>

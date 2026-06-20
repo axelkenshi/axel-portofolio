@@ -55,7 +55,7 @@ Di momen-momen itu, aku belajar bahwa kesendirian adalah sebuah kutukan sekaligu
 
 Kenyataannya, pikiran akan selalu mencari pelampiasan. Ketika tidak ada orang lain di sana, kita harus menjadi saksi bagi diri kita sendiri. Kita harus menerima bahwa tidak setiap pikiran membutuhkan validasi, tidak setiap beban harus dibagi.  
 
-> *“Kesendirian bukanlah absennya sebuah dialog, melainkan hadirnya percakapan yang lebih mendalam dengan diri sendiri.”*  
+> *Kesendirian bukanlah absennya sebuah dialog, melainkan hadirnya percakapan yang lebih mendalam dengan diri sendiri.*  
 > *Dan Resonansi adalah jembatan antar-pikiran. Tanpanya, kesendirian menjadi berat. Bersamanya, keheningan pun terasa lebih ringan.*
 
 ---

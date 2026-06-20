@@ -100,7 +100,7 @@ Bayangkan seorang jenderal yang bersiap untuk perang: pola pikir adalah moral pa
 
 Pengetahuan bukan hanya tentang superioritas atas orang lain — melainkan tentang **penguasaan atas diri kita sendiri**. Semakin banyak yang kita tahu, semakin berkurang kendali rasa takut, ketidakpastian, atau tipu daya atas diri kita. Dalam artian ini, pengetahuan adalah senjata sekaligus cahaya: ia melindungi kita sekaligus menuntun kita.  
 
-> *“Ketidaktahuan adalah kemiskinan yang sejati; pengetahuan adalah kekayaan yang tidak akan pernah bisa dicuri oleh siapa pun.”*
+> *Ketidaktahuan adalah kemiskinan yang sejati; pengetahuan adalah kekayaan yang tidak akan pernah bisa dicuri oleh siapa pun.*
 
 ---
 
@@ -114,8 +114,8 @@ Dan ketika pengetahuan itu melebur dengan pola pikir, ia menjadi lebih dari seka
 
 ## Akhir yang Puitis
 
-> *“Duel paling tajam selalu dimenangkan sebelum serangan pertama dilancarkan —  
+> *Duel paling tajam selalu dimenangkan sebelum serangan pertama dilancarkan —  
 > bukan oleh kekuatan lengan,  
-> melainkan oleh keputusan yang tersimpan di dalam pikiran.”*
+> melainkan oleh keputusan yang tersimpan di dalam pikiran.*
 
 Wawasan dan pola pikir adalah kombinasi aset yang terus bertumbuh, berguna, dan berharga yang tidak dapat dicuri setelah semua upaya kita. Namun, ia dapat dialirkan dengan cara diajarkan, guna membagikan sebuah pola pandang yang baru.

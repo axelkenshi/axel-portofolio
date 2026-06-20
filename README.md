@@ -45,6 +45,9 @@ pages/index.astro is the entry point for the home page.
 ```text
 ├── public/   # Assets statis seperti gambar, favicon, dll.
 │
+├── scripts/   # Scripts untuk generate content (via CLI bun new-notes, bun new-blog)
+│   └── generate-content.js
+│
 ├── content/
 │   ├── blogging/            # File Markdown (.md) untuk blog profesional
 │   │   └── post-1.md

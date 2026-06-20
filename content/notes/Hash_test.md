@@ -1,5 +1,5 @@
 ---
-title: "Arahan menggunakan notes ini"
+title: "Syntax notes ini (Developer mode)"
 description: "Mengupas tuntas Fenomena mimpi secara neurosains, psikologis, dan spiritualitas."
 img: ""
 tags: []

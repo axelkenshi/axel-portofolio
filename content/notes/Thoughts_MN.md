@@ -93,6 +93,6 @@ Aku membayangkan masyarakat sebagai sebuah struktur bangunan yang menjulang ting
 
 Namun jika mereka yang di atas menyalahgunakan ketinggiannya, condong terlalu jauh, keretakan akan dimulai dari bawah. Menara itu akan bergetar, dan fondasi yang menopangnya terancam hancur berantakan.  
 
-> *“Kebangsawanan modern adalah sebuah menara: dikagumi dari bawah, rapuh di intinya. Kekuatannya tidak bergantung pada kemilau di puncaknya, melainkan pada ketangguhan mereka yang memikulnya dari bawah.”*  
+> *Kebangsawanan modern adalah sebuah menara: dikagumi dari bawah, rapuh di intinya. Kekuatannya tidak bergantung pada kemilau di puncaknya, melainkan pada ketangguhan mereka yang memikulnya dari bawah.*  
 
 ---

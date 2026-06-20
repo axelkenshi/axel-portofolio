@@ -67,7 +67,7 @@ Kamu akan menemukan bahwa paparan yang terkendali dan berulang-ulang akan mengik
 
 - Ganti kalimat “Aku merasa ngeri” dengan “Aku merasa berenergi oleh tantangan ini.”  
 - Tangkap dialog batin (*self-talk*) yang negatif dan alihkan menjadi rasa ingin tahu:  
-  > “Pelajaran apa yang tersembunyi di balik ketakutan ini?”  
+  > Pelajaran apa yang tersembunyi di balik ketakutan ini?  
 - Berlatihlah melabeli emosi (“Aku merasakan takut” vs. “Diriku adalah ketakutan itu sendiri”).
 
 Perubahan dalam penggunaan bahasa akan melatih kembali reaksi emosionalmu.
@@ -75,6 +75,7 @@ Perubahan dalam penggunaan bahasa akan melatih kembali reaksi emosionalmu.
 ---
 
 ![gif](https://media.tenor.com/bhZTX_Zlr6oAAAAM/twegs.gif)
+
 ## 7. Manfaatkan Kontras Mental (Metode WOOP)
 
 WOOP — *Wish* (Keinginan), *Outcome* (Hasil), *Obstacle* (Hambatan), *Plan* (Rencana) — membantumu menyeimbangkan antara visi dan realitas:

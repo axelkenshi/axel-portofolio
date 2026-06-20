@@ -9,7 +9,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "new-notes": "bun run scripts/generate-content.js notes",
+    "new-blog": "bun run scripts/generate-content.js blog"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.18",

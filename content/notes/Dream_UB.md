@@ -12,17 +12,20 @@ category: "Dream"
 Sebuah perumahan di desa tradisional, riuh damai di bawah terik matahari. Dekat kolam koi, berdiri pohon tua menyerupai beringin. Tiba-tiba terdengar suara *clack* jatuh ke air dangkal.  
 Saya bingung, bergegas menghampiri, dan di sana muncul siluet samar seorang gadis mungkin sedikit lebih tua dari saya.  
 
-Ia tampak mempesona, namun berbeda dari manusia biasa. Kehadirannya tidak terasa sebagai entitas hidup, melainkan seperti bayangan yang bersemayam. Kami berkenalan, dan ia mengaku sebagai roh penunggu kediaman itu — terikat oleh penyesalan masa buyut saya. Hari-hari panjang saya lalui bersamanya, seru sekaligus akrab, seolah ia saudara kandung yang bermain di samping saya.  
+Ia tampak mempesona, namun berbeda dari manusia biasa. Kehadirannya tidak terasa sebagai entitas hidup, melainkan seperti bayangan yang bersemayam. Kami berkenalan, dan ia mengaku sebagai roh penunggu kediaman itu — terikat oleh penyesalan masa buyut saya katanya, entah apa masalah dia. Singkat cerita hari-hari yang panjang saya lalui bersamanya tak terasa, seru sekaligus akrab, seolah ia saudara Kandung yang bermain di samping saya.  
+Sebenarnya ada banyak interaksi, dialog, atau nuansa cerita, tapi entah kenapa saya kehilangan fragment kenangan indah itu.
 
-Hingga akhirnya, di taman antara tebing dan cakrawala laut sore, ia berkata lirih: *“Sudah selesai.”* Siluetnya memudar, meninggalkan rasa emosional yang sulit dijelaskan.  
+Hingga akhirnya, di taman antara tebing dan cakrawala laut sore, ia berkata lirih: *“Terimakasih, Sudah selesai. Semuanya jelas ya sekarang, Waktunya perpisahan..”* Siluetnya memudar bersamaan dengan saya bangun ke dunia nyata, meninggalkan rasa emosional yang sulit dijelaskan..  
 
 ---
 
 ## Tafsir Simbolik  
 
+Setelah mencoba mengingat-ingat lagi sambil memikirkan apa kira kira maknanya?  
+
 - **Pohon tua** → melambangkan akar sejarah keluarga, warisan, dan penyesalan yang belum selesai.  
 - **Kolam koi** → simbol ketenangan, namun juga refleksi diri. Air dangkal yang beriak menandakan hal kecil bisa memunculkan sesuatu besar.  
-- **Gadis roh** → representasi sisi tersembunyi dari masa lalu, mungkin beban atau penyesalan leluhur yang muncul dalam bentuk figur akrab.  
+- **Gadis roh** → representasi sisi tersembunyi dari masa lalu, mungkin beban atau penyesalan yang muncul dalam bentuk figur akrab.  
 - **Hari-hari bersama** → simbol proses rekonsiliasi batin, menerima bagian dari diri atau sejarah yang sebelumnya tidak disadari.  
 - **Ucapan “sudah selesai”** → pertanda pelepasan. Ada sesuatu yang telah ditutup, mungkin luka lama atau beban keluarga yang akhirnya selesai.  
 
@@ -50,9 +53,9 @@ Semua itu adalah “roh” yang menunggu untuk dilepaskan. Dan hanya dengan kebe
 
 ## Refleksi  
 
-Mimpi ini bukan sekadar kisah aneh, melainkan panggilan batin. Ia mengingatkan bahwa manusia hidup berdampingan dengan warisan masa lalu, baik berupa kenangan maupun penyesalan. Namun, kita juga diberi kesempatan untuk berdamai, agar tidak terus terikat.  
+Mimpi ini bukan sekadar kisah aneh, melainkan panggilan batin. Ia mengingatkan bahwa manusia hidup berdampingan dengan warisan masa lalu, baik berupa kenangan maupun penyesalan yang tak bisa dirubah tapi harusnya diterima. Namun, kita juga diberi kesempatan untuk berdamai, agar tidak terus terikat.  
 
-> *“Kadang roh yang kita temui bukanlah makhluk lain, melainkan bayangan dari sejarah kita sendiri yang menunggu untuk dilepaskan.”*  
+> Kadang roh yang kita temui bukanlah makhluk lain, melainkan bayangan dari sejarah kita sendiri yang menunggu untuk dilepaskan.  
 
 ---
 
@@ -63,6 +66,6 @@ Saya membayangkan roh itu seperti bayangan di tepi laut sore.
 - Namun ketika ia memudar, kita sadar bahwa kebersamaan itu hanyalah jembatan menuju pelepasan.  
 - Dan setelah ia hilang, kita berjalan normal kembali — tanpa beban, hanya dengan kenangan.  
 
-> *“Unfinished business bukanlah kutukan abadi. Ia hanya menunggu untuk diselesaikan, agar kita bisa hidup dengan tenang.”*  
+> Unfinished business bukanlah kutukan abadi. Ia hanya menunggu untuk diselesaikan, agar kita bisa hidup dengan tenang.  
 
 ---
