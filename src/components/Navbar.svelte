@@ -134,7 +134,7 @@
         class="flex items-center gap-2 font-mark-script font-bold text-lg tracking-wide
               text-dark dark:text-tan"
       >
-        Aishime.
+        Axel K.
       </a>
   
       <!-- Center Navigation (Desktop View) -->

@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Navbar from "../components/Navbar.svelte";
+import Footer from '../components/Footer.svelte';
 import ThemeInit from "../components/ThemeInit.astro";
 import { ClientRouter } from "astro:transitions";
 
@@ -49,10 +50,8 @@ const { title, description = "Portfolio & Personal Notes" } = Astro.props;
     <!-- 2. SLOT KONTEN: Tempat masuknya kode unik dari file halaman Anda -->
     <slot />
 
-    <!-- 3. FOOTER GLOBAL: Bagian bawah yang konsisten di seluruh sub-page -->
-    <footer class="text-center text-xs text-zinc-500 py-6 border-t border-zinc-900 bg-zinc-950">
-      &copy; {new Date().getFullYear()} Axel Kenshi. Built with Astro & Svelte.
-    </footer>
+    <!-- 3: Footer -->
+    <Footer client:visible />
 
   </body>
 </html>
