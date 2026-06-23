@@ -25,9 +25,9 @@ export async function GET(context) {
     customData: `
           <language>id-id</language>
           <image>
-            <url>https://axelkenshi.my.id/favicon.svg</url>
+            <url>https://axelkenshi.web.id/favicon.svg</url>
             <title>Quil Notes — Axel Kenshi</title>
-            <link>https://axelkenshi.my.id</link>
+            <link>https://axelkenshi.web.id</link>
           </image>
         `,
   });

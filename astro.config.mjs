@@ -100,7 +100,7 @@ function remarkCallouts() {
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://axelkenshi.my.id",
+  site: "https://axelkenshi.web.id",
   devToolbar: {
     enabled: false,
   },
