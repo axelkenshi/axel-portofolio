@@ -270,11 +270,11 @@
 
         <!-- Status Alerts -->
         {#if submitStatus === 'success'}
-          <p class="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1 transition-colors">Pesan berhasil dikirim langsung ke Axel!</p>
+          <p class="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1 transition-colors">Message successfully sent directly to Axel, Stay tuned!</p>
         {:else if submitStatus === 'error'}
-          <p class="text-[11px] text-rose-600 dark:text-rose-400 mt-1 transition-colors">Gagal mengirim pesan. Silakan coba lagi nanti.</p>
+          <p class="text-[11px] text-rose-600 dark:text-rose-400 mt-1 transition-colors">Failed to send message. Please try again later.</p>
         {:else if submitStatus === 'captcha-error'}
-          <p class="text-[11px] text-amber-600 dark:text-amber-400 mt-1 transition-colors">Jawaban matematika salah, silakan cek kembali.</p>
+          <p class="text-[11px] text-amber-600 dark:text-amber-400 mt-1 transition-colors">The math answer is wrong, please check again.</p>
         {/if}
       </form>
     </div>
