@@ -67,3 +67,7 @@ try {
 } catch (error) {
   console.error("❌ Gagal membuat file:", error);
 }
+
+// Quick command in terminal
+// bun new-blog "title..."
+// bun new-notes "title..."
