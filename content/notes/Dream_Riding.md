@@ -7,7 +7,7 @@ date: 2026-07-01
 category: "Dream"
 ---
 
-## Narasi Dramatis  
+## Perjalanan  
 
 Aku berangkat dari rumah, tanpa tujuan yang jelas. Jalanan awalnya terang, ramai, penuh suara kehidupan. Angin 
 terasa hangat, seolah mendukung langkahku. Namun semakin jauh roda berputar, suasana berubah. Lampu jalan mulai jarang, suara kendaraan lain menghilang, dan aku hanya ditemani deru mesin yang kian terasa asing.  

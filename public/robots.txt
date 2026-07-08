@@ -1,0 +1,13 @@
+# Aturan untuk SEMUA mesin pencari (Google, Bing, DuckDuckGo, dll)
+User-agent: *
+Allow: /                     # Izinkan merayapi seluruh web secara umum
+Disallow: /fonts/     # Larang merayapi font
+Disallow: /assets/      # Larang merayapi file mentah/zip/pdf privat
+Disallow: /img/ # Larang merayapi gambar lokal
+
+# Aturan khusus hanya untuk Googlebot
+User-agent: Googlebot
+Disallow: /draft-projects/   # Googlebot dilarang mengintip halaman draf proyek kamu
+
+# Tautan Peta Situs tetap ditaruh di paling bawah
+Sitemap: https://axelkenshi.web.id/sitemap-index.xml
