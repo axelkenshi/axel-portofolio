@@ -1,6 +1,6 @@
 ---
 title: "Alasan Saya Suka Mencatatkan Mimpi"
-description: "Mimpi adalah panggung rahasia. Dengan mencatatnya, kita memberi ruang bagi diri untuk mengenang, memahami, dan merayakan keajaiban batin."
+description: "Mimpi adalah dunia rahasia. Dengan mencatatnya, kita memberi ruang bagi diri untuk mengenang, memahami, dan merayakan keajaiban batin."
 img: "https://images.unsplash.com/photo-1564758757725-602ad0234578?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGRyZWFtaW5nfGVufDB8fDB8fHww"
 tags: ["DayDream"]
 date: 2026-04-14

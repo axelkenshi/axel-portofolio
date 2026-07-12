@@ -17,7 +17,7 @@ Kita terbiasa dengan nasi yang ditemani lauk: ayam goreng, tempe, ikan, atau sek
 
 ---
 
-## Narasi Sehari‑hari  
+## Contoh Sehari‑hari  
 
 Aku pernah mengalami momen sederhana ini. Pulang larut, dapur sepi, hanya ada nasi tersisa di rice cooker. Tidak ada lauk, tidak ada sambal. Aku mencoba makan begitu saja, tapi setiap suapan terasa seperti mengunyah kertas putih. Hambar, kosong, dan cepat membuat jenuh. Aku akhirnya berhenti, memilih menunggu pagi untuk makan dengan lauk yang lebih layak.  
 
