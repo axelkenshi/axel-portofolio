@@ -37,7 +37,7 @@ Fenomena ini paling nyata terjadi pada fase transisi remaja menuju dewasa. Masa 
 
 Bayangkan seorang remaja bernama Zolt. Ia baru lulus SMK dan dihadapkan pada pilihan jurusan kuliah dan sedikit harapan untuk kampus top. Ada jurusan teknik yang katanya menjanjikan gaji tinggi, ada jurusan hukum yang sesuai dengan minatnya, ada jurusan ekonomi yang dianggap aman oleh orang tuanya. Semua tampak sama‑sama menguntungkan, namun Zolt justru semakin bingung. Ia merasa seperti berdiri di persimpangan gunung dengan banyak cabang rute, tanpa tahu mana yang benar‑benar menuju puncak.  
 
-Di sisi lain, sahabatnya, Rio, tidak punya banyak pilihan. Karena keterbatasan ekonomi, ia hanya bisa memilih satu jurusan di universitas negeri terdekat. Rio merasa terpaksa, seperti melompati jurang tanpa persiapan. Namun dari keterpaksaan itu, ia belajar bertahan, beradaptasi, dan akhirnya menemukan kekuatan mental yang membentuk dirinya.  
+Di sisi lain, sahabatnya, Rio, tidak punya banyak pilihan. Karena keterbatasan ekonomi, ia hanya bisa memilih membantu usaha keluarga. Rio merasa terpaksa, seperti melompati jurang tanpa persiapan. Namun dari keterpaksaan itu, ia belajar bertahan, beradaptasi, dan akhirnya menemukan kekuatan mental yang membentuk dirinya.  
 
 Kebingungan Zolt dan keterpaksaan Rio adalah dua wajah dari proses pendewasaan. Keduanya sama‑sama membentuk mental, meski dengan cara yang berbeda.  
 

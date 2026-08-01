@@ -44,7 +44,7 @@ Roy menolak lewat jalan tol yang cepat dan nyaman. Ia memilih rute reguler yang 
 
 Rey, temannya, tidak punya banyak pilihan karena tak punya kendaraan. Keterbatasan memaksanya memilih transport umum pada jurusan yang tersedia di kota asal. Dari keterpaksaan itu ia belajar bertahan, beradaptasi, membaca pola dan menemukan persepsi baru tentang hidup yang tak akan ia duga.
 
-Kebingungan Roy dan keterpaksaan Raka adalah dua wajah pendewasaan; keduanya membentuk siapa mereka sekarang.
+Kebingungan Roy dan keterpaksaan Rey adalah dua wajah pendewasaan; keduanya membentuk siapa mereka sekarang.
 
 ---
 
