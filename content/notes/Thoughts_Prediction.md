@@ -10,12 +10,14 @@ category: "Thoughts"
 ## Dopamine booster
 
 Manusia pada hakikatnya adalah makhluk yang hidup dengan prediksi. Bahkan tanpa sadar, kita selalu menimbang kemungkinan, menyetujui pertaruhan batin tentang apa yang paling mungkin terjadi. Prediksi memberi rasa penasaran, memberi energi untuk bergerak. Namun ironisnya, ketika hasil sudah diketahui, gairah itu perlahan memudar.  
+Hal ini dapat digambarkan sebagai perasaan menggebu ingin mencari dopamine (kesenangan), kalau tidak maka akan terasa hampa.
 
 ---
 
 ## Fenomena Kehilangan Gairah  
 
 - **Game yang sama berulang kali**: awalnya menegangkan, penuh kejutan. Namun setelah sering dimainkan, pola sudah bisa ditebak, dan rasa bosan pun datang.  
+- **Menu makanan yang monoton**: Makan yang lezat seperti ayam goreng, bila setiap hari akan terasa membosankan karena tak ada variasi
 - **Belajar pemrograman**: semangat tinggi di awal, tetapi terjebak di siklus tutorial yang sama membuat jenuh. Prediksi bahwa “materi ini sudah pernah saya tahu” menghilangkan rasa penasaran.  
 - **Menonton film atau anime baru**: trailer atau cuplikan yang sudah dilihat membuat kita kehilangan minat. Prediksi hasil cerita mengurangi kejutan, sehingga gairah menonton pun hilang.  
 - **Audiophile mencari musik baru**: lagu favorit yang diputar berulang kali akhirnya kehilangan daya magis. Prediksi alunan nada yang sama membuat telinga ingin sesuatu yang segar.  
