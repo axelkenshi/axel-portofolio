@@ -1,6 +1,6 @@
 ---
 title: "Mimpi: Manifestasi Perjalanan Anda, Lamunan di Bawah Cahaya Bulan"
-description: ""
+description: "Sebuah mimpi yang memberi kesempatan saya merasakan ketenangan luar biasa diantara kehampaan."
 img: "https://plus.unsplash.com/premium_photo-1722584996648-4f4cd51ad86e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bmlnaHQlMjBtZWFkb3d8ZW58MHx8MHx8fDA%3D"
 tags: ["DayDream"]
 date: 2026-08-03
