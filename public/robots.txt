@@ -4,10 +4,11 @@ Allow: /                     # Izinkan merayapi seluruh web secara umum
 Disallow: /fonts/     # Larang merayapi font
 Disallow: /assets/      # Larang merayapi file mentah/zip/pdf privat
 Disallow: /img/ # Larang merayapi gambar lokal
+Disallow: /admin/ # Larang merayapi panel admin sveltia
 
 # Aturan khusus hanya untuk Googlebot
 User-agent: Googlebot
 Disallow: /draft-projects/   # Googlebot dilarang mengintip halaman draf proyek kamu
 
 # Tautan Peta Situs tetap ditaruh di paling bawah
-Sitemap: https://axelkenshi.web.id/sitemap-index.xml
+Sitemap: https://axelkenshi.my.id/sitemap-index.xml

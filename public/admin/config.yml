@@ -1,0 +1,40 @@
+backend:
+  name: github
+  repo: axelkenshi/axel-portofolio
+  branch: main
+
+media_folder: public/media
+public_folder: /media
+
+collections:
+  - name: notes
+    label: Notes
+    label_singular: Note
+    folder: content/notes
+    extension: md
+    format: frontmatter
+    create: true
+    fields:
+      - { label: Judul, name: title, widget: string }
+      - { label: Deskripsi, name: description, widget: text, required: false }
+      - { label: URL Gambar (CDN), name: img, widget: string, required: false }
+      - { label: Tags, name: tags, widget: list, required: false }
+      - { label: Tanggal, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - { label: Kategori, name: category, widget: string, default: "Uncategorized" }
+      - { label: Isi, name: body, widget: markdown }
+
+  - name: blogging
+    label: Blogging
+    label_singular: Artikel
+    folder: content/blogging
+    extension: md
+    format: frontmatter
+    create: true
+    fields:
+      - { label: Judul, name: title, widget: string }
+      - { label: Deskripsi, name: description, widget: text, required: false }
+      - { label: URL Gambar (CDN), name: img, widget: string, required: false }
+      - { label: Tags, name: tags, widget: list, required: false }
+      - { label: Tanggal, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - { label: Isi, name: body, widget: markdown }
+  

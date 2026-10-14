@@ -1,0 +1,28 @@
+---
+import "../../styles/global.css";
+import Layout from '../../layouts/Layout.astro';
+import HeroCanvas from '../../components/HeroCanvas.astro';
+import AboutMe from '../../components/AboutMe.astro';
+import Milestone from '../../components/Milestone.astro';
+import Certification from '../../components/Certification.astro';
+import Projects from '../../components/Projects.astro';
+import BlogFeeds from '../../components/BlogFeeds.astro';
+---
+
+<!-- Kirim data title dan description spesifik halaman ini ke Layout lewat atribut -->
+<Layout title="Axel Kenshi Dev" description="Selamat datang di portofolio digital saya.">
+  <!-- Semua kode di bawah ini akan otomatis masuk ke posisi <slot /> di file Layout -->
+   	<!-- All contents -->
+    <!-- Section 1 : BlackHole animation-->
+    <HeroCanvas />
+    <!-- Section 2 : About Me-->
+    <AboutMe />
+    <!-- Section 3 : Experience -->
+    <Milestone />
+    <!-- Section 4 : Certifications -->
+    <Certification />
+    <!-- Section 5 : Projects -->
+    <Projects />
+    <!-- Section 6 : Blog Feeds -->
+    <BlogFeeds />
+</Layout>

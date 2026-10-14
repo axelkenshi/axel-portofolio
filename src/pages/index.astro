@@ -1,28 +1,48 @@
 ---
 import "../styles/global.css";
-import Layout from '../layouts/Layout.astro';
-import HeroCanvas from '../components/HeroCanvas.astro';
-import AboutMe from '../components/AboutMe.astro';
-import Milestone from '../components/Milestone.astro';
-import Certification from '../components/Certification.astro';
-import Projects from '../components/Projects.astro';
-import BlogFeeds from '../components/BlogFeeds.astro';
+import ThemeInit from "../components/ThemeInit.astro";
+import { ClientRouter } from "astro:transitions";
+
+// Mendefinisikan tipe data untuk properti (props) yang bisa diterima layout
+interface Props {
+  title: string;
+  description?: string;
+}
+
+// Menangkap data title dan description yang dikirim oleh halaman penyeru
+const { title, description = "Links saya" } = Astro.props;
 ---
 
-<!-- Kirim data title dan description spesifik halaman ini ke Layout lewat atribut -->
-<Layout title="Axel Kenshi Dev" description="Selamat datang di portofolio digital saya.">
-  <!-- Semua kode di bawah ini akan otomatis masuk ke posisi <slot /> di file Layout -->
-   	<!-- All contents -->
-    <!-- Section 1 : BlackHole animation-->
-    <HeroCanvas />
-    <!-- Section 2 : About Me-->
-    <AboutMe />
-    <!-- Section 3 : Experience -->
-    <Milestone />
-    <!-- Section 4 : Certifications -->
-    <Certification />
-    <!-- Section 5 : Projects -->
-    <Projects />
-    <!-- Section 6 : Blog Feeds -->
-    <BlogFeeds />
-</Layout>
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Axel" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="generator" content={Astro.generator} />
+    <!-- SEO Meta Tags Dinamis -->
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <!-- rss -->
+    <link 
+      rel="alternate" 
+      type="application/rss+xml" 
+      title="RSS Feed untuk Quil Notes" 
+      href="/rss.xml" 
+    />
+    <!-- FOUC prevention -->
+    <ThemeInit />
+    <!-- Client-side navigation antar halaman (eliminasi full page reload) -->
+    <ClientRouter />
+  </head>
+  <body class="bg-zinc-950 text-zinc-100 antialiased">
+
+    <h1>Hello world</h1>
+
+  </body>
+</html>
