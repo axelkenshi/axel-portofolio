@@ -85,6 +85,31 @@ kemudian akses pada url browser `http://localhost:4321/admin/`
 
 Dalam case ini, saya menggunakan netlify supaya tidak repot -bahkan tidak perlu menuliskan serverless function dalam integrasinya.
 
+**Login GitHub di production (Netlify)**
+
+Login hanya dibutuhkan saat mengedit dari website yang sudah di-deploy. Langkahnya:
+
+a. Buat GitHub OAuth App
+
+Buka GitHub > Settings > Developer settings > OAuth Apps > New OAuth App.
+Homepage URL: https://axelkenshi.web.id
+Authorization callback URL: https://api.netlify.com/auth/done
+Simpan Client ID, lalu buat Client Secret.
+
+b. Aktifkan provider di Netlify
+
+Buka site Anda di Netlify > Project configuration > Access & security > OAuth. Lokasi menu ini bisa berbeda di UI terbaru.
+Install provider GitHub, lalu masukkan Client ID dan Client Secret dari langkah (a).
+
+c. Pastikan config.yml tidak punya base_url. Dengan begitu Sveltia memakai login Netlify. Tidak perlu menulis serverless function sendiri.
+
+d. Hubungkan repo ke Netlify (Skip langkah ini jika sudah pernah deploy)
+
+Add new site > Import from GitHub, pilih axelkenshi/axel-portofolio.
+Build command: bun run build. Publish directory: dist.
+Install command: bun install.
+Project ini membutuhkan Node 22.12 atau lebih baru
+
 ### Jika folder public/admin/ masih kosong, maka lakukan:
 
 1. Salin file sveltia-cms.js dari node modules
@@ -94,11 +119,12 @@ cp node_modules/@sveltia/cms/dist/sveltia-cms.js public/admin/
 ```
 
 2. Salin folder chunks dari node modules
+
 ```bash
 cp -r node_modules/@sveltia/cms/dist/chunks public/admin/
 ```
 
-3. Buat file index html yang memanggil `<script src="sveltia-cms.js"></script>`
+3. Buat file index.html pada public/admin/ yang memanggil `<script src="sveltia-cms.js"></script>`
 
 ```html
 <!doctype html>
