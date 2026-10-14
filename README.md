@@ -4,13 +4,16 @@ ingat:
 pages/index.astro adalah entry point sebagai Landing page.
 
 ```text
-├── public/   # Assets statis seperti gambar, favicon, dll.
+├── public/   # Assets statis dan konfigurasi integrasi Sveltia-CMS.
+│   ├── styles/ 
+│   │   └── callouts.css # styling kostum khusus editor component sveltia
 │   └── admin/ 
 │       ├── chunks/
-│       ├── index.html 
+│       ├── index.html
+│       ├── editor-components.js
 │       └── sveltia-cms.js
 │
-├── scripts/   # Scripts untuk generate content (via CLI bun new-notes, bun new-blog)
+├── scripts/   # Scripts untuk manual generate content (via CLI bun new-notes, bun new-blog)
 │   └── generate-content.js
 │
 ├── content/

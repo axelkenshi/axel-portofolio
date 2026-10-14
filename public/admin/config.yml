@@ -21,7 +21,7 @@ collections:
       - { label: Tags, name: tags, widget: list, required: false }
       - { label: Tanggal, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
       - { label: Kategori, name: category, widget: string, default: "Uncategorized" }
-      - { label: Isi, name: body, widget: markdown }
+      - { label: Isi, name: body, editor_components: [callout, youtube, cdn-image, iframe-embed], widget: markdown }
 
   - name: blogging
     label: Blogging
@@ -36,5 +36,5 @@ collections:
       - { label: URL Gambar (CDN), name: img, widget: string, required: false }
       - { label: Tags, name: tags, widget: list, required: false }
       - { label: Tanggal, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
-      - { label: Isi, name: body, widget: markdown }
+      - { label: Isi, name: body, editor_components: [callout, youtube, cdn-image, iframe-embed], widget: markdown }
   
