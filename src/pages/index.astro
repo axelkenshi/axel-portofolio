@@ -70,6 +70,17 @@ const hasBg = profile.background.src !== '';
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Axel" />
     <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Hindari kedip light sebelum dark (flash) -->
+    <script is:inline>
+      try {
+        if (localStorage.getItem('site-theme') !== 'light') {
+          document.documentElement.classList.add('dark');
+        }
+      } catch {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
   </head>
 
   <body class="min-h-dvh bg-tan text-dark transition-colors dark:bg-dark dark:text-tan">
@@ -342,7 +353,6 @@ const hasBg = profile.background.src !== '';
   };
 
   /* Tema */
-  if (store.get('site-theme') === 'dark') root.classList.add('dark');
   document.getElementById('theme-toggle')?.addEventListener('click', () => {
     store.set('site-theme', root.classList.toggle('dark') ? 'dark' : 'light');
   });
