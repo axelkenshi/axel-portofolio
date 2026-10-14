@@ -11,9 +11,15 @@ category: Thoughts
 
 ## Gw bener bener bosen le
 
-Gile pusingnya
+<div class="callout" data-type="important">
 
-<div class="embed-youtube"><iframe src="https://www.youtube.com/embed/VGBWm6xtPWs" loading="lazy" allowfullscreen></iframe></div>
+Konten di sini hanya bermaksud untuk pengujian saja.
+
+</div>
+
+Gile pusingnya tapi akhirnya gw berhasil implementasi sveltia minimal buat konten notes dan blogging ga cape lagi harus manual dari editor.. yakan!
+
+
 
 aslinnya
 
