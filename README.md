@@ -5,6 +5,9 @@ pages/index.astro adalah entry point sebagai Landing page.
 
 ```text
 ├── public/   # Assets statis dan konfigurasi integrasi Sveltia-CMS.
+│   ├── robots.txt 
+│   ├── site.webmanifest 
+│   ├── Content-Security-Policy # Pertahanan CSP Netlify 
 │   ├── styles/ 
 │   │   └── callouts.css # styling kostum khusus editor component sveltia
 │   └── admin/ 
@@ -62,6 +65,8 @@ pages/index.astro adalah entry point sebagai Landing page.
 │
 ├── astro.config.mjs
 ├── bun.lock
+├── svelte.config.js
+├── tsconfig.json
 └── package.json
 ```
 

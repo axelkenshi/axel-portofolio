@@ -46,7 +46,7 @@
   --color-bg-dark: var(--color-dark);
 
   /* ==========================================================================
-     EKSPANSI TOKEN BARU UNTUK INDEPENDENSI QUIL NOTES (TAILWIND V4)
+     EKSPANSI TOKEN BARU UNTUK INDEPENDENSI QUIL NOTES & myLinks (TAILWIND V4)
      ========================================================================== */
   
   /* 1. Jalur Kebab-Case (Untuk mengamankan .quil-garden Anda) */
@@ -62,6 +62,21 @@
   --color-quilAccent: hsl(var(--theme-hue) 85% 55%);
   --color-quilAccentMuted: hsl(var(--theme-hue) 65% 20% / 0.4);
   --color-quilText: hsl(var(--theme-hue) 90% 65%);
+
+  /* 3. Jalur aksen ala linktree myLinks*/
+  /* Kaca transparan: tint sangat tipis, tanpa lapisan putih tebal */
+  --color-site-glass: rgb(255 255 255 / 0.08);
+  --color-site-glass-dark: rgb(0 0 0 / 0.2);
+
+  /* Teks utama dan sekunder dengan kontras lebih tinggi di atas background gambar */
+  --color-site-text: rgb(255 255 255 / 1);
+  --color-site-text-soft: rgb(255 255 255 / 0.88);
+  --color-site-text-muted: rgb(255 255 255 / 0.72);
+
+  /* Aksen tetap, tanpa palet yang bisa diubah */
+  --color-site-accent: hsl(48 85% 55%);
+  --color-site-accent-muted: hsl(48 65% 20% / 0.4);
+  --color-site-accent-text: hsl(48 90% 65%);
 }
 
 @layer base {

@@ -1,48 +1,415 @@
 ---
-import "../styles/global.css";
-import ThemeInit from "../components/ThemeInit.astro";
-import { ClientRouter } from "astro:transitions";
+import '../styles/global.css';
 
-// Mendefinisikan tipe data untuk properti (props) yang bisa diterima layout
-interface Props {
-  title: string;
-  description?: string;
-}
+/* =====================================================================
+   DATA: semua konten halaman diatur di sini
+   ===================================================================== */
 
-// Menangkap data title dan description yang dikirim oleh halaman penyeru
-const { title, description = "Links saya" } = Astro.props;
+const profile = {
+  name: 'Axel Kenshi',
+  photo: '/assets/1to1.webp',           // foto persegi, bisa URL CDN atau /img/...
+  location: 'Bandung, Indonesia',
+  acronym: 'Axstonedev sandcastle\'s',
+  title: { id: 'Insinyur Perangkat Lunak', en: 'Software Engineer' },
+  bio: {
+    id: 'Membangun perangkat lunak yang rapi dan berguna. Menulis catatan tentang teknologi dan ide.',
+    en: 'Building clean, useful software. Writing notes about technology and ideas.',
+  },
+  // Background: '' untuk menonaktifkan. Bisa URL CDN atau path lokal /img/...
+  background: { src: 'https://images.unsplash.com/photo-1558963235-eff20c9f7d99?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D', opacity: 0.6 },
+  // Access key dari dashboard Web3Forms (aman dipublikasikan di frontend)
+  web3formsKey: '2a8d92b3-523a-45f6-8c84-a901616bf323',
+};
+
+// Ikon: path SVG di public/img/. Ganti sesuai file yang Anda miliki.
+const socials = [
+  { label: 'GitHub', url: 'https://github.com/axelkenshi', icon: '/img/github.svg' },
+  { label: 'LinkedIn', url: 'https://linkedin.com/in/axel-kenshi-mikaeel', icon: '/img/linkedin.svg' },
+  { label: 'Instagram', url: 'https://www.instagram.com/axelkenshi', icon: '/img/instagram.svg' },
+  { label: 'Threads', url: 'https://www.threads.com/axelkenshi', icon: '/img/threads.svg' },
+];
+
+const links = [
+  {
+    title: { id: 'Portofolio Developer', en: 'Axel Portofolio\'s' },
+    subtitle: { id: 'Website pribadi & portofolio pengembang', en: 'Personal site & dev portfolio\'s' },
+    url: 'https://axelkenshi.my.id/dev',
+    icon: '/img/asterisk.svg', // GANTI ikon
+  },
+  {
+    title: { id: 'Blog Pemikiran saya', en: 'Notes of an Eternal Mind' },
+    subtitle: { id: 'Sebuah blog tentang apa yang saya pikirkan~', en: 'A blog about what\'s on my mind' },
+    url: 'https://axelkenshi.my.id/quil-notes',
+    icon: '/img/feather.svg', // GANTI ikon
+  },
+  {
+    title: { id: 'Saweria', en: 'Saweria' },
+    subtitle: { id: 'Platform donasi Indonesia', en: 'Donation platform' },
+    url: 'https://saweria.co/GANTI',
+    icon: '/img/dollar.svg', // GANTI ikon
+  },
+];
+
+/* ===================================================================== */
+
+const siteUrl = Astro.site?.toString() ?? 'https://axelkenshi.my.id';
+const hasBg = profile.background.src !== '';
 ---
 
 <!doctype html>
-<html lang="id">
+<html lang="id" data-lang="id">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{profile.name}</title>
+    <meta name="description" content={profile.bio.id} />
+    <link rel="canonical" href={siteUrl} />
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Axel" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="generator" content={Astro.generator} />
-    <!-- SEO Meta Tags Dinamis -->
-    <meta name="description" content={description} />
-    <title>{title}</title>
-    <!-- rss -->
-    <link 
-      rel="alternate" 
-      type="application/rss+xml" 
-      title="RSS Feed untuk Quil Notes" 
-      href="/rss.xml" 
-    />
-    <!-- FOUC prevention -->
-    <ThemeInit />
-    <!-- Client-side navigation antar halaman (eliminasi full page reload) -->
-    <ClientRouter />
   </head>
-  <body class="bg-zinc-950 text-zinc-100 antialiased">
 
-    <h1>Hello world</h1>
+  <body class="min-h-dvh bg-tan text-dark transition-colors dark:bg-dark dark:text-tan">
 
+    {hasBg && (
+      <div
+        id="bg-layer"
+        aria-hidden="true"
+        class="pointer-events-none fixed inset-0 -z-10 bg-cover bg-center"
+        style={`background-image:url('${profile.background.src}');opacity:${profile.background.opacity}`}
+      ></div>
+    )}
+
+    <main class="mx-auto flex w-full max-w-md flex-col gap-6 px-4 py-8">
+
+      <!-- A. NAVIGASI -->
+      <nav aria-label="Navigasi utama" class="flex items-center justify-between gap-2">
+        <div class="flex gap-2">
+          <button id="theme-toggle" type="button" class="nav-btn" aria-label="Ganti tema">
+            <span aria-hidden="true">◐</span>
+          </button>
+          <button id="lang-toggle" type="button" class="nav-btn" aria-label="Ganti bahasa">
+            <span data-lang="id">ID</span><span data-lang="en">EN</span>
+          </button>
+        </div>
+        <div class="flex gap-2">
+          <button id="copy-link" type="button" class="nav-btn" data-url={siteUrl} aria-label="Salin tautan">
+            <span aria-hidden="true">⧉</span>
+          </button>
+          <button id="qr-open" type="button" class="nav-btn" aria-label="Tampilkan QR code">QR</button>
+        </div>
+      </nav>
+
+      <dialog id="qr-dialog" class="glass rounded-3xl p-6">
+        <img src="/img/qr-me.png" alt="QR code menuju situs ini" width="256" height="256" class="mx-auto rounded-xl bg-white p-3" />
+        <form method="dialog" class="mt-4 text-center text-soft">
+          <button class="nav-btn px-4">
+            <span data-lang="id">Tutup</span><span data-lang="en">Close</span>
+          </button>
+        </form>
+      </dialog>
+
+      <!-- B. PROFIL -->
+      <header class="flex flex-col items-center gap-3 text-center">
+        <button
+          type="button"
+          data-avatar-open
+          aria-label="Perbesar foto profil"
+          class="cursor-zoom-in rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4"
+        >
+          <img
+            src={profile.photo}
+            alt={profile.name}
+            width="112"
+            height="112"
+            class="size-46 rounded-2xl border border-white/40 object-cover shadow-md"
+          />
+        </button>
+        <h1 class="text-2xl text-strong tracking-tight">{profile.name}</h1>
+        <p class="font-semibold text-site-accent">
+          <span data-lang="id">{profile.title.id}</span><span data-lang="en">{profile.title.en}</span>
+        </p>
+        <p class="text-sm text-soft">{profile.location}</p>
+        <p class="text-sm text-soft">{profile.acronym}</p>
+        <p class="max-w-sm text-sm leading-relaxed text-soft">
+          <span data-lang="id">{profile.bio.id}</span><span data-lang="en">{profile.bio.en}</span>
+        </p>
+
+        <ul class="flex flex-wrap justify-center gap-2 pt-1" aria-label="Sosial media">
+          {socials.map((s) => (
+            <li>
+              <a href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.label} class="badge">
+                <span class="icon" style={`--icon:url('${s.icon}')`} aria-hidden="true"></span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </header>
+
+      <dialog id="avatar-dialog" class="avatar-dialog" aria-label="Foto profil">
+        <div class="flex flex-col items-center gap-4">
+          <img
+            src={profile.photo}
+            alt={profile.name}
+            class="max-h-[80vh] max-w-[90vw] rounded-2xl border border-white/40 object-contain shadow-2xl"
+          />
+          <button type="button" class="nav-btn" data-avatar-close>Tutup</button>
+        </div>
+      </dialog>
+
+      <!-- C. TAUTAN (kapsul) -->
+      <section aria-label="Tautan" class="flex flex-col gap-3">
+        {links.map((l) => (
+          <a
+            href={l.url}
+            target="_self"
+            rel="noopener noreferrer"
+            class="glass-card group flex items-center gap-4 rounded-2xl px-4 py-3 transition hover:border-site-accent/60"
+          >
+            <span class="icon-box">
+              <span class="icon" style={`--icon:url('${l.icon}')`} aria-hidden="true"></span>
+            </span>
+            <span class="flex-1">
+              <span class="block font-semibold text-muted">
+                <span data-lang="id">{l.title.id}</span><span data-lang="en">{l.title.en}</span>
+              </span>
+              <span class="block text-xs text-muted">
+                <span data-lang="id">{l.subtitle.id}</span><span data-lang="en">{l.subtitle.en}</span>
+              </span>
+            </span>
+            <span aria-hidden="true" class="text-muted transition group-hover:text-site-accent">↗</span>
+          </a>
+        ))}
+      </section>
+
+      <!-- C. KONTAK (Web3Forms) -->
+      <section aria-labelledby="contact-heading" class="glass rounded-3xl p-6">
+        <h2 id="contact-heading" class="mb-3 text-lg text-strong">
+          <span data-lang="id">Hubungi Saya – Surel Instan</span><span data-lang="en">Contact Me – Instant Mail</span>
+        </h2>
+        <form id="contact-form" class="flex flex-col gap-3">
+          <input type="hidden" name="access_key" value={profile.web3formsKey} />
+          <!-- honeypot: disembunyikan dari pengguna -->
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" class="hidden" />
+          <input name="name" required placeholder="Nama" class="field placeholder:text-white/60" />
+          <input name="email" type="email" required placeholder="Email" class="field placeholder:text-white/60" />
+          <textarea name="message" required rows="4" placeholder="Pesan" class="field placeholder:text-white/60"></textarea>
+          <button type="submit" class="self-start rounded-full bg-dark px-5 py-2 text-sm font-semibold text-tan dark:bg-tan dark:text-dark">
+            <span data-lang="id">Kirim Pesan</span><span data-lang="en">Send</span>
+          </button>
+          <p id="contact-status" role="status" aria-live="polite" class="text-xs text-zinc-500"></p>
+        </form>
+      </section>
+
+    </main>
   </body>
 </html>
+
+<style is:global>
+  /* Bahasa: cukup ubah atribut data-lang di <html> */
+  html[data-lang="id"] [data-lang="en"],
+  html[data-lang="en"] [data-lang="id"] { display: none; }
+
+  /* Light mode: gambar diredupkan */
+  #bg-layer {
+    filter: brightness(0.5);
+  }
+  
+  /* Dark mode: tetap terang seperti semula */
+  .dark #bg-layer {
+    filter: none;
+  }
+
+  #qr-dialog {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+    max-width: calc(100vw - 2rem);
+    max-height: calc(100vh - 2rem);
+  }
+
+  .avatar-dialog {
+    background: transparent;
+    border: none;
+    padding: 1.5rem;
+    margin: auto;
+    max-width: 100vw;
+    max-height: 100vh;
+  }
+  
+  /* Latar sekitar foto: gelap tipis dengan blur */
+  .avatar-dialog::backdrop {
+    background: rgb(0 0 0 / 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  
+  /* Animasi kecil saat muncul */
+  .avatar-dialog[open] {
+    animation: avatar-in 220ms ease-out;
+  }
+  
+  @keyframes avatar-in {
+    from { opacity: 0; transform: scale(0.96); }
+    to   { opacity: 1; transform: none; }
+  }
+  
+  /* Ikon SVG: mengikuti warna teks lewat mask */
+  .icon {
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    background-color: currentColor;
+    mask-image: var(--icon);
+    -webkit-mask-image: var(--icon);
+    mask-size: contain;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-position: center;
+  }
+
+  .glass, .glass-card, .nav-btn, .badge, .icon-box, .field {
+    background: var(--color-site-glass);
+    border: 1px solid rgb(255 255 255 / 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.05);
+  }
+  
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5rem;
+    min-width: 2.5rem;
+    padding: 0 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-family: ui-monospace, monospace;
+  }
+  
+  .badge, .icon-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.45rem;
+    height: 2.45rem;
+    border-radius: 9999px;
+  }
+  
+  .icon-box { width: 2.5rem; height: 2.5rem; border-radius: 0.75rem; flex-shrink: 0; }
+  .field {
+    width: 100%;
+    border-radius: 0.75rem;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.875rem;
+    color: inherit;
+  }
+
+  .dark .glass, .dark .glass-card, .dark .nav-btn, .dark .badge,
+  .dark .icon-box, .dark .field {
+    background: var(--color-site-glass-dark);
+    border-color: rgb(255 255 255 / 0.15);
+  }
+
+  .text-strong {
+    color: var(--color-site-text);
+    text-shadow: 0 1px 4px rgb(0 0 0 / 0.7);
+  }
+  .text-soft {
+    color: var(--color-site-text-soft);
+    text-shadow: 0 1px 3px rgb(0 0 0 / 0.6);
+  }
+  .text-muted {
+    color: var(--color-site-text-muted);
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+
+  const store = {
+    get: (k: string) => { try { return localStorage.getItem(k); } catch { return null; } },
+    set: (k: string, v: string) => { try { localStorage.setItem(k, v); } catch {} },
+  };
+
+  /* Tema */
+  if (store.get('site-theme') === 'dark') root.classList.add('dark');
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    store.set('site-theme', root.classList.toggle('dark') ? 'dark' : 'light');
+  });
+
+  /* Bahasa */
+  const savedLang = store.get('site-lang');
+  if (savedLang === 'id' || savedLang === 'en') {
+    root.dataset.lang = savedLang;
+    root.lang = savedLang;
+  }
+  document.getElementById('lang-toggle')?.addEventListener('click', () => {
+    const next = root.dataset.lang === 'id' ? 'en' : 'id';
+    root.dataset.lang = next;
+    root.lang = next;
+    store.set('site-lang', next);
+  });
+
+  /* Avatar */
+  const avatarDialog = document.getElementById('avatar-dialog') as HTMLDialogElement;
+  
+  document.querySelector('[data-avatar-open]')?.addEventListener('click', () => {
+    avatarDialog.showModal();
+  });
+  
+  avatarDialog.querySelector('[data-avatar-close]')?.addEventListener('click', () => {
+    avatarDialog.close();
+  });
+  
+    // Klik di area latar (bukan di foto) menutup dialog
+  avatarDialog.addEventListener('click', (e) => {
+    if (e.target === avatarDialog) avatarDialog.close();
+  });
+  
+  /* QR */
+  const dialog = document.getElementById('qr-dialog') as HTMLDialogElement | null;
+  document.getElementById('qr-open')?.addEventListener('click', () => dialog?.showModal());
+
+  /* Salin tautan */
+  const copyBtn = document.getElementById('copy-link');
+  copyBtn?.addEventListener('click', async () => {
+    const icon = copyBtn.querySelector('span');
+    try {
+      await navigator.clipboard.writeText(copyBtn.dataset.url ?? '');
+      if (icon) icon.textContent = '✓';
+    } catch {
+      if (icon) icon.textContent = '×';
+    }
+    setTimeout(() => { if (icon) icon.textContent = '⧉'; }, 1500);
+  });
+
+  /* Kontak: Web3Forms */
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const status = document.getElementById('contact-status');
+    if (status) status.textContent = 'Mengirim...';
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      });
+      const json = await res.json();
+      if (status) status.textContent = json.success ? 'Pesan terkirim.' : 'Gagal mengirim.';
+      if (json.success) form.reset();
+    } catch {
+      if (status) status.textContent = 'Jaringan bermasalah.';
+    }
+  });
+</script>

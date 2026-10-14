@@ -70,11 +70,14 @@ const searchIndex = sortedNotes.map((note) => ({
                     <span class="text-zinc-400">{note.data.category}</span>
                   </div>
 
-                  <a href={`/quil-notes/${note.id}`} class="block group">
-                    <h3 class="text-base font-bold text-zinc-200 group-hover:text-quilText group-active:text-quilText transition-colors line-clamp-1">
+                  <h3 class="text-base font-bold text-zinc-200 line-clamp-1">
+                    <a
+                      href={`/quil-notes/${note.id}`}
+                      class="group-hover:text-quilText group-active:text-quilText transition-colors after:absolute after:inset-0 after:content-['']"
+                    >
                       {note.data.title}
-                    </h3>
-                  </a>
+                    </a>
+                  </h3>
 
                   {note.data.description && (
                     <p class="text-xs text-zinc-400 font-light leading-relaxed line-clamp-2 pt-0.5">
@@ -87,9 +90,9 @@ const searchIndex = sortedNotes.map((note) => ({
                 {note.data.tags && note.data.tags.length > 0 && (
                   <div class="flex flex-wrap gap-1.5 pt-1">
                     {note.data.tags.map((tag: string) => (
-                      <a 
+                      <a
                         href={`/quil-notes/tags/${tag.toLowerCase()}`}
-                        class="text-[9px] font-medium font-mono bg-zinc-900 text-zinc-500 border border-zinc-900 px-2 py-0.5 rounded hover:border-quilAccent/20 hover:text-zinc-400 active:border-quilAccent/20 active:text-zinc-400 transition-all"
+                        class="relative z-10 text-[9px] font-medium font-mono bg-zinc-900 text-zinc-500 border border-zinc-900 px-2 py-0.5 rounded hover:border-quilAccent/20 hover:text-zinc-400 active:border-quilAccent/20 active:text-zinc-400 transition-all"
                       >
                         #{tag}
                       </a>
