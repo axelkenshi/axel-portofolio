@@ -114,4 +114,4 @@ const searchIndex = sortedNotes.map((note) => ({
 </QuilLayout>
 
 <!-- Hidrasikan Svelte Component di Sisi Klien -->
-<SearchBar searchIndex={searchIndex} client:load />
+<SearchBar searchIndex={searchIndex} client:idle />

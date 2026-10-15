@@ -10,10 +10,10 @@ const { active = 'home' } = Astro.props;
 
 // 📑 1. AMBIL DATA UNTUK SEARCH INDEX (BUILD-TIME)
 // Catatan: Ganti 'quil-notes' dengan nama folder koleksi markdown Anda jika berbeda
-const notesCollection = await getCollection('quil-notes').catch(() => []);
+const notesCollection = await getCollection('notes').catch(() => []);
 
 const searchIndex = notesCollection.map((note) => ({
-  id: note.slug || note.id,
+  id: note.id,
   title: note.data.title || 'Untitled',
   description: note.data.description || '',
   category: note.data.category || 'General',
@@ -42,7 +42,7 @@ const navLinks = [
     </span>
   </a>
 
-  <div class="hidden md:flex items-center space-x-8">
+  <div class="hidden lg:flex items-center lg:space-x-6 xl:space-x-8">
     {navLinks.map((link) => (
       <a
         href={link.href}
@@ -70,7 +70,7 @@ const navLinks = [
     
     <button 
       onclick="window.openQuilSearch?.()"
-      class="relative hidden sm:flex items-center bg-zinc-900/80 border border-zinc-800 text-xs text-zinc-500 pl-8 pr-4 py-2 rounded-lg w-42 text-left hover:border-zinc-700 active:border-zinc-700 cursor-pointer transition-all active:scale-[0.98]"
+      class="relative hidden lg:flex items-center bg-zinc-900/80 border border-zinc-800 text-xs text-zinc-500 pl-8 pr-4 py-2 rounded-lg w-42 text-left hover:border-zinc-700 active:border-zinc-700 cursor-pointer transition-all active:scale-[0.98]"
     >
       <svg class="w-3.5 h-3.5 text-zinc-500 absolute left-2.5 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
       <span>Search...</span>
@@ -87,7 +87,7 @@ const navLinks = [
 
     <button 
       id="mobileMenuToggleBtn"
-      class="md:hidden flex flex-col items-center justify-center gap-1 group cursor-pointer focus:outline-none"
+      class="lg:hidden flex flex-col items-center justify-center gap-1 group cursor-pointer focus:outline-none"
       aria-expanded="false"
     >
       <div class="w-9 h-9 rounded-full border border-zinc-800 group-hover:border-zinc-700 group-active:border-zinc-700 bg-zinc-900/40 flex items-center justify-center relative overflow-hidden transition-colors">
@@ -121,7 +121,7 @@ const navLinks = [
 
     <div 
       id="mobileMenuDropdownPanel"
-      class="absolute right-0 top-16 bg-zinc-950/95 backdrop-blur-md border border-zinc-900 rounded-2xl p-2.5 shadow-2xl w-60 flex flex-col space-y-1 transform scale-95 opacity-0 pointer-events-none transition-all duration-200 z-50 md:hidden"
+      class="absolute right-0 top-16 bg-zinc-950/95 backdrop-blur-md border border-zinc-900 rounded-2xl p-2.5 shadow-2xl w-64 flex flex-col space-y-1 transform scale-95 opacity-0 pointer-events-none transition-all duration-200 z-50 lg:hidden"
     >
       {navLinks.map((link) => (
         <a 
@@ -159,13 +159,26 @@ const navLinks = [
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
         </svg>
       </a>
+
+      <div class="border-t border-zinc-900/80 my-1 mx-2"></div>
+      
+      <button
+        type="button"
+        id="mobileSearchBtn"
+        class="flex items-center gap-2 w-full px-3 py-2.5 rounded-xl bg-zinc-900/80 border border-zinc-800 text-xs text-zinc-500 hover:border-zinc-700 active:border-zinc-700 transition-all active:scale-[0.98]"
+      >
+        <svg class="w-3.5 h-3.5 text-zinc-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <span>Search...</span>
+      </button>
     </div>
 
   </div>
 </nav>
 
 {/* 🛠️ 2. PENYUNTIKAN KOMPONEN SVELTE DENGAN STRATEGI HIDRASI AKTIF */}
-<SearchBar client:load searchIndex={searchIndex} />
+<SearchBar client:idle searchIndex={searchIndex} />
 
 <script>
   // --- INISIALISASI ELEMEN ---
@@ -180,6 +193,8 @@ const navLinks = [
   const hamburgerMenuIcon = document.getElementById('hamburgerMenuIcon');
   const closeMenuIcon = document.getElementById('closeMenuIcon');
 
+  const mobileSearchBtn = document.getElementById('mobileSearchBtn');
+  
   // --- LOGIKA TOGGLE MENU UTAMA MOBILE ---
   mobileMenuToggleBtn?.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -207,6 +222,13 @@ const navLinks = [
     closeMenuIcon?.classList.add('opacity-0', 'scale-75');
   }
 
+  // --- Handler searchbar (masih logika MENU UTAMA TOGGLE MOBILE) ---
+  mobileSearchBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeMobileMenu();
+    (window as Window & { openQuilSearch?: () => void }).openQuilSearch?.();
+  });
+  
   // --- INTERAKSI PALETTE HUE SLIDER ---
   paletteBtn?.addEventListener('click', (e) => {
     e.stopPropagation();
