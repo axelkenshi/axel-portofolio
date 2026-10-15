@@ -7,31 +7,6 @@ date: 2020-01-01
 category: "Hobby"
 ---
 
-<!--Contoh embed video-->
-:::embed{url="https://youtu.be/zFWKYn7CV-4?si=ijxrbGFTy41oo3HT"}
-:::
-
-<!--Contoh Blokquote ala github-->
-:::note
-Ini adalah blok informasi biasa. Kamu bisa memasukkan kata **tebal** atau [tautan link](https://google.com) di sini secara normal!
-:::
-
-:::tip
-Gunakan teknik ini untuk memberikan tips trik cepat coding.
-:::
-
-:::alert
-Hati-hati saat melakukan modifikasi konfigurasi ini pada server produksi.
-:::
-
-:::important
-Jangan lupa untuk melakukan `git commit` setelah semua fitur ini berjalan.
-:::
-
-:::dangerous
-Menghapus folder `node_modules` secara paksa dapat merusak dependensi lokal Anda.
-:::
-
 <!--Heading-->
 
 # Contoh heading h1

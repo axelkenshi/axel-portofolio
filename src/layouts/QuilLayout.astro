@@ -63,7 +63,7 @@ const { title, activeMenu = 'home' } = Astro.props;
       </aside>
 
       <!-- KOLOM KANAN: KONTEN DINAMIS (DIUNGKUS .quil-garden AGAR KONTEN PROSE IKUT DINAMIS) -->
-      <section class="lg:col-span-9 quil-garden flex flex-col gap-6">
+      <section id="quil-content" class="lg:col-span-9 quil-garden flex flex-col gap-6 scroll-mt-24">
         <div class="bg-quilCard border border-zinc-800/60 rounded-2xl p-6 lg:p-8 shadow-xl flex-grow">
           <slot />
         </div>
@@ -100,5 +100,34 @@ const { title, activeMenu = 'home' } = Astro.props;
       <p class="text-[10px] text-zinc-700 mt-1">Powered by Astro + Svelte & Refers Fuwari-style Engine</p>
     </footer>
 
+    <script>
+      const content = document.getElementById('quil-content');
+    
+      // Breakpoint mengikuti grid di <main> (lg = 1024px). Di bawahnya, kolom kanan berada di bawah sidebar.
+      const isStackedLayout = window.matchMedia('(max-width: 1023px)').matches;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+      // Matikan pemulihan scroll bawaan browser agar tidak bertabrakan dengan script ini
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    
+      function scrollToContent() {
+        // Lewati jika pengguna sudah scroll sendiri atau membuka link #anchor
+        if (window.scrollY > 10 || window.location.hash) return;
+    
+        content?.scrollIntoView({
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+          block: 'start',
+        });
+      }
+    
+      if (content && isStackedLayout) {
+        // Tunggu gambar dan font selesai dimuat agar posisi final sudah stabil
+        if (document.readyState === 'complete') {
+          scrollToContent();
+        } else {
+          window.addEventListener('load', scrollToContent, { once: true });
+        }
+      }
+    </script>
   </body>
 </html>
