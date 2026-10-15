@@ -9,7 +9,7 @@ const profile = {
   name: 'Axel Kenshi',
   photo: '/assets/1to1.webp',           // foto persegi, bisa URL CDN atau /img/...
   location: 'Bandung, Indonesia',
-  acronym: 'Axstonedev sandcastle\'s',
+  acronym: 'Axstonedev sandcastle',
   title: { id: 'Insinyur Perangkat Lunak', en: 'Software Engineer' },
   bio: {
     id: 'Membangun perangkat lunak yang rapi dan berguna. Menulis catatan tentang teknologi dan ide.',
@@ -167,7 +167,7 @@ const hasBg = profile.background.src !== '';
             alt={profile.name}
             class="max-h-[80vh] max-w-[90vw] rounded-2xl border border-white/40 object-contain shadow-2xl"
           />
-          <button type="button" class="nav-btn" data-avatar-close>Tutup</button>
+          <button type="button" class="nav-btn text-soft" data-avatar-close>Tutup</button>
         </div>
       </dialog>
 
@@ -208,10 +208,23 @@ const hasBg = profile.background.src !== '';
           <input name="name" required placeholder="Nama" class="field placeholder:text-white/60" />
           <input name="email" type="email" required placeholder="Email" class="field placeholder:text-white/60" />
           <textarea name="message" required rows="4" placeholder="Pesan" class="field placeholder:text-white/60"></textarea>
+          <label class="flex items-center gap-2 text-sm text-soft">
+            <span data-lang="id">Berapa Hasil</span><span data-lang="en">Math Challenge</span>
+            <strong id="captcha-q" class="text-strong"></strong>
+            <span>?</span>
+            <input
+              id="captcha-input"
+              type="text"
+              inputmode="numeric"
+              autocomplete="off"
+              required
+              class="field"
+            />
+          </label>
           <button type="submit" class="self-start rounded-full bg-dark px-5 py-2 text-sm font-semibold text-tan dark:bg-tan dark:text-dark">
             <span data-lang="id">Kirim Pesan</span><span data-lang="en">Send</span>
           </button>
-          <p id="contact-status" role="status" aria-live="polite" class="text-xs text-zinc-500"></p>
+          <p id="contact-status" role="status" aria-live="polite" class="text-xs text-soft"></p>
         </form>
       </section>
 
@@ -244,6 +257,11 @@ const hasBg = profile.background.src !== '';
     max-height: calc(100vh - 2rem);
   }
 
+  #captcha-input {
+    width: 5rem;
+    text-align: center;
+  }
+  
   .avatar-dialog {
     background: transparent;
     border: none;
@@ -405,10 +423,31 @@ const hasBg = profile.background.src !== '';
 
   /* Kontak: Web3Forms */
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  /* Captcha matematika sederhana */
+  const captchaQ = document.getElementById('captcha-q');
+  const captchaInput = document.getElementById('captcha-input') as HTMLInputElement | null;
+  let captchaAnswer = 0;
+  
+  function newCaptcha() {
+    const a = Math.floor(Math.random() * 9) + 1; // 1–9
+    const b = Math.floor(Math.random() * 9) + 1; // 1–9
+    captchaAnswer = a + b;
+    if (captchaQ) captchaQ.textContent = `${a} + ${b}`;
+    if (captchaInput) captchaInput.value = '';
+  }
+  newCaptcha();
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const status = document.getElementById('contact-status');
-    if (status) status.textContent = 'Mengirim...';
+  
+    // Validasi captcha
+    if (Number(captchaInput?.value) !== captchaAnswer) {
+      if (status) status.textContent = 'Incorrect answer, please try again.';
+      newCaptcha();
+      return;
+    }
+  
+    if (status) status.textContent = 'Send...';
     try {
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
@@ -416,10 +455,11 @@ const hasBg = profile.background.src !== '';
         body: JSON.stringify(Object.fromEntries(new FormData(form))),
       });
       const json = await res.json();
-      if (status) status.textContent = json.success ? 'Pesan terkirim.' : 'Gagal mengirim.';
+      if (status) status.textContent = json.success ? 'Sent successfully!' : 'Failed to send; please check the format.';
       if (json.success) form.reset();
     } catch {
-      if (status) status.textContent = 'Jaringan bermasalah.';
+      if (status) status.textContent = 'There is something wrong.';
     }
+    newCaptcha();
   });
 </script>
