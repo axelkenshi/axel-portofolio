@@ -228,6 +228,14 @@ const hasBg = profile.background.src !== '';
         </form>
       </section>
 
+      <!-- D. LIVE COMMENT (Giscus) -->
+      <section aria-labelledby="comments-heading" class="glass rounded-3xl p-4 sm:p-6">
+        <h2 id="comments-heading" class="mb-3 text-lg text-strong">
+          <span data-lang="id">Komentar</span><span data-lang="en">Comments</span>
+        </h2>
+        <div class="giscus"></div>
+      </section>
+      
     </main>
   </body>
 </html>
@@ -373,6 +381,7 @@ const hasBg = profile.background.src !== '';
   /* Tema */
   document.getElementById('theme-toggle')?.addEventListener('click', () => {
     store.set('site-theme', root.classList.toggle('dark') ? 'dark' : 'light');
+    syncGiscus({ theme: giscusTheme(isDark) });
   });
 
   /* Bahasa */
@@ -386,6 +395,7 @@ const hasBg = profile.background.src !== '';
     root.dataset.lang = next;
     root.lang = next;
     store.set('site-lang', next);
+    syncGiscus({ lang: next });
   });
 
   /* Avatar */
@@ -462,4 +472,39 @@ const hasBg = profile.background.src !== '';
     }
     newCaptcha();
   });
+
+  /* Giscus: komentar */
+  const giscusHost = document.querySelector('.giscus');
+  
+  function giscusTheme(isDark: boolean) {
+    return isDark ? 'transparent_dark' : 'light';
+  }
+  
+  if (giscusHost) {
+    const s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.async = true;
+    s.crossOrigin = 'anonymous';
+    s.setAttribute('data-repo', 'axelkenshi/axel-portofolio');              // ganti
+    s.setAttribute('data-repo-id', 'R_kgDOS8YSxQ');              // ganti
+    s.setAttribute('data-category', 'Comments');            // ganti sesuai nama kategori
+    s.setAttribute('data-category-id', 'DIC_kwDOS8YSxc4DId9z');      // ganti
+    s.setAttribute('data-mapping', 'pathname');
+    s.setAttribute('data-strict', '0');
+    s.setAttribute('data-reactions-enabled', '1');
+    s.setAttribute('data-emit-metadata', '0');
+    s.setAttribute('data-input-position', 'top');
+    s.setAttribute('data-lang', root.dataset.lang === 'en' ? 'en' : 'id');
+    s.setAttribute('data-theme', giscusTheme(root.classList.contains('dark')));
+    giscusHost.appendChild(s);
+  }
+  
+  /* Sinkronkan konfigurasi giscus (tema dan/atau bahasa) */
+  function syncGiscus(setConfig: { theme?: string; lang?: string }) {
+    const frame = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
+    frame?.contentWindow?.postMessage(
+      { giscus: { setConfig } },
+      'https://giscus.app'
+    );
+  }
 </script>
