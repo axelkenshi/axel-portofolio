@@ -30,9 +30,9 @@ const { tagName, notes } = Astro.props;
 <QuilLayout title={`Tag: #${tagName}`}>
   <div class="space-y-6">
     
-    <div class="pb-4 border-b border-zinc-900">
+    <div class="pb-1 border-b border-zinc-900">
       <h2 class="text-xl font-bold text-zinc-100 flex items-center gap-2">
-        <svg class="w-4 h-4 text-quilAccent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="w-5 h-5 text-quilAccent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 2v4" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 4h-4" />
@@ -40,12 +40,12 @@ const { tagName, notes } = Astro.props;
         </svg>
         Pinned Tag List: <span class="text-quilText">#{tagName}</span>
       </h2>
-      <p class="text-xs text-zinc-500 mt-1">Founded {notes.length} relevant record entries.</p>
+      <p class="text-sm text-zinc-400 mt-5">Founded {notes.length} relevant record entries.</p>
     </div>
 
     <div class="space-y-4">
       {notes.map((note) => (
-        <div class="p-5 bg-zinc-900/20 border border-zinc-800/60 rounded-xl hover:border-quilAccent/30 active:border-quilAccent/30 transition-all duration-200 group flex flex-col md:flex-row gap-5 relative overflow-hidden shadow-sm">
+        <div class="tag-card p-5 bg-zinc-900/20 border border-zinc-800/60 rounded-xl hover:border-quilAccent/30 active:border-quilAccent/30 transition-all duration-200 group flex flex-col md:flex-row gap-5 relative overflow-hidden shadow-sm">
 
           {note.data.img && (
             <div class="w-full md:w-40 h-28 rounded-xl overflow-hidden border border-zinc-900 shrink-0 bg-zinc-950">
@@ -66,7 +66,7 @@ const { tagName, notes } = Astro.props;
                 <span class="text-zinc-400">{note.data.category}</span>
               </div>
               
-              <a href={`/quil-notes/${note.id}`} class="block">
+              <a href={`/quil-notes/${note.id}`} class="tag-card__link block">
                 <h3 class="text-base font-bold text-zinc-200 group-hover:text-quilText group-active:text-quilText transition-colors line-clamp-1">
                   {note.data.title}
                 </h3>
@@ -101,3 +101,22 @@ const { tagName, notes } = Astro.props;
 
   </div>
 </QuilLayout>
+
+<style>
+  .tag-card {
+    position: relative;
+  }
+
+  /* Anchor judul melapisi seluruh kartu */
+  .tag-card__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Tag tetap bisa diklik di atas lapisan tautan */
+  .tag-card a[href*="/quil-notes/tags/"] {
+    position: relative;
+    z-index: 10;
+  }
+</style>

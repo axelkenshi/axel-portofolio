@@ -6,6 +6,19 @@ backend:
 media_folder: public/media
 public_folder: /media
 
+# Logo dan ikon tab browser admin (dipakai dari /favicon.svg di folder public)
+logo:
+  src: /favicon.svg
+  show_in_header: true
+
+# Pembersihan teks slug (global)
+slug:
+  encoding: ascii
+  clean_accents: true
+  lowercase: false
+  trim: true
+  sanitize_replacement: "_"
+
 collections:
   - name: notes
     label: Notes
@@ -14,6 +27,8 @@ collections:
     extension: md
     format: frontmatter
     create: true
+    slug:
+      editable: [create]
     fields:
       - { label: Judul, name: title, widget: string }
       - { label: Deskripsi, name: description, widget: text, required: false }
@@ -30,6 +45,8 @@ collections:
     extension: md
     format: frontmatter
     create: true
+    slug:
+      editable: [create]
     fields:
       - { label: Judul, name: title, widget: string }
       - { label: Deskripsi, name: description, widget: text, required: false }

@@ -29,19 +29,19 @@ const { categoryName, notes } = Astro.props;
 <QuilLayout title={`Category: ${categoryName}`}>
   <div class="space-y-6">
     
-    <div class="pb-4 border-b border-zinc-900">
+    <div class="pb-1 border-b border-zinc-900">
       <h2 class="text-xl font-bold text-zinc-100 flex items-center gap-2">
-        <svg class="w-4 h-4 text-quilAccent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="w-5 h-5 text-quilAccent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
         </svg>
-        Daftar Catatan Kategori: <span class="text-quilText">{categoryName}</span>
+        list of categories: <span class="text-quilText">{categoryName}</span>
       </h2>
-      <p class="text-xs text-zinc-500 mt-1">Ditemukan {notes.length} entri catatan yang relevan.</p>
+      <p class="text-sm text-zinc-400 mt-5">Found {notes.length} relevant record entries.</p>
     </div>
 
     <div class="space-y-4">
       {notes.map((note) => (
-        <div class="p-5 bg-zinc-900/20 border border-zinc-800/60 rounded-xl hover:border-quilAccent/30 active:border-quilAccent/30 transition-all duration-200 group flex flex-col md:flex-row gap-5 relative overflow-hidden shadow-sm">
+        <div class="category-card p-5 bg-zinc-900/20 border border-zinc-800/60 rounded-xl hover:border-quilAccent/30 active:border-quilAccent/30 transition-all duration-200 group flex flex-col md:flex-row gap-5 relative overflow-hidden shadow-sm">
           
           {note.data.img && (
             <div class="w-full md:w-40 h-28 rounded-xl overflow-hidden border border-zinc-900 shrink-0 bg-zinc-950">
@@ -62,7 +62,7 @@ const { categoryName, notes } = Astro.props;
                 <span class="text-quilText font-medium">{note.data.category}</span>
               </div>
               
-              <a href={`/quil-notes/${note.id}`} class="block">
+              <a href={`/quil-notes/${note.id}`} class="category-card__link block">
                 <h3 class="text-base font-bold text-zinc-200 group-hover:text-quilText group-active:text-quilText transition-colors line-clamp-1">
                   {note.data.title}
                 </h3>
@@ -96,3 +96,22 @@ const { categoryName, notes } = Astro.props;
 
   </div>
 </QuilLayout>
+
+<style>
+  .category-card {
+    position: relative;
+  }
+
+  /* Anchor judul melapisi seluruh kartu */
+  .category-card__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Tag tetap bisa diklik di atas lapisan tautan */
+  .category-card a[href*="/quil-notes/tags/"] {
+    position: relative;
+    z-index: 10;
+  }
+</style>
