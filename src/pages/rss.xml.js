@@ -1,34 +1,44 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 
+// Ringkas Markdown menjadi teks polos untuk deskripsi fallback
+function excerpt(body = '', max = 160) {
+  const plain = body
+    .replace(/```[\s\S]*?```/g, ' ')    // blok kode
+    .replace(/!\[.*?\]\(.*?\)/g, ' ')   // gambar
+    .replace(/\[(.*?)\]\(.*?\)/g, '$1') // link jadi teksnya saja
+    .replace(/[#*_>`~]/g, '')           // simbol markdown
+    .replace(/\s+/g, ' ')
+    .trim();
+  return plain.length > max ? plain.slice(0, max).trimEnd() + '…' : plain;
+}
+
 export async function GET(context) {
-  // 1. Ambil data dari content collection catatanmu
-  // Ubah 'notes' sesuai dengan nama koleksi di src/content/config.ts milikmu
-  const notes = await getCollection('notes'); 
+  const notes = await getCollection('notes');
+
+  const items = notes
+    .map((note) => ({
+      title: note.data.title,
+      pubDate: note.data.date,
+      description: note.data.description || excerpt(note.body),
+      link: `/quil-notes/${note.id}`,
+      categories: [note.data.category, ...note.data.tags].filter(Boolean),
+    }))
+    .sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf())
+    .slice(0, 30);
 
   return rss({
-    // Judul blog RSS kamu
-    title: 'Homepage — Axel Kenshi',
-    // Deskripsi singkat RSS
-    description: 'Catatan teknologi, pemikiran, dan eksperimen coding dari Axel.',
-    // Mengambil base URL dari properti `site` di astro.config.mjs secara otomatis
+    title: 'Quil Notes — Axel Kenshi',
+    description: 'Catatan tentang teknologi, pemikiran, dan eksperimen kode dari Axel.',
     site: context.site,
-    // Looping semua artikel untuk dimasukkan ke daftar XML
-    items: notes.map((note) => ({
-      title: note.data.title,
-      pubDate: note.data.pubDate || new Date(), // Pastikan ada frontmatter pubDate di markdown-mu
-      description: note.data.description || 'Baca selengkapnya di Quil Notes.',
-      // Sesuaikan pola link dengan rute halaman detail catatanmu
-      link: `/quil-notes/${note.id}/`, 
-    })),
-    // (Opsional) Kostumisasi stylesheet agar tampilan XML rapi di browser biasa
+    items,
     customData: `
-          <language>id-id</language>
-          <image>
-            <url>https://axelkenshi.my.id/favicon.svg</url>
-            <title>Quil Notes — Axel Kenshi</title>
-            <link>https://axelkenshi.my.id</link>
-          </image>
-        `,
+      <language>id-id</language>
+      <image>
+        <url>https://axelkenshi.my.id/favicon.svg</url>
+        <title>Quil Notes — Axel Kenshi</title>
+        <link>https://axelkenshi.my.id</link>
+      </image>
+    `,
   });
 }
