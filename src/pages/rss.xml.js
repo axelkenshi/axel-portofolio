@@ -8,7 +8,7 @@ export async function GET(context) {
 
   return rss({
     // Judul blog RSS kamu
-    title: 'Quil Notes — Axel Kenshi',
+    title: 'Homepage — Axel Kenshi',
     // Deskripsi singkat RSS
     description: 'Catatan teknologi, pemikiran, dan eksperimen coding dari Axel.',
     // Mengambil base URL dari properti `site` di astro.config.mjs secara otomatis

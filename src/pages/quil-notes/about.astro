@@ -3,11 +3,64 @@ import QuilLayout from '../../layouts/QuilLayout.astro';
 
 // Definisikan tech stack yang kita gunakan untuk Quil Notes sebagai data statis
 const techStacks = [
-  { name: 'Astro 5.x', role: 'Meta-framework & Island Architecture', icon: '🚀' },
-  { name: 'Tailwind CSS v4', role: 'Next-gen CSS Utility Engine & Theme Hue Variable', icon: '🎨' },
-  { name: 'Svelte 5', role: 'Reactive Client-side Instant Search Engine', icon: '⚡' },
-  { name: 'Astro Content Layer', role: 'Type-safe Markdown Data Fetching', icon: '📂' },
+  {
+    name: 'Astro 5.x',
+    role: { id: 'Meta-framework & Arsitektur Island', en: 'Meta-framework & Island Architecture' },
+    icon: '🚀',
+  },
+  {
+    name: 'Tailwind CSS v4',
+    role: { id: 'Engine CSS Utility Generasi Baru & Variabel Tema Hue', en: 'Next-gen CSS Utility Engine & Theme Hue Variable' },
+    icon: '🎨',
+  },
+  {
+    name: 'Svelte 5',
+    role: { id: 'Mesin Pencarian Instan Klien yang Reaktif', en: 'Reactive Client-side Instant Search Engine' },
+    icon: '⚡',
+  },
+  {
+    name: 'Astro Content Layer',
+    role: { id: 'Pengambilan Data Markdown yang Type-safe', en: 'Type-safe Markdown Data Fetching' },
+    icon: '📂',
+  },
 ];
+
+// Konten About dalam dua bahasa. Setiap item adalah satu <p>. HTML di dalamnya dipercaya (konten Anda sendiri).
+const about = {
+  id: [
+    'Halo! Saya <span class="text-quilText font-semibold">Axel</span>, izinkan saya memperkenalkan diri. Saya adalah orang yang selalu ingin tahu dan terus menjelajahi lanskap digital yang luas. Perjalanan saya adalah perjalanan penemuan yang berkelanjutan, didorong oleh hasrat yang tenang untuk memahami bagaimana segala sesuatu bekerja. Anda akan sering menemukan saya menyelami dunia teknologi dan ilmu komputer yang rumit. Saya terpesona oleh logika, pemecahan masalah, dan kreativitas yang mendorong inovasi di bidang ini.',
+    'Lebih dari sekadar belajar, saya benar-benar senang berbagi apa yang saya temukan dan menghubungkan berbagai ide. Tujuan saya selalu untuk memicu wawasan baru dan berkontribusi pada pemahaman kolektif kita. Pikiran saya cenderung mengembara melalui konsep-konsep abstrak, tetapi saya selalu mencari cara untuk memahami jalinan informasi yang kompleks yang mengelilingi kita.',
+    'Ini adalah sepetak <span class="italic">Digital Garden</span> personal—sebuah ruang alternatif di luar portofolio utama yang saya gunakan untuk mencatat perjalanan belajar, merangkum dokumentasi random, menanam cetak biru arsitektur kode, hingga membagikan pemikiran acak seputar teknologi.',
+    'Berbeda dengan blog konvensional yang kaku, ruang ini dirancang dengan filosofi kebun digital: catatan di sini akan terus bertumbuh, diperbarui, dan saling terhubung satu sama lain seiring berkembangnya pemahaman saya terhadap suatu topik.',
+    'Bila anda terinspirasi oleh karya ini, jangan ragu untuk mengunjungi repositori GitHub yang terkait. Kamu boleh melakukan Fork dan mengembangkan platform ini sesuai kebutuhanmu. Karena project ini adalah open-source, kamu bisa berkontribusi untuk kemajuan project ini, Salam hormat. Axel.',
+    'Semoga karya ini dapat bermanfaat bagi Anda dan komunitas open-source. Untuk informasi lebih lanjut, kunjungi <a href="https://github.com/axelkenshi/axel-portofolio" class="text-quilAccent hover:underline">repositori GitHub</a>. Terkecuali konten kreatif disini, seperti karya tulisan personal dilisensikan <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="text-quilAccent hover:underline">CC BY-NC-SA 4.0</a>.',
+  ],
+  en: [
+    'Hello! I am <span class="text-quilText font-semibold">Axel</span>, let me introduce myself. I am someone who is always curious and keeps exploring the vast digital landscape. My journey is a continuous discovery, driven by a quiet desire to understand how everything works. You will often find me diving into the complex worlds of technology and computer science. I am fascinated by logic, problem-solving, and the creativity that drives innovation in this field.',
+    'More than just learning, I truly enjoy sharing what I discover and connecting different ideas. My goal has always been to spark new insights and contribute to our collective understanding. My mind tends to wander through abstract concepts, but I always look for ways to make sense of the intricate web of information around us.',
+    'This is a personal <span class="italic">Digital Garden</span>, an alternative space outside my main portfolio where I record my learning journey, summarize random documentation, grow architectural blueprints for code, and share random thoughts about technology.',
+    'Unlike a rigid, conventional blog, this space is designed with a digital garden philosophy: notes here will keep growing, being updated, and linking to one another as my understanding of each topic develops.',
+    'If this work inspires you, feel free to visit the related GitHub repository. You may fork it and develop this platform to suit your needs. Because this project is open-source, you can contribute to its progress. Warm regards, Axel.',
+    'I hope this work is useful to you and the open-source community. For more information, visit the <a href="https://github.com/axelkenshi/axel-portofolio" class="text-quilAccent hover:underline">GitHub repository</a>. Except for the creative content here, such as personal writing, it is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="text-quilAccent hover:underline">CC BY-NC-SA 4.0</a>.',
+  ],
+  title: {
+    id: 'Tentang Ruang Ini',
+    en: 'About This Space',
+  },
+  subtitle: {
+    id: 'Mengenal lebih dekat di balik layar pembuatan Quil Notes.',
+    en: 'Getting to know the story behind the making of Quil Notes.',
+  },
+  quote: {
+    id: 'Satu baris kode atau satu paragraf jurnal hari ini adalah investasi pemahaman bagi diri kita sendiri di masa depan.',
+    en: 'One line of code or one journal paragraph today is an investment in understanding for our future selves.',
+  },
+  techTitle: {
+    id: 'Di Balik Teknologi Inti',
+    en: 'Behind The Core Tech',
+  },
+};
+
 ---
 
 <QuilLayout title="About Me & This Garden" activeMenu="about">
@@ -16,37 +69,34 @@ const techStacks = [
     <div class="pb-4 border-b border-zinc-900">
       <h2 class="text-xl font-bold text-zinc-100 flex items-center gap-2">
         <span class="w-1.5 h-4 bg-quilAccent rounded-full"></span>
-        About This Space
+        <span data-about-block="id" lang="id">{about.title.id}</span>
+        <span data-about-block="en" lang="en" hidden>{about.title.en}</span>
       </h2>
-      <p class="text-xs text-zinc-500 mt-1">Mengenal lebih dekat di balik layar pembuatan Quil Notes.</p>
+      <p data-about-block="id" lang="id" class="text-xs text-zinc-500 mt-1">{about.subtitle.id}</p>
+      <p data-about-block="en" lang="en" hidden class="text-xs text-zinc-500 mt-1">{about.subtitle.en}</p>
     </div>
 
-    <div class="space-y-4 text-sm leading-relaxed text-zinc-300 font-light">
-      <p>
-        Halo! Saya <span class="text-quilText font-semibold">Axel</span>, izinkan saya memperkenalkan diri.
-        
-        Saya adalah orang yang selalu ingin tahu dan terus menjelajahi lanskap digital yang luas. Perjalanan saya adalah perjalanan penemuan yang berkelanjutan, didorong oleh hasrat yang tenang untuk memahami bagaimana segala sesuatu bekerja.
-        
-        Anda akan sering menemukan saya menyelami dunia teknologi dan ilmu komputer yang rumit. Saya terpesona oleh logika, pemecahan masalah, dan kreativitas yang mendorong inovasi di bidang ini.
-      </p>
-      <p>
-        Lebih dari sekadar belajar, saya benar-benar senang berbagi apa yang saya temukan dan menghubungkan berbagai ide. Tujuan saya selalu untuk memicu wawasan baru dan berkontribusi pada pemahaman kolektif kita. Pikiran saya cenderung mengembara melalui konsep-konsep abstrak, tetapi saya selalu mencari cara untuk memahami jalinan informasi yang kompleks yang mengelilingi kita.
-      </p>
-      <p>
-        Ini adalah sepetak <span class="italic">Digital Garden</span> personal—sebuah ruang alternatif di luar portofolio utama yang saya gunakan untuk mencatat perjalanan belajar, merangkum dokumentasi random, menanam cetak biru arsitektur kode, hingga membagikan pemikiran acak seputar teknologi.
-      </p>
-      <p>
-        Berbeda dengan blog konvensional yang kaku, ruang ini dirancang dengan filosofi kebun digital: catatan di sini akan terus bertumbuh, diperbarui, dan saling terhubung satu sama lain seiring berkembangnya pemahaman saya terhadap suatu topik.
-      </p>
-      <p>
-        Bila anda terinspirasi oleh karya ini, jangan ragu untuk mengunjungi repositori GitHub yang terkait.
-        Kamu boleh melakukan Fork dan mengembangkan platform ini sesuai kebutuhanmu. Karena project ini adalah open-source, kamu bisa berkontribusi untuk kemajuan project ini, Salam hormat. Axel.
-      </p>
-      <p>
-        Semoga karya ini dapat bermanfaat bagi Anda dan komunitas open-source.
-        Untuk informasi lebih lanjut, kunjungi <a href="https://github.com/axelkenshi/axel-portofolio" class="text-quilAccent hover:underline">repositori GitHub</a>.
-        Terkecuali konten kreatif disini, seperti karya tulisan personal dilisensikan <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="text-quilAccent hover:underline">CC BY-NC-SA 4.0</a>.
-      </p>
+    <div class="flex">
+      <button
+        type="button"
+        id="about-lang-toggle"
+        aria-controls="about-content"
+        aria-pressed="false"
+        class="inline-flex items-center gap-2 rounded-full border border-quilAccent/30 bg-quilAccent/10 px-4 py-1.5 text-xs font-medium text-quilAccent transition-colors hover:border-quilAccent/50 hover:bg-quilAccent/20 active:bg-quilAccent/20"
+      >
+        <span aria-hidden="true">⇄</span>
+        <span data-btn-to="en">Read this in English.</span>
+        <span data-btn-to="id" hidden>Baca dengan bahasa indonesia</span>
+      </button>
+    </div>
+    
+    <div id="about-content" class="space-y-4 text-sm leading-relaxed text-zinc-300 font-light">
+      <div data-about-block="id" lang="id" class="space-y-4">
+        {about.id.map((html) => <p set:html={html} />)}
+      </div>
+      <div data-about-block="en" lang="en" class="space-y-4" hidden>
+        {about.en.map((html) => <p set:html={html} />)}
+      </div>
     </div>
 
     <div class="space-y-4 pt-4">
@@ -55,7 +105,8 @@ const techStacks = [
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
-        Behind The Core Tech
+        <span data-about-block="id" lang="id">{about.techTitle.id}</span>
+        <span data-about-block="en" lang="en" hidden>{about.techTitle.en}</span>
       </h3>
       
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -66,22 +117,53 @@ const techStacks = [
             </span>
             <div>
               <h4 class="text-xs font-bold text-zinc-200 group-hover:text-quilText group-active:text-quilText transition-colors">{tech.name}</h4>
-              <p class="text-[11px] text-zinc-500 font-light mt-0.5 leading-snug">{tech.role}</p>
+              <p data-about-block="id" lang="id" class="text-[11px] text-zinc-500 font-light mt-0.5 leading-snug">
+                {tech.role.id}
+              </p>
+              <p data-about-block="en" lang="en" hidden class="text-[11px] text-zinc-500 font-light mt-0.5 leading-snug">
+                {tech.role.en}
+              </p>
             </div>
           </div>
         ))}
       </div>
     </div>
 
-    <div class="pt-6">
-      <div class="p-4 bg-gradient-to-br from-zinc-900/80 to-zinc-950/40 border border-zinc-800/60 rounded-2xl relative overflow-hidden group">
-        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-quilAccentMuted/10 rounded-full blur-xl group-hover:bg-quilAccentMuted/20 group-active:bg-quilAccentMuted/20 transition-all"></div>
-        
-        <p class="text-xs text-zinc-400 italic text-center leading-relaxed">
-          "Satu baris kode atau satu paragraf jurnal hari ini adalah investasi pemahaman bagi diri kita sendiri di masa depan."
-        </p>
-      </div>
+    <div class="p-4 bg-gradient-to-br from-zinc-900/80 to-zinc-950/40 border border-zinc-800/60 rounded-2xl relative overflow-hidden group">
+      <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-quilAccentMuted/10 rounded-full blur-xl group-hover:bg-quilAccentMuted/20 group-active:bg-quilAccentMuted/20 transition-all"></div>
+      <p data-about-block="id" lang="id" class="text-xs text-zinc-400 italic text-center leading-relaxed">
+        "{about.quote.id}"
+      </p>
+      <p data-about-block="en" lang="en" class="text-xs text-zinc-400 italic text-center leading-relaxed" hidden>
+        "{about.quote.en}"
+      </p>
     </div>
 
   </div>
+
+  <script>
+  /* About: toggle bahasa konten */
+  const aboutBtn = document.getElementById('about-lang-toggle');
+  const aboutLabelEn = aboutBtn?.querySelector<HTMLElement>('[data-btn-to="en"]') ?? null;
+  const aboutLabelId = aboutBtn?.querySelector<HTMLElement>('[data-btn-to="id"]') ?? null;
+  const aboutBlocks = document.querySelectorAll<HTMLElement>('[data-about-block]');
+  let aboutLang: 'id' | 'en' = 'id';
+  
+  function setAboutLang(lang: 'id' | 'en') {
+    aboutLang = lang;
+  
+    aboutBlocks.forEach((el) => {
+      el.hidden = el.dataset.aboutBlock !== lang;
+    });
+  
+    aboutBtn?.setAttribute('aria-pressed', String(lang === 'en'));
+  
+    if (aboutLabelEn) aboutLabelEn.hidden = lang === 'en';
+    if (aboutLabelId) aboutLabelId.hidden = lang === 'id';
+  }
+  
+  aboutBtn?.addEventListener('click', () => {
+    setAboutLang(aboutLang === 'id' ? 'en' : 'id');
+  });
+  </script>
 </QuilLayout>

@@ -32,9 +32,9 @@ const socials = [
 const links = [
   {
     title: { id: 'Portofolio Developer', en: 'Axel Portofolio\'s' },
-    subtitle: { id: 'Website pribadi & portofolio pengembang', en: 'Personal site & dev portfolio\'s' },
+    subtitle: { id: 'Website pribadi & portofolio pengembang', en: 'Personal site & dev portofolio\'s' },
     url: 'https://axelkenshi.my.id/dev',
-    icon: '/img/asterisk.svg', // GANTI ikon
+    icon: '/img/globe.svg', // GANTI ikon
   },
   {
     title: { id: 'Blog Pemikiran saya', en: 'Notes of an Eternal Mind' },
@@ -43,10 +43,10 @@ const links = [
     icon: '/img/feather.svg', // GANTI ikon
   },
   {
-    title: { id: 'Saweria', en: 'Saweria' },
-    subtitle: { id: 'Platform donasi Indonesia', en: 'Donation platform' },
-    url: 'https://saweria.co/GANTI',
-    icon: '/img/dollar.svg', // GANTI ikon
+    title: { id: 'Dokumenter pengetahuan terbuka', en: 'My knowledge foundation' },
+    subtitle: { id: 'ORBknownrie: Observatorium Riset dan Curah Gagasan. Repositori pengetahuan dalam keabadian.', en: 'ORBknownrie: Observatory of Research & Brainstorming. Knownledge repository in eternity.' },
+    url: 'https://orb.axelkenshi.web.id/',
+    icon: '/img/orbit.svg', // GANTI ikon
   },
 ];
 
@@ -205,9 +205,9 @@ const hasBg = profile.background.src !== '';
           <input type="hidden" name="access_key" value={profile.web3formsKey} />
           <!-- honeypot: disembunyikan dari pengguna -->
           <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" class="hidden" />
-          <input name="name" required placeholder="Nama" class="field placeholder:text-white/60" />
+          <input name="name" required placeholder="Name" class="field placeholder:text-white/60" />
           <input name="email" type="email" required placeholder="Email" class="field placeholder:text-white/60" />
-          <textarea name="message" required rows="4" placeholder="Pesan" class="field placeholder:text-white/60"></textarea>
+          <textarea name="message" required rows="4" placeholder="message" class="field placeholder:text-white/60"></textarea>
           <label class="flex items-center gap-2 text-sm text-soft">
             <span data-lang="id">Berapa Hasil</span><span data-lang="en">Math Challenge</span>
             <strong id="captcha-q" class="text-strong"></strong>
@@ -245,9 +245,20 @@ const hasBg = profile.background.src !== '';
   html[data-lang="id"] [data-lang="en"],
   html[data-lang="en"] [data-lang="id"] { display: none; }
 
+  /* Sembunyikan scrollbar bawaan browser, tetapi halaman tetap bisa di-scroll */
+  html {
+    scrollbar-width: none;          /* Firefox */
+    -ms-overflow-style: none;       /* Edge lama */
+  }
+  
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;                  /* Chrome, Edge, Safari */
+  }
+  
   /* Light mode: gambar diredupkan */
   #bg-layer {
-    filter: brightness(0.5);
+    filter: brightness(0.4);
   }
   
   /* Dark mode: tetap terang seperti semula */

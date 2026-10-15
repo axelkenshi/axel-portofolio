@@ -24,7 +24,8 @@ const searchIndex = notesCollection.map((note) => ({
 const navLinks = [
   { name: 'Home', href: '/quil-notes', id: 'home', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
   { name: 'Archive', href: '/quil-notes/archive', id: 'archive', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
-  { name: 'About Me', href: '/quil-notes/about', id: 'about', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' },
+  { name: 'About Writter\'s', href: '/quil-notes/about', id: 'about', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' },
+  { name: 'Knownledge Notes', href: '/quil-notes/categories/knownledge', id: 'knowledge', icon: 'm12.99 6.74 1.93 3.44M19.136 12a10 10 0 0 1-14.271 0M21 21l-2.16-3.84M3 21l8.02-14.26M14 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0z' },
   { name: 'Portofolio', href: '/dev', id: 'hero-section', icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
 ];
 ---
@@ -112,10 +113,10 @@ const navLinks = [
           <button id="resetHue" class="p-1 hover:bg-zinc-800 active:bg-zinc-800 text-zinc-500 hover:text-zinc-300 active:text-zinc-300 rounded transition-colors cursor-pointer" title="Reset">
             <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H17" /></svg>
           </button>
-          <span id="hueValDisplay" class="text-[10px] font-mono px-1.5 py-0.5 bg-quilAccentMuted text-quilText rounded border border-quilAccent/20">180</span>
+          <span id="hueValDisplay" class="text-[10px] font-mono px-1.5 py-0.5 bg-quilAccentMuted text-quilText rounded border border-quilAccent/20">360</span>
         </div>
       </div>
-      <input type="range" id="hueSlider" min="0" max="360" value="180" class="w-full h-2 rounded-lg appearance-none cursor-pointer border border-zinc-800/50 accent-quilAccent" style="background: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);"/>
+      <input type="range" id="hueSlider" min="0" max="360" value="360" class="w-full h-2 rounded-lg appearance-none cursor-pointer border border-zinc-800/50 accent-quilAccent" style="background: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);"/>
     </div>
 
     <div 
@@ -224,7 +225,7 @@ const navLinks = [
   mobileMenuDropdownPanel?.addEventListener('click', (e) => e.stopPropagation());
 
   // Sinkronisasi status Hue CSS variabel dengan LocalStorage
-  const initialHue = localStorage.getItem('quil-theme-hue') || '180';
+  const initialHue = localStorage.getItem('quil-theme-hue') || '360';
   if (hueSlider && hueValDisplay) {
     hueSlider.value = initialHue;
     hueValDisplay.textContent = initialHue;
@@ -239,10 +240,10 @@ const navLinks = [
 
   resetHue?.addEventListener('click', () => {
     if (hueSlider && hueValDisplay) {
-      hueSlider.value = '180';
-      hueValDisplay.textContent = '180';
-      document.documentElement.style.setProperty('--theme-hue', '180');
-      localStorage.setItem('quil-theme-hue', '180');
+      hueSlider.value = '360';
+      hueValDisplay.textContent = '360';
+      document.documentElement.style.setProperty('--theme-hue', '360');
+      localStorage.setItem('quil-theme-hue', '360');
     }
   });
 </script>
