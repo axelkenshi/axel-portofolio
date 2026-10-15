@@ -1,3 +1,5 @@
+<img width="1798" height="1080" alt="Image" src="https://github.com/user-attachments/assets/3902dec0-72bc-472f-8fe8-7d7de306a97c" />
+
 ## Struktur folder
 
 ingat:
