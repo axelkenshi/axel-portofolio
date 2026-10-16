@@ -173,3 +173,15 @@ Sebagai acuan jika anda ingin mengembangkan lagi `quil-notes/` maka sesuaikan an
 | `bg-zinc-800/xx` (latar hover) | `bg-quil-border/xx` |
 | `border-zinc-800/xx`, `border-zinc-900/xx` | `border-quil-border/xx` |
 | `hover:border-zinc-700` | `hover:border-quil-border-strong` |
+
+Setelah itu, lakukan pengecekan apakah ada kelas tailwind "zinc" yang tersisa pada QuilLayout.astro dan quil-notes/
+
+```bash
+rg -n "zinc-" src/layouts src/pages/quil-notes
+```
+
+```bash
+git diff --stat                              # tidak boleh ada file di src/pages/dev atau index.astro
+rg -n "dark:" src/pages/quil-notes src/layouts   # harus kosong, atau hanya kelas yang sengaja tidak diubah
+rg -n "quil-dark" src                        # harus hanya di quil
+```
