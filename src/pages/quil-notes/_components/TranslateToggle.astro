@@ -95,4 +95,24 @@
   badge?.addEventListener('click', () => (badge.hidden = true));
 
   init();
+
+  // test bug tidak muncul toggle
+  // TEMPORARY DEBUG — hapus setelah diagnosis
+  (async () => {
+    const dbg = document.createElement('p');
+    dbg.style.cssText = 'font-size:11px;color:#f59e0b;font-family:monospace;word-break:break-all';
+    btn?.parentElement?.appendChild(dbg);
+  
+    const info: Record<string, unknown> = {
+      supported: translatorSupported(),
+      secureContext: window.isSecureContext,
+      ua: navigator.userAgent.slice(0, 120),
+    };
+    try {
+      info.status = info.supported ? await getAvailability() : 'n/a';
+    } catch (e) {
+      info.status = 'error: ' + String(e);
+    }
+    dbg.textContent = JSON.stringify(info);
+  })();
 </script>

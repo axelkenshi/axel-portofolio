@@ -41,6 +41,9 @@ pages/index.astro adalah entry point sebagai Landing page.
 │   │   └── QuilLayout.astro   # Layout utama khusus untuk semua halaman Quil Notes
 │   ├── styles/
 │   │   └── globals.css      # CSS global (reset, font, warna, dll.)
+│   ├── scripts/
+│   │   └── translate/
+│   │       └── translate-dom.ts   # Logika browser translator API chromium
 │   ├── content.config.ts
 │   └── pages/
 │       ├── index.astro      # Entry-point halaman ala linktree
@@ -52,7 +55,9 @@ pages/index.astro adalah entry point sebagai Landing page.
 │           │   ├── QuilNavbar.astro   # Navigasi atas (Xnshi Note's, Home, Archive, About, Search Bar)
 │           │   ├── QuilSidebar.astro  # Sidebar kiri (Profil Axel Kenshi, Categories, Tags)
 │           │   ├── SearchBar.svelte   # Search Bar dengan Vanilla JS Logic + Dropdown Popup Overlay
-│           │   └── Pagination.astro   # Komponen kontrol halaman (1, 2, 3... 25)
+│           │   ├── Pagination.astro   # Komponen kontrol halaman (1, 2, 3... 25) kolom kanan
+│           │   ├── NextPrev.svelte    # Komponen kontrol feed next-previous pada kaki konten rendering slug
+│           │   └── TranslateToggle.astro    # Komponen toggle id/en di area Meta Catatan isi konten slug
 │           │
 │           ├── index.astro            # Feed utama (Ekuivalen dengan Home)
 │           ├── archive.astro          # Halaman Arsip/Lini Masa (seperti di screenshot archive)
