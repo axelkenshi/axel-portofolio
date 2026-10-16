@@ -41,11 +41,14 @@ const { title, activeMenu = 'home' } = Astro.props;
       try {
         var hue = localStorage.getItem('quil-theme-hue') || '360';
         document.documentElement.style.setProperty('--theme-hue', hue);
-        var isDark = localStorage.getItem('quil-theme') !== 'light';
+
+        // Default light: dark hanya aktif jika pengunjung memilih dark (ganti jika ingin gelap [!== 'light'])
+        var isDark = localStorage.getItem('quil-theme') === 'dark';
         document.documentElement.classList.toggle('quil-dark', isDark);
         document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
       } catch (e) {
-        document.documentElement.classList.add('quil-dark');
+        // Jika localStorage tidak bisa diakses, tetap light: tidak menambahkan class apa pun
+        // document.documentElement.classList.add('quil-dark');
       }
     </script>
   </head>
