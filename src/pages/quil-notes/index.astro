@@ -28,18 +28,18 @@ const searchIndex = sortedNotes.map((note) => ({
   <div class="space-y-6">
     
     <!-- Ucapan Selamat Datang / Preamble Hub -->
-    <div class="pb-4 border-b border-zinc-900">
-      <h2 class="text-xl font-bold text-zinc-100 flex items-center gap-2">
+    <div class="pb-4 border-b border-quil-border">
+      <h2 class="text-xl font-bold text-quil-fg flex items-center gap-2">
         <span class="w-1.5 h-4 bg-quilAccent rounded-full"></span>
         Recent Notes Entries
       </h2>
-      <p class="text-xs text-zinc-500 mt-1">Archiving logical thought fragments, code drafts, and diary entries.</p>
+      <p class="text-xs text-quil-fg-muted mt-1">Archiving logical thought fragments, code drafts, and diary entries.</p>
     </div>
 
     <!-- FEED CARD UTAMA -->
     <div class="space-y-4">
       {paginatedNotes.length === 0 ? (
-        <div class="text-center py-12 text-zinc-600 italic text-sm">
+        <div class="text-center py-12 text-quil-fg-faint italic text-sm">
           There are no notes written in the content/notes/ folder yet.
         </div>
       ) : (
@@ -51,11 +51,11 @@ const searchIndex = sortedNotes.map((note) => ({
           });
 
           return (
-            <article class="p-5 bg-zinc-900/10 border border-zinc-800/50 hover:border-quilAccent/20 active:border-quilAccent/20 rounded-2xl transition-all duration-200 shadow-sm hover:shadow-md active:shadow-md flex flex-col md:flex-row gap-5 group relative overflow-hidden">
+            <article class="p-5 bg-quil-surface/10 border border-quil-border/50 hover:border-quilAccent/20 active:border-quilAccent/20 rounded-2xl transition-all duration-200 shadow-sm hover:shadow-md active:shadow-md flex flex-col md:flex-row gap-5 group relative overflow-hidden">
               
               <!-- Thumbnail Kecil Samping (Jika Ada Gambar Spasial) -->
               {note.data.img && (
-                <div class="w-full md:w-40 h-28 rounded-xl overflow-hidden border border-zinc-900 shrink-0 bg-zinc-950">
+                <div class="w-full md:w-40 h-28 rounded-xl overflow-hidden border border-quil-border shrink-0 bg-quil-well">
                   <img src={note.data.img} alt={note.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-80 group-hover:opacity-100" />
                 </div>
               )}
@@ -64,13 +64,13 @@ const searchIndex = sortedNotes.map((note) => ({
               <div class="flex flex-col justify-between flex-grow gap-2">
                 <div class="space-y-1">
                   
-                  <div class="flex items-center gap-2.5 text-[10px] font-mono text-zinc-500">
+                  <div class="flex items-center gap-2.5 text-[10px] font-mono text-quil-fg-muted">
                     <time datetime={note.data.date.toISOString()}>{formattedDate}</time>
                     <span>•</span>
-                    <span class="text-zinc-400">{note.data.category}</span>
+                    <span class="text-quil-fg-soft">{note.data.category}</span>
                   </div>
 
-                  <h3 class="text-base font-bold text-zinc-200 line-clamp-1">
+                  <h3 class="text-base font-bold text-quil-fg line-clamp-1">
                     <a
                       href={`/quil-notes/${note.id}`}
                       class="group-hover:text-quilText group-active:text-quilText transition-colors after:absolute after:inset-0 after:content-['']"
@@ -80,7 +80,7 @@ const searchIndex = sortedNotes.map((note) => ({
                   </h3>
 
                   {note.data.description && (
-                    <p class="text-xs text-zinc-400 font-light leading-relaxed line-clamp-2 pt-0.5">
+                    <p class="text-xs text-quil-fg-soft font-light leading-relaxed line-clamp-2 pt-0.5">
                       {note.data.description}
                     </p>
                   )}
@@ -92,7 +92,7 @@ const searchIndex = sortedNotes.map((note) => ({
                     {note.data.tags.map((tag: string) => (
                       <a
                         href={`/quil-notes/tags/${tag.toLowerCase()}`}
-                        class="relative z-10 text-[9px] font-medium font-mono bg-zinc-900 text-zinc-500 border border-zinc-900 px-2 py-0.5 rounded hover:border-quilAccent/20 hover:text-zinc-400 active:border-quilAccent/20 active:text-zinc-400 transition-all"
+                        class="relative z-10 text-[9px] font-medium font-mono bg-quil-surface text-quil-fg-muted border border-quil-border px-2 py-0.5 rounded hover:border-quilAccent/20 hover:text-quil-fg-soft active:border-quilAccent/20 active:text-quil-fg-soft transition-all"
                       >
                         #{tag}
                       </a>

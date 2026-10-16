@@ -30,8 +30,8 @@ const { tagName, notes } = Astro.props;
 <QuilLayout title={`Tag: #${tagName}`}>
   <div class="space-y-6">
     
-    <div class="pb-1 border-b border-zinc-900">
-      <h2 class="text-xl font-bold text-zinc-100 flex items-center gap-2">
+    <div class="pb-1 border-b border-quil-border">
+      <h2 class="text-xl font-bold text-quil-fg flex items-center gap-2">
         <svg class="w-5 h-5 text-quilAccent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 2v4" />
@@ -40,15 +40,15 @@ const { tagName, notes } = Astro.props;
         </svg>
         Pinned Tag List: <span class="text-quilText">#{tagName}</span>
       </h2>
-      <p class="text-sm text-zinc-400 mt-5">Founded {notes.length} relevant record entries.</p>
+      <p class="text-sm text-quil-fg-soft mt-5">Founded {notes.length} relevant record entries.</p>
     </div>
 
     <div class="space-y-4">
       {notes.map((note) => (
-        <div class="tag-card p-5 bg-zinc-900/20 border border-zinc-800/60 rounded-xl hover:border-quilAccent/30 active:border-quilAccent/30 transition-all duration-200 group flex flex-col md:flex-row gap-5 relative overflow-hidden shadow-sm">
+        <div class="tag-card p-5 bg-quil-surface/20 border border-quil-border/60 rounded-xl hover:border-quilAccent/30 active:border-quilAccent/30 transition-all duration-200 group flex flex-col md:flex-row gap-5 relative overflow-hidden shadow-sm">
 
           {note.data.img && (
-            <div class="w-full md:w-40 h-28 rounded-xl overflow-hidden border border-zinc-900 shrink-0 bg-zinc-950">
+            <div class="w-full md:w-40 h-28 rounded-xl overflow-hidden border border-quil-border shrink-0 bg-quil-well">
               <img 
                 src={note.data.img} 
                 alt={note.data.title} 
@@ -60,20 +60,20 @@ const { tagName, notes } = Astro.props;
           <div class="flex flex-col justify-between flex-grow gap-2">
             
             <div class="space-y-1.5">
-              <div class="flex items-center gap-3 text-[10px] font-mono text-zinc-500">
+              <div class="flex items-center gap-3 text-[10px] font-mono text-quil-fg-muted">
                 <time>{new Date(note.data.date).toLocaleDateString('en-EN', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
                 <span>•</span>
-                <span class="text-zinc-400">{note.data.category}</span>
+                <span class="text-quil-fg-soft">{note.data.category}</span>
               </div>
               
               <a href={`/quil-notes/${note.id}`} class="tag-card__link block">
-                <h3 class="text-base font-bold text-zinc-200 group-hover:text-quilText group-active:text-quilText transition-colors line-clamp-1">
+                <h3 class="text-base font-bold text-quil-fg group-hover:text-quilText group-active:text-quilText transition-colors line-clamp-1">
                   {note.data.title}
                 </h3>
               </a>
               
               {note.data.description && (
-                <p class="text-xs text-zinc-400 font-light line-clamp-2 leading-relaxed pt-0.5">
+                <p class="text-xs text-quil-fg-soft font-light line-clamp-2 leading-relaxed pt-0.5">
                   {note.data.description}
                 </p>
               )}
@@ -86,7 +86,7 @@ const { tagName, notes } = Astro.props;
                   class={`text-[9px] font-mono px-2 py-0.5 rounded border transition-all
                     ${t.toLowerCase() === tagName.toLowerCase() 
                       ? 'bg-quilAccentMuted border-quilAccent/40 text-quilText' 
-                      : 'bg-zinc-950 border-zinc-900 text-zinc-500 hover:border-quilAccent/20 hover:text-zinc-400 active:text-zinc-400'}`}
+                      : 'bg-quil-well border-quil-border text-quil-fg-muted hover:border-quilAccent/20 hover:text-quil-fg-soft active:text-quil-fg-soft'}`}
                 >
                   #{t}
                 </a>

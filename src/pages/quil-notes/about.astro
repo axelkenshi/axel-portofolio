@@ -66,14 +66,14 @@ const about = {
 <QuilLayout title="About Me & This Garden" activeMenu="about">
   <div class="space-y-8 animate-fade-in">
     
-    <div class="pb-4 border-b border-zinc-900">
-      <h2 class="text-xl font-bold text-zinc-100 flex items-center gap-2">
+    <div class="pb-4 border-b border-quil-border">
+      <h2 class="text-xl font-bold text-quil-fg flex items-center gap-2">
         <span class="w-1.5 h-4 bg-quilAccent rounded-full"></span>
         <span data-about-block="id" lang="id">{about.title.id}</span>
         <span data-about-block="en" lang="en" hidden>{about.title.en}</span>
       </h2>
-      <p data-about-block="id" lang="id" class="text-xs text-zinc-500 mt-1">{about.subtitle.id}</p>
-      <p data-about-block="en" lang="en" hidden class="text-xs text-zinc-500 mt-1">{about.subtitle.en}</p>
+      <p data-about-block="id" lang="id" class="text-xs text-quil-fg-muted mt-1">{about.subtitle.id}</p>
+      <p data-about-block="en" lang="en" hidden class="text-xs text-quil-fg-muted mt-1">{about.subtitle.en}</p>
     </div>
 
     <div class="flex">
@@ -90,7 +90,7 @@ const about = {
       </button>
     </div>
     
-    <div id="about-content" class="space-y-4 text-sm leading-relaxed text-zinc-300 font-light">
+    <div id="about-content" class="space-y-4 text-sm leading-relaxed text-quil-fg-soft font-light">
       <div data-about-block="id" lang="id" class="space-y-4">
         {about.id.map((html) => <p set:html={html} />)}
       </div>
@@ -100,7 +100,7 @@ const about = {
     </div>
 
     <div class="space-y-4 pt-4">
-      <h3 class="text-sm font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-2">
+      <h3 class="text-sm font-bold text-quil-fg-soft uppercase tracking-wider flex items-center gap-2">
         <svg class="w-4 h-4 text-quilAccent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -111,16 +111,16 @@ const about = {
       
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {techStacks.map((tech) => (
-          <div class="p-3.5 bg-zinc-900/40 border border-zinc-800/80 rounded-xl flex items-start gap-3 hover:border-quilAccent/20 hover:active-quilAccent/20 transition-colors group">
-            <span class="text-xl p-1 bg-zinc-950 border border-zinc-900 rounded-lg group-hover:scale-110 group-active:scale-110 transition-transform shrink-0">
+          <div class="p-3.5 bg-quil-surface/40 border border-quil-border/80 rounded-xl flex items-start gap-3 hover:border-quilAccent/20 hover:active-quilAccent/20 transition-colors group">
+            <span class="text-xl p-1 bg-quil-well border border-quil-border rounded-lg group-hover:scale-110 group-active:scale-110 transition-transform shrink-0">
               {tech.icon}
             </span>
             <div>
-              <h4 class="text-xs font-bold text-zinc-200 group-hover:text-quilText group-active:text-quilText transition-colors">{tech.name}</h4>
-              <p data-about-block="id" lang="id" class="text-[11px] text-zinc-500 font-light mt-0.5 leading-snug">
+              <h4 class="text-xs font-bold text-quil-fg group-hover:text-quilText group-active:text-quilText transition-colors">{tech.name}</h4>
+              <p data-about-block="id" lang="id" class="text-[11px] text-quil-fg-muted font-light mt-0.5 leading-snug">
                 {tech.role.id}
               </p>
-              <p data-about-block="en" lang="en" hidden class="text-[11px] text-zinc-500 font-light mt-0.5 leading-snug">
+              <p data-about-block="en" lang="en" hidden class="text-[11px] text-quil-fg-muted font-light mt-0.5 leading-snug">
                 {tech.role.en}
               </p>
             </div>
@@ -129,12 +129,12 @@ const about = {
       </div>
     </div>
 
-    <div class="p-4 bg-gradient-to-br from-zinc-900/80 to-zinc-950/40 border border-zinc-800/60 rounded-2xl relative overflow-hidden group">
+    <div class="p-4 bg-linear-to-br from-quil-surface/80 to-quil-well/40 border border-quil-border/60 rounded-2xl relative overflow-hidden group">
       <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-quilAccentMuted/10 rounded-full blur-xl group-hover:bg-quilAccentMuted/20 group-active:bg-quilAccentMuted/20 transition-all"></div>
-      <p data-about-block="id" lang="id" class="text-xs text-zinc-400 italic text-center leading-relaxed">
+      <p data-about-block="id" lang="id" class="text-xs text-quil-fg-soft italic text-center leading-relaxed">
         "{about.quote.id}"
       </p>
-      <p data-about-block="en" lang="en" class="text-xs text-zinc-400 italic text-center leading-relaxed" hidden>
+      <p data-about-block="en" lang="en" class="text-xs text-quil-fg-soft italic text-center leading-relaxed" hidden>
         "{about.quote.en}"
       </p>
     </div>

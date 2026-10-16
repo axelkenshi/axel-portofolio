@@ -38,16 +38,19 @@ const { title, activeMenu = 'home' } = Astro.props;
     />
     <!-- SCRIPT ANTI-KEDIP (BLOCKING EXECUTION) -->
     <script is:inline>
-      // Ambil hue tersimpan atau gunakan default 180 (Teal)
-      const savedHue = localStorage.getItem('quil-theme-hue') || '180';
-      document.documentElement.style.setProperty('--theme-hue', savedHue);
-      
-      // Paksa halaman Quil Notes selalu menggunakan basis tema gelap ekosistem Fuwari
-      document.documentElement.classList.add('dark');
+      try {
+        var hue = localStorage.getItem('quil-theme-hue') || '360';
+        document.documentElement.style.setProperty('--theme-hue', hue);
+        var isDark = localStorage.getItem('quil-theme') !== 'light';
+        document.documentElement.classList.toggle('quil-dark', isDark);
+        document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+      } catch (e) {
+        document.documentElement.classList.add('quil-dark');
+      }
     </script>
   </head>
   
-  <body class="bg-quilBg text-zinc-300 font-source-sans antialiased min-h-screen flex flex-col selection:bg-quil-accent-muted selection:text-quil-text">
+  <body class="bg-quilBg text-quil-fg-soft font-source-sans antialiased min-h-screen flex flex-col selection:bg-quil-accent-muted selection:text-quil-text">
     
     <!-- HEADER / NAVIGATION (Akan kita isi di Tahap 3) -->
     <header class="sticky top-0 z-40 w-full px-4 pt-4">
@@ -64,7 +67,7 @@ const { title, activeMenu = 'home' } = Astro.props;
 
       <!-- KOLOM KANAN: KONTEN DINAMIS (DIUNGKUS .quil-garden AGAR KONTEN PROSE IKUT DINAMIS) -->
       <section id="quil-content" class="lg:col-span-9 quil-garden flex flex-col gap-6 scroll-mt-24">
-        <div class="bg-quilCard border border-zinc-800/60 rounded-2xl p-6 lg:p-8 shadow-xl flex-grow">
+        <div class="bg-quilCard border border-quil-border rounded-2xl p-6 lg:p-8 shadow-xl flex-grow">
           <slot />
         </div>
       </section>
@@ -72,10 +75,10 @@ const { title, activeMenu = 'home' } = Astro.props;
     </main>
 
     <!-- FOOTER -->
-    <footer class="w-full text-center py-8 text-xs text-zinc-600 border-t border-zinc-900/60 mt-12 bg-quilCard/20">
+    <footer class="w-full text-center py-8 text-xs text-quil-fg-faint border-t border-quil-border mt-12 bg-quilCard/20">
       <p>
         © {new Date().getFullYear()} Axel Kenshi. All Rights Reserved. 
-        <span class="mx-1.5 text-zinc-800">/</span> 
+        <span class="mx-1.5 text-quil-border-strong">/</span> 
         
         <a 
           href="/rss.xml" 
@@ -86,7 +89,7 @@ const { title, activeMenu = 'home' } = Astro.props;
           RSS
         </a> 
         
-        <span class="mx-1.5 text-zinc-800">/</span> 
+        <span class="mx-1.5 text-quil-border">/</span> 
         
         <a 
           href="/sitemap-index.xml" 
@@ -97,7 +100,7 @@ const { title, activeMenu = 'home' } = Astro.props;
           Sitemap
         </a>
       </p>
-      <p class="text-[10px] text-zinc-700 mt-1">Powered by Astro + Svelte & Refers Fuwari-style Engine</p>
+      <p class="text-[10px] text-quil-fg-faint mt-1">Powered by Astro + Svelte & Refers Fuwari-style Engine</p>
     </footer>
 
     <script>

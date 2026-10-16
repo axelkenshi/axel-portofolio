@@ -28,12 +28,12 @@ const tags = Array.from(uniqueTags);
 <div class="flex flex-col gap-6">
   
   <!-- KARTU PROFIL PENULIS (AXEL KENSHI) -->
-  <div class="bg-quilCard border border-zinc-800/60 rounded-2xl p-6 shadow-xl text-center flex flex-col items-center relative overflow-hidden group">
+  <div class="bg-quilCard border border-quil-border/60 rounded-2xl p-6 shadow-xl text-center flex flex-col items-center relative overflow-hidden group">
     <!-- Garis Aksen Dekoratif Atas -->
-    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-right bg-quilAccent"></div>
+    <div class="absolute top-0 left-0 right-0 h-1 bg-quilAccent"></div>
     
-    <!-- Lingkaran Avatar / Inisial -->
-    <div class="w-20 h-20 rounded-2xl bg-zinc-900 border border-zinc-800 overflow-hidden shadow-inner mb-4 group-hover:border-quilAccent group-active:border-quilAccent transition-colors duration-300 flex items-center justify-center">
+    <!-- Square Avatar / Inisial -->
+    <div class="w-20 h-20 rounded-2xl bg-quil-surface border border-quil-border overflow-hidden shadow-inner mb-4 group-hover:border-quilAccent group-active:border-quilAccent transition-colors duration-300 flex items-center justify-center">
       <img 
         src="/assets/nikaidou.webp" 
         alt="pic" 
@@ -42,45 +42,45 @@ const tags = Array.from(uniqueTags);
       />
     </div>
     
-    <h2 class="text-zinc-100 font-bold text-lg leading-tight">Axel Kenshi</h2>
-    <p class="text-xs text-zinc-300 mt-1 mb-2">A passionate web developer and tech enthusiast, majoring in computer science student. As critical and analytical thinker.
+    <h2 class="text-quil-fg font-bold text-lg leading-tight">Axel Kenshi</h2>
+    <p class="text-xs text-quil-fg-soft mt-1 mb-2">A passionate web developer and tech enthusiast, majoring in computer science student. As critical and analytical thinker.
     </p>
-    <p class="text-xs text-zinc-300 bg-quilAccent/5 rounded p-2 mt-1 mb-4">
+    <p class="text-xs text-quil-fg-soft bg-quilAccent/5 rounded p-2 mt-1 mb-4">
       Announcement: <br/>
       If you are a reader from abroad, please accept my apologies; naturally, I am writing in my native language. As a workaround, you can use the translation feature in your browser settings or a third-party AI tool—that should be helpful. <br/> native language: Indonesian (🇮🇩)
     </p>
     
     <!-- Jembatan Sosial Mini -->
     <div class="flex gap-2">
-      <a href="https://github.com/axelkenshi" target="_blank" class="p-2 rounded-xl bg-zinc-900 text-zinc-400 border border-zinc-800/60 hover:text-quilAccent hover:border-quilAccent active:text-quilAccent active:border-quilAccent transition-all text-xs flex items-center gap-1.5 font-medium">
+      <a href="https://github.com/axelkenshi" target="_blank" class="p-2 rounded-xl bg-quil-surface text-quil-fg-soft border border-quil-border/60 hover:text-quilAccent hover:border-quilAccent active:text-quilAccent active:border-quilAccent transition-all text-xs flex items-center gap-1.5 font-medium">
         GitHub Me
       </a>
-      <a href="https://axelkenshi.my.id/" target="_self" class="p-2 rounded-xl bg-zinc-900 text-zinc-400 border border-zinc-800/60 hover:text-quilAccent hover:border-quilAccent active:text-quilAccent active:border-quilAccent transition-all text-xs flex items-center gap-1.5 font-medium">
+      <a href="https://axelkenshi.my.id/" target="_self" class="p-2 rounded-xl bg-quil-surface text-quil-fg-soft border border-quil-border/60 hover:text-quilAccent hover:border-quilAccent active:text-quilAccent active:border-quilAccent transition-all text-xs flex items-center gap-1.5 font-medium">
         Myself Bio
       </a>
-      <a href="https://anilist.co/user/cellin/" target="_self" class="p-2 rounded-xl bg-zinc-900 text-zinc-400 border border-zinc-800/60 hover:text-quilAccent hover:border-quilAccent active:text-quilAccent active:border-quilAccent transition-all text-xs flex items-center gap-1.5 font-medium">
+      <a href="https://anilist.co/user/cellin/" target="_self" class="p-2 rounded-xl bg-quil-surface text-quil-fg-soft border border-quil-border/60 hover:text-quilAccent hover:border-quilAccent active:text-quilAccent active:border-quilAccent transition-all text-xs flex items-center gap-1.5 font-medium">
         AniList
       </a>
     </div>
   </div>
 
   <!-- BLOK STRUKTUR KATEGORI (CATEGORIES) -->
-  <div class="bg-quilCard border border-zinc-800/60 rounded-2xl p-5 shadow-xl">
-    <h3 class="text-xs font-bold text-zinc-500 tracking-wider uppercase mb-3 flex items-center gap-2">
+  <div class="bg-quilCard border border-quil-border/60 rounded-2xl p-5 shadow-xl">
+    <h3 class="text-xs font-bold text-quil-fg-muted tracking-wider uppercase mb-3 flex items-center gap-2">
       <span class="w-1.5 h-3 bg-quilAccent rounded-full inline-block"></span>
       Categories
     </h3>
     <div class="flex flex-col gap-1">
       {categories.length === 0 ? (
-        <span class="text-xs text-zinc-600 italic px-2">No categories found</span>
+        <span class="text-xs text-quil-fg-faint italic px-2">No categories found</span>
       ) : (
         categories.map((cat) => (
           <a 
             href={`/quil-notes/categories/${cat.name.toLowerCase()}`}
-            class="flex items-center justify-between text-xs font-medium text-zinc-400 hover:text-quilText hover:bg-zinc-800/30 active:text-quilText active:bg-zinc-800/30 px-3 py-2.5 rounded-xl transition-all duration-150"
+            class="flex items-center justify-between text-xs font-medium text-quil-fg-soft hover:text-quilText hover:bg-quil-border/30 active:text-quilText active:bg-quil-border/30 px-3 py-2.5 rounded-xl transition-all duration-150"
           >
             <span>{cat.name}</span>
-            <span class="px-2 py-0.5 rounded-md bg-zinc-900 text-zinc-500 text-[10px] border border-zinc-800 font-mono group-hover:text-quilAccent group-active:text-quilAccent">
+            <span class="px-2 py-0.5 rounded-md bg-quil-surface text-quil-fg-muted text-[10px] border border-quil-border font-mono group-hover:text-quilAccent group-active:text-quilAccent">
               {cat.count}
             </span>
           </a>
@@ -90,19 +90,19 @@ const tags = Array.from(uniqueTags);
   </div>
 
   <!-- BLOK KAWANAN TAGS (TAG CLOUD) -->
-  <div class="bg-quilCard border border-zinc-800/60 rounded-2xl p-5 shadow-xl">
-    <h3 class="text-xs font-bold text-zinc-500 tracking-wider uppercase mb-3 flex items-center gap-2">
+  <div class="bg-quilCard border border-quil-border/60 rounded-2xl p-5 shadow-xl">
+    <h3 class="text-xs font-bold text-quil-fg-muted tracking-wider uppercase mb-3 flex items-center gap-2">
       <span class="w-1.5 h-3 bg-quilAccent rounded-full inline-block"></span>
       Tags
     </h3>
     <div class="flex flex-wrap gap-2">
       {tags.length === 0 ? (
-        <span class="text-xs text-zinc-600 italic">No tags listed</span>
+        <span class="text-xs text-quil-fg-faint italic">No tags listed</span>
       ) : (
         tags.map((tag) => (
           <a 
             href={`/quil-notes/tags/${tag.toLowerCase()}`}
-            class="text-[11px] font-medium text-zinc-400 bg-zinc-900 border border-zinc-800/80 px-2.5 py-1.5 rounded-xl hover:text-quilText hover:border-quilAccent hover:bg-quilAccentMuted active:text-quilText active:border-quilAccent active:bg-quilAccentMuted transition-all duration-150"
+            class="text-[11px] font-medium text-quil-fg-soft bg-quil-surface border border-quil-border/80 px-2.5 py-1.5 rounded-xl hover:text-quilText hover:border-quilAccent hover:bg-quilAccentMuted active:text-quilText active:border-quilAccent active:bg-quilAccentMuted transition-all duration-150"
           >
             #{tag}
           </a>
