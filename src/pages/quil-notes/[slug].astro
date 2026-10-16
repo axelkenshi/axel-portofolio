@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import QuilLayout from '../../layouts/QuilLayout.astro';
 import NextPrev from './_components/NextPrev.svelte';
+import TranslateToggle from './_components/TranslateToggle.astro';
 
 // 1. Definisikan jalur statis untuk seluruh catatan saat build-time
 export async function getStaticPaths() {
@@ -51,33 +52,37 @@ const formattedDate = new Date(date).toLocaleDateString('en-EN', {
         {category}
       </span>
       <time datetime={date.toISOString()}>{formattedDate}</time>
+      <TranslateToggle />
     </div>
 
-    <!-- Judul Catatan -->
-    <h1 class="text-3xl sm:text-4xl font-extrabold text-quil-fg tracking-tight leading-tight">
-      {title}
-    </h1>
-
-    <!-- Deskripsi Pendek / Preamble (Jika Ada) -->
-    {description && (
-      <p class="text-sm text-quil-fg-soft italic bg-quil-surface/50 border-l-2 border-quilAccent p-3 rounded-r-xl leading-relaxed">
-        {description}
-      </p>
-    )}
-
-    <!-- Gambar Banner Utama (Jika Ada) -->
-    {img && (
-      <div class="overflow-hidden rounded-2xl border border-quil-border/80 max-h-[380px] shadow-inner">
-        <img src={img} alt={title} class="w-full h-full object-cover transform hover:scale-[1.01] active:scale-[1.01] transition-transform duration-300" />
+    <!-- Area yang diterjemahkan: judul, deskripsi, gambar, dan isi markdown -->
+    <div id="note-content" class="space-y-6">
+      <!-- Judul Catatan -->
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-quil-fg tracking-tight leading-tight">
+        {title}
+      </h1>
+  
+      <!-- Deskripsi Pendek / Preamble (Jika Ada) -->
+      {description && (
+        <p class="text-sm text-quil-fg-soft italic bg-quil-surface/50 border-l-2 border-quilAccent p-3 rounded-r-xl leading-relaxed">
+          {description}
+        </p>
+      )}
+  
+      <!-- Gambar Banner Utama (Jika Ada) -->
+      {img && (
+        <div class="overflow-hidden rounded-2xl border border-quil-border/80 max-h-[380px] shadow-inner">
+          <img src={img} alt={title} class="w-full h-full object-cover transform hover:scale-[1.01] active:scale-[1.01] transition-transform duration-300" />
+        </div>
+      )}
+  
+      <!-- Garis Pembatas Estetik -->
+      <hr class="border-quil-border/60 my-4" />
+  
+      <!-- AREA RENDISI MARKDOWN UTAMA (.blog-prose otomatis tersinkron ke warna HSL) -->
+      <div class="blog-prose">
+        <Content />
       </div>
-    )}
-
-    <!-- Garis Pembatas Estetik -->
-    <hr class="border-quil-border/60 my-4" />
-
-    <!-- AREA RENDISI MARKDOWN UTAMA (.blog-prose otomatis tersinkron ke warna HSL) -->
-    <div class="blog-prose">
-      <Content />
     </div>
 
     <!-- Kaki Artikel: Render Kembali Tag yang Terkait -->

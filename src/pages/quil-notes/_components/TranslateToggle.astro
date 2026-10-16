@@ -1,0 +1,98 @@
+<div class="ml-auto flex flex-col items-end gap-2">
+  <button
+    type="button"
+    id="translate-toggle"
+    hidden
+    aria-pressed="false"
+    class="px-3 py-1 rounded-full text-[11px] font-mono font-semibold border border-quilAccent/30 bg-quilAccentMuted/40 text-quilText hover:border-quilAccent/60 active:border-quilAccent/60 active:scale-95 transition-all cursor-pointer"
+  >
+    <span id="translate-label">⇄ ID</span>
+  </button>
+
+  <div
+    id="translate-badge"
+    role="status"
+    hidden
+    class="max-w-xs px-3 py-1.5 rounded-lg text-[11px] text-quil-fg-soft bg-quil-surface border border-quilAccent/30 shadow-md"
+  >
+    This is an experimental feature, don't expect quality.
+  </div>
+</div>
+
+<script>
+  import {
+    translatorSupported,
+    getAvailability,
+    createTranslator,
+    translateContainer,
+    restoreContainer,
+  } from '../../../scripts/translate/translate-dom';
+
+  const btn = document.getElementById('translate-toggle') as HTMLButtonElement | null;
+  const label = document.getElementById('translate-label');
+  const badge = document.getElementById('translate-badge');
+  const target = document.getElementById('note-content') as HTMLElement | null;
+
+  let originals: Map<Text, string> | null = null;
+  let busy = false;
+  let badgeTimer: number | undefined;
+
+  function setLabel(text: string) {
+    if (label) label.textContent = text;
+  }
+
+  function showBadge() {
+    if (!badge) return;
+    badge.hidden = false;
+    window.clearTimeout(badgeTimer);
+    badgeTimer = window.setTimeout(() => (badge.hidden = true), 20000);
+  }
+
+  async function init() {
+    if (!btn || !target || !translatorSupported()) return;
+    try {
+      const status = await getAvailability();
+      if (status !== 'unavailable') btn.hidden = false;
+    } catch {
+      // Tombol tetap tersembunyi
+    }
+  }
+
+  btn?.addEventListener('click', async () => {
+    if (busy || !target || !btn) return;
+
+    // Kembali ke Indonesia
+    if (originals) {
+      restoreContainer(originals);
+      originals = null;
+      target.lang = 'id';
+      btn.setAttribute('aria-pressed', 'false');
+      setLabel('ID');
+      return;
+    }
+
+    // Panggilan createTranslator harus menjadi pemanggilan pertama setelah klik
+    busy = true;
+    setLabel('…');
+    try {
+      const translator = await createTranslator((ratio) =>
+        setLabel(`${Math.round(ratio * 100)}%`)
+      );
+      originals = await translateContainer(target, translator);
+      translator.destroy?.();
+
+      target.lang = 'en';
+      btn.setAttribute('aria-pressed', 'true');
+      setLabel('EN');
+      showBadge();
+    } catch {
+      setLabel('ID');
+    } finally {
+      busy = false;
+    }
+  });
+
+  badge?.addEventListener('click', () => (badge.hidden = true));
+
+  init();
+</script>
