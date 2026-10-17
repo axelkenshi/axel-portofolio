@@ -14,17 +14,29 @@ const experiences = [
     desc: "Focus on deepening software engineering, basic algorithms, containerization experiments (Docker), and exploring the aesthetic harmony of modern interfaces & tools."
   }
 ];
+
+// Garis timeline: kelas dasar, lalu penyesuaian untuk item pertama dan terakhir
+const lineClass = (index: number) => {
+  const base = 'w-[2px] bg-zinc-300 dark:bg-zinc-800 absolute left-1/2 transform -translate-x-1/2 z-0';
+  const parts = [base];
+
+  if (index === 0) parts.push('top-7 bottom-0');
+  if (index === experiences.length - 1) parts.push('top-0 h-7 bottom-auto');
+  if (index > 0 && index < experiences.length - 1) parts.push('top-0 bottom-0');
+
+  return parts.join(' ');
+};
 ---
 
 <section id="experience" class="relative snap-start min-h-[100dvh] flex flex-col justify-center items-center overflow-hidden bg-tan dark:bg-dark text-dark dark:text-tan transition-colors duration-300 px-6 py-12">
   
   <canvas id="mesh-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-10"></canvas>
   
-  <div class="absolute inset-0 bg-gradient-to-t from-tan via-transparent to-tan/50 dark:from-dark dark:via-transparent dark:to-dark/50 z-10 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-linear-to-t from-tan via-transparent to-tan/50 dark:from-dark dark:via-transparent dark:to-dark/50 z-10 pointer-events-none"></div>
 
   <div class="text-center mb-15 relative z-20">
     <span class="font-mark-script text-2xl text-purple-600 dark:text-purple-400 tracking-wide block mb-2">Journey</span>
-    <h2 class="text-3xl sm:text-5xl font-black tracking-tight bg-gradient-to-r from-zinc-900 via-zinc-700 to-zinc-500 dark:from-white dark:via-zinc-200 dark:to-zinc-400 bg-clip-text text-transparent">
+    <h2 class="text-3xl sm:text-5xl font-black tracking-tight bg-linear-to-r from-zinc-900 via-zinc-700 to-zinc-500 dark:from-white dark:via-zinc-200 dark:to-zinc-400 bg-clip-text text-transparent">
       Milestones & Experience
     </h2>
   </div>
@@ -46,23 +58,19 @@ const experiences = [
             - Mobile: 2 Kolom -> Lebar tetap 32px (untuk icon/line) dan sisanya 1fr (untuk card)
             - Desktop (sm): 3 Kolom -> Rata seimbang 1fr, auto (tengah), 1fr
           */
-          <div class="milestone-item relative grid grid-cols-[32px_1fr] sm:grid-cols-[1fr_auto_1fr] gap-x-4 sm:gap-x-8 items-start w-full z-10 transition-all duration-700 opacity-30 transform translate-y-4">
+          <div class="milestone-item relative grid grid-cols-[32px_1fr] sm:grid-cols-[1fr_auto_1fr] gap-x-4 sm:gap-x-8 items-start w-full z-10 transition-[opacity,translate] duration-700 opacity-30 translate-y-4">
             
-            <div class={`w-full p-5 rounded-2xl bg-white/60 dark:bg-zinc-900/40 border border-zinc-200/60 dark:border-zinc-800/60 backdrop-blur-md shadow-sm hover:border-purple-500/50 dark:hover:border-purple-400/50 transition duration-300 col-start-2 ${isEven ? 'sm:col-start-1' : 'sm:col-start-3'}`}>
+            <div class={`w-full p-5 rounded-2xl bg-white/80 dark:bg-zinc-900/70 border border-zinc-200/60 dark:border-zinc-800/60 shadow-sm hover:border-purple-500/50 dark:hover:border-purple-400/50 transition-colors duration-300 col-start-2 ${isEven ? 'sm:col-start-1' : 'sm:col-start-3'}`}>
               <span class="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest">{exp.year}</span>
               <h3 class="text-lg font-bold text-zinc-900 dark:text-white mt-1">{exp.title}</h3>
               <h4 class="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-2">{exp.company}</h4>
               <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">{exp.desc}</p>
             </div>
 
-            <div class={`col-start-1 row-start-1 sm:col-start-2 flex flex-col items-center justify-start h-full relative min-w-[32px] sm:min-w-[40px]`}>
-              <div class={`w-[2px] bg-zinc-300 dark:bg-zinc-800 absolute left-1/2 transform -translate-x-1/2 z-0 
-                ${index === 0 ? 'top-7 bottom-0' : ''} 
-                ${index === experiences.length - 1 ? 'top-0 h-7 bottom-auto' : ''} 
-                ${index > 0 && index < experiences.length - 1 ? 'top-0 bottom-0' : ''}
-              `}></div>
+            <div class="col-start-1 row-start-1 sm:col-start-2 flex flex-col items-center justify-start h-full relative min-w-[32px] sm:min-w-[40px]">
+              <div class={lineClass(index)}></div>
               
-              <div class="w-3 h-3 rounded-full border-2 border-purple-500 bg-tan dark:bg-dark z-20 shadow-sm mt-7 timeline-dot transition-all duration-300"></div>
+              <div class="w-3 h-3 rounded-full border-2 border-purple-500 bg-tan dark:bg-dark z-20 shadow-sm mt-7 timeline-dot transition-[scale,background-color] duration-300"></div>
             </div>
 
             <div class={`hidden sm:block row-start-1 ${isEven ? 'sm:col-start-3' : 'sm:col-start-1'}`}></div>
@@ -93,200 +101,269 @@ const experiences = [
 </style>
 
 <script>
+  import { createThemeWatcher, createCanvasLoop } from '../../../scripts/canvas-utils';
+
+  /* Teardown instance sebelumnya agar tidak ada listener atau loop yang tertinggal */
+  let teardown: (() => void) | null = null;
+
   function initMilestone() {
+    const section = document.getElementById('experience');
+    if (!section || section.dataset.initialized === 'true') return;
+    section.dataset.initialized = 'true';
+
+    teardown?.();
+    const cleanups: Array<() => void> = [];
+    teardown = () => cleanups.forEach((fn) => fn());
+
     // === 1. LOGIKA UTAMA SCROLL INTERNAL ===
     const scrollArea = document.getElementById('timeline-scroll-area');
     const upBtn = document.getElementById('scroll-up-btn');
     const downBtn = document.getElementById('scroll-down-btn');
-    const items = document.querySelectorAll('.milestone-item');
+    const items = Array.from(section.querySelectorAll<HTMLElement>('.milestone-item'));
 
     if (scrollArea && upBtn && downBtn) {
+      const area = scrollArea;
       const scrollAmount = 180;
 
-      upBtn.addEventListener('click', () => {
-        scrollArea.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
-      });
+      // Status reveal per item (null = belum pernah dihitung), agar class hanya ditulis saat berubah
+      const revealState: Array<boolean | null> = items.map(() => null);
+      let revealQueued = false;
 
-      downBtn.addEventListener('click', () => {
-        scrollArea.scrollBy({ top: scrollAmount, behavior: 'smooth' });
-      });
+      const setButtonDisabled = (btn: HTMLElement, disabled: boolean) => {
+        btn.classList.toggle('opacity-30', disabled);
+        btn.classList.toggle('pointer-events-none', disabled);
+      };
 
-      scrollArea.addEventListener('scroll', () => {
-        const scrollTop = scrollArea.scrollTop;
-        const scrollHeight = scrollArea.scrollHeight;
-        const clientHeight = scrollArea.clientHeight;
+      const updateButtons = () => {
+        const { scrollTop, scrollHeight, clientHeight } = area;
+        setButtonDisabled(upBtn, scrollTop <= 5);
+        setButtonDisabled(downBtn, scrollTop + clientHeight >= scrollHeight - 5);
+      };
 
-        if (scrollTop <= 5) {
-          upBtn.classList.add('opacity-30', 'pointer-events-none');
-        } else {
-          upBtn.classList.remove('opacity-30', 'pointer-events-none');
-        }
+      // Baca semua posisi dulu, lalu tulis class (hindari layout thrashing)
+      const applyReveal = () => {
+        revealQueued = false;
+        const containerTop = area.getBoundingClientRect().top;
+        const containerBottom = containerTop + area.clientHeight;
+        const tops = items.map((item) => item.getBoundingClientRect().top);
 
-        if (scrollTop + clientHeight >= scrollHeight - 5) {
-          downBtn.classList.add('opacity-30', 'pointer-events-none');
-        } else {
-          downBtn.classList.remove('opacity-30', 'pointer-events-none');
-        }
+        items.forEach((item, i) => {
+          const shouldReveal = tops[i] >= containerTop - 20 && tops[i] <= containerBottom - 80;
+          if (revealState[i] === shouldReveal) return;
+          revealState[i] = shouldReveal;
 
-        revealOnScrollInternal();
-      });
-
-      function revealOnScrollInternal() {
-        items.forEach((item) => {
-          const itemTop = item.getBoundingClientRect().top;
-          const containerTop = scrollArea!.getBoundingClientRect().top;
-          const containerBottom = containerTop + scrollArea!.clientHeight;
-
-          if (itemTop >= containerTop - 20 && itemTop <= containerBottom - 80) {
+          const dot = item.querySelector('.timeline-dot');
+          if (shouldReveal) {
             item.classList.remove('opacity-30', 'translate-y-4');
             item.classList.add('opacity-100', 'translate-y-0');
-            const dot = item.querySelector('.timeline-dot');
-            if (dot) dot.classList.add('scale-150', 'bg-purple-500');
+            dot?.classList.add('scale-150', 'bg-purple-500');
           } else {
             item.classList.remove('opacity-100', 'translate-y-0');
             item.classList.add('opacity-30', 'translate-y-4');
-            const dot = item.querySelector('.timeline-dot');
-            if (dot) dot.classList.remove('scale-150', 'bg-purple-500');
+            dot?.classList.remove('scale-150', 'bg-purple-500');
           }
         });
-      }
-      setTimeout(revealOnScrollInternal, 100);
+      };
+
+      const queueReveal = () => {
+        if (revealQueued) return;
+        revealQueued = true;
+        requestAnimationFrame(applyReveal);
+      };
+
+      const onScroll = () => {
+        updateButtons();
+        queueReveal();
+      };
+      const onUp = () => area.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
+      const onDown = () => area.scrollBy({ top: scrollAmount, behavior: 'smooth' });
+
+      area.addEventListener('scroll', onScroll, { passive: true });
+      upBtn.addEventListener('click', onUp);
+      downBtn.addEventListener('click', onDown);
+      cleanups.push(() => {
+        area.removeEventListener('scroll', onScroll);
+        upBtn.removeEventListener('click', onUp);
+        downBtn.removeEventListener('click', onDown);
+      });
+
+      // Inisialisasi awal setelah layout stabil
+      const initTimer = window.setTimeout(() => {
+        updateButtons();
+        queueReveal();
+      }, 100);
+      cleanups.push(() => window.clearTimeout(initTimer));
     }
 
     // === 2. INTERACTIVE RED CONSTELLATION CANVAS ===
-    const canvas = document.getElementById('mesh-canvas') as HTMLCanvasElement;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    const canvas = document.getElementById('mesh-canvas') as HTMLCanvasElement | null;
+    const context = canvas?.getContext('2d') ?? null;
+    if (canvas && context) {
+      const ctx: CanvasRenderingContext2D = context;
 
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
 
-    let mouse = {
-      x: null as number | null,
-      y: null as number | null,
-      max: 180
-    };
+      const mouse = {
+        x: null as number | null,
+        y: null as number | null,
+        max: 180
+      };
 
-    const section = document.getElementById('experience');
-    if (section) {
-      section.addEventListener('mousemove', (e) => {
+      const onMouseMove = (e: MouseEvent) => {
         const rect = section.getBoundingClientRect();
         mouse.x = e.clientX - rect.left;
         mouse.y = e.clientY - rect.top;
-      });
-
-      section.addEventListener('mouseleave', () => {
+      };
+      const onMouseLeave = () => {
         mouse.x = null;
         mouse.y = null;
-      });
-    }
-
-    class Particle {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      radius: number;
-
-      constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 0.8;
-        this.vy = (Math.random() - 0.5) * 0.8;
-        this.radius = Math.random() * 2 + 1;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        if (this.x < 0 || this.x > width) this.vx *= -1;
-        if (this.y < 0 || this.y > height) this.vy *= -1;
-
-        if (mouse.x !== null && mouse.y !== null) {
-          const dx = this.x - mouse.x;
-          const dy = this.y - mouse.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < mouse.max) {
-            this.x -= dx * 0.03;
-            this.y -= dy * 0.03;
-          }
-        }
-      }
-
-      draw() {
-        ctx!.fillStyle = 'rgba(239, 68, 68, 0.75)';
-        ctx!.beginPath();
-        ctx!.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx!.fill();
-      }
-    }
-
-    const particleDensity = window.innerWidth < 640 ? 30 : 75;
-    const particles: Particle[] = [];
-    for (let i = 0; i < particleDensity; i++) {
-      particles.push(new Particle());
-    }
-
-    function animateMesh() {
-      const isDark = document.documentElement.classList.contains('dark') || document.body.classList.contains('dark');
-      
-      ctx!.fillStyle = isDark ? '#1a1a1a' : '#edeadf';
-      ctx!.fillRect(0, 0, width, height);
-
-      particles.forEach(p => {
-        p.update();
-        p.draw();
+      };
+      section.addEventListener('mousemove', onMouseMove, { passive: true });
+      section.addEventListener('mouseleave', onMouseLeave);
+      cleanups.push(() => {
+        section.removeEventListener('mousemove', onMouseMove);
+        section.removeEventListener('mouseleave', onMouseLeave);
       });
 
-      const lineMaxDist = 140;
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+      class Particle {
+        x: number;
+        y: number;
+        vx: number;
+        vy: number;
+        radius: number;
 
-          if (dist < lineMaxDist) {
-            const alpha = (1 - dist / lineMaxDist) * 0.22;
-            ctx!.strokeStyle = `rgba(239, 68, 68, ${alpha})`;
-            ctx!.lineWidth = 0.9;
-            ctx!.beginPath();
-            ctx!.moveTo(particles[i].x, particles[i].y);
-            ctx!.lineTo(particles[j].x, particles[j].y);
-            ctx!.stroke();
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.8;
+          this.vy = (Math.random() - 0.5) * 0.8;
+          this.radius = Math.random() * 2 + 1;
+        }
+
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+
+          if (mouse.x !== null && mouse.y !== null) {
+            const dx = this.x - mouse.x;
+            const dy = this.y - mouse.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < mouse.max) {
+              this.x -= dx * 0.03;
+              this.y -= dy * 0.03;
+            }
           }
         }
 
-        if (mouse.x !== null && mouse.y !== null) {
-          const dx = particles[i].x - mouse.x;
-          const dy = particles[i].y - mouse.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < mouse.max) {
-            const alpha = (1 - dist / mouse.max) * 0.28;
-            ctx!.strokeStyle = `rgba(239, 68, 68, ${alpha})`;
-            ctx!.lineWidth = 1.1;
-            ctx!.beginPath();
-            ctx!.moveTo(particles[i].x, particles[i].y);
-            ctx!.lineTo(mouse.x, mouse.y);
-            ctx!.stroke();
-          }
+        draw() {
+          ctx.fillStyle = 'rgba(239, 68, 68, 0.75)';
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fill();
         }
       }
 
-      requestAnimationFrame(animateMesh);
+      const particleDensity = window.innerWidth < 640 ? 30 : 75;
+      const particles = Array.from({ length: particleDensity }, () => new Particle());
+
+      // Konstanta garis: jarak maksimum, alpha maksimum, dan jumlah tingkat alpha (bucket)
+      const LINE_MAX_DIST = 140;
+      const LINE_MAX_DIST_SQ = LINE_MAX_DIST * LINE_MAX_DIST;
+      const LINK_MAX_ALPHA = 0.22;
+      const MOUSE_MAX_ALPHA = 0.28;
+      const ALPHA_STEPS = 8;
+
+      // Garis dengan alpha yang mirip digabung dalam satu Path2D, sehingga stroke() dipanggil sedikit saja
+      const makeBuckets = () => Array.from({ length: ALPHA_STEPS }, () => new Path2D());
+      const bucketIndex = (alpha: number, maxAlpha: number) =>
+        Math.min(ALPHA_STEPS - 1, Math.floor((alpha / maxAlpha) * ALPHA_STEPS));
+      const strokeBuckets = (buckets: Path2D[], maxAlpha: number, lineWidth: number) => {
+        ctx.lineWidth = lineWidth;
+        buckets.forEach((path, k) => {
+          ctx.strokeStyle = `rgba(239, 68, 68, ${((k + 0.5) / ALPHA_STEPS) * maxAlpha})`;
+          ctx.stroke(path);
+        });
+      };
+
+      // Deteksi kelas tema aktif (dark / light) dari cache, bukan DOM setiap frame
+      const theme = createThemeWatcher();
+
+      const frame = () => {
+        ctx.fillStyle = theme.isDark() ? '#1a1a1a' : '#edeadf';
+        ctx.fillRect(0, 0, width, height);
+
+        particles.forEach((p) => {
+          p.update();
+          p.draw();
+        });
+
+        const linkPaths = makeBuckets();
+        const mousePaths = makeBuckets();
+
+        for (let i = 0; i < particles.length; i++) {
+          const a = particles[i];
+
+          for (let j = i + 1; j < particles.length; j++) {
+            const b = particles[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const distSq = dx * dx + dy * dy;
+
+            // Cek jarak kuadrat dulu, sqrt hanya untuk garis yang terlihat
+            if (distSq >= LINE_MAX_DIST_SQ) continue;
+
+            const alpha = (1 - Math.sqrt(distSq) / LINE_MAX_DIST) * LINK_MAX_ALPHA;
+            const path = linkPaths[bucketIndex(alpha, LINK_MAX_ALPHA)];
+            path.moveTo(a.x, a.y);
+            path.lineTo(b.x, b.y);
+          }
+
+          if (mouse.x !== null && mouse.y !== null) {
+            const dx = a.x - mouse.x;
+            const dy = a.y - mouse.y;
+            const distSq = dx * dx + dy * dy;
+
+            if (distSq < mouse.max * mouse.max) {
+              const alpha = (1 - Math.sqrt(distSq) / mouse.max) * MOUSE_MAX_ALPHA;
+              const path = mousePaths[bucketIndex(alpha, MOUSE_MAX_ALPHA)];
+              path.moveTo(a.x, a.y);
+              path.lineTo(mouse.x, mouse.y);
+            }
+          }
+        }
+
+        strokeBuckets(linkPaths, LINK_MAX_ALPHA, 0.9);
+        strokeBuckets(mousePaths, MOUSE_MAX_ALPHA, 1.1);
+      };
+
+      const loop = createCanvasLoop(section, frame);
+
+      const onResize = () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      };
+      window.addEventListener('resize', onResize, { passive: true });
+
+      cleanups.push(() => {
+        loop.dispose();
+        theme.dispose();
+        window.removeEventListener('resize', onResize);
+      });
+
+      loop.start();
     }
-
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
-
-    animateMesh();
   }
 
+  // Integrasi transisi halaman Astro View Transitions
+  document.addEventListener('astro:before-swap', () => {
+    teardown?.();
+    teardown = null;
+  });
   document.addEventListener('astro:page-load', initMilestone);
   initMilestone();
 </script>

@@ -1,5 +1,35 @@
 ---
 // src/components/AboutMe.astro
+
+// Satu sumber data untuk ribbon techstack (dirender dua kali agar loop mulus)
+const techLogos = [
+  { src: "/img/techstack/html.svg", alt: "HTML5" },        // lang img
+  { src: "/img/techstack/css.svg", alt: "CSS3" },
+  { src: "/img/techstack/js.svg", alt: "JavaScript" },
+  { src: "/img/techstack/ts.svg", alt: "TypeScript" },
+  { src: "/img/techstack/php.svg", alt: "php" },
+  { src: "/img/techstack/mysql.svg", alt: "mysql" },
+  { src: "/img/techstack/tailwind.svg", alt: "Tailwind" },
+  { src: "/img/techstack/bootstrap.svg", alt: "bootstrap" },
+  { src: "/img/techstack/astro.svg", alt: "Astro", invertDark: true },
+  { src: "/img/techstack/svelte.svg", alt: "Svelte" },
+  { src: "/img/techstack/nodejs.svg", alt: "NodeJS" },
+  { src: "/img/techstack/vite-tool.svg", alt: "vite" },        // tools img
+  { src: "/img/techstack/firebase-tool.svg", alt: "firebase" },
+  { src: "/img/techstack/zed-tool.svg", alt: "zed" },
+  { src: "/img/techstack/gemini-tool.svg", alt: "gemini" },
+  { src: "/img/techstack/claude-tool.svg", alt: "claude" },
+];
+
+// Kelas dasar setiap logo. invertDark hanya untuk logo yang perlu dibalik warnanya di dark mode
+const logoClass = (invertDark = false) =>
+  `h-8 w-auto opacity-75 grayscale hover:grayscale-0 dark:hover:opacity-100 transition duration-300${invertDark ? ' dark:invert dark:hover:invert-0' : ''}`;
+
+// Teks notifikasi translasi (satu sumber, diulang di marquee)
+const translateNotice = "If you would like to read this in Indonesian or another language, please use the built-in translation feature in your browser's settings.";
+
+// Pengulangan teks di dalam setiap set agar lebar set cukup untuk loop mulus
+const noticeRepeat = [0, 1];
 ---
 
 <section id="about" class="relative snap-start min-h-[100dvh] flex flex-col justify-between overflow-hidden bg-tan dark:bg-dark text-dark dark:text-tan transition-colors duration-300">
@@ -20,16 +50,18 @@
       <div class="md:col-span-5 flex justify-center md:order-2">
         <div class="relative group">
           <!-- Efek Glow di Belakang Foto -->
-          <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-600 opacity-20 dark:opacity-30 blur-xl group-hover:opacity-50 transition duration-500"></div>
+          <div class="absolute -inset-1 rounded-2xl bg-linear-to-r from-cyan-500 to-purple-600 opacity-20 dark:opacity-30 blur-xl group-hover:opacity-50 transition duration-500"></div>
           
-          <!-- Frame Utama Foto -->
-          <div class="relative p-2 bg-white/60 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 rounded-2xl backdrop-blur-sm">
+          <!-- Frame Utama Foto (tanpa backdrop-blur agar tidak menghitung ulang blur di atas canvas) -->
+          <div class="relative p-2 bg-white/80 dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
             <img 
               src="/assets/my.webp" 
               alt="Axel Kenshi Profile Picture" 
               class="rounded-xl object-cover bg-zinc-100 dark:bg-zinc-800" 
               width="280" 
               height="280" 
+              decoding="async"
+              fetchpriority="high"
             />
           </div>
         </div>
@@ -39,7 +71,7 @@
       <div class="md:col-span-7 flex flex-col justify-center md:order-1 space-y-6">
         <div>
           <span class="font-mark-script text-2xl text-cyan-600 dark:text-cyan-400 tracking-wide block mb-2">About Me</span>
-          <h2 class="text-3xl sm:text-5xl font-black tracking-tight bg-gradient-to-r from-zinc-900 via-zinc-700 to-zinc-500 dark:from-white dark:via-zinc-200 dark:to-zinc-400 bg-clip-text text-transparent">
+          <h2 class="text-3xl sm:text-5xl font-black tracking-tight bg-linear-to-r from-zinc-900 via-zinc-700 to-zinc-500 dark:from-white dark:via-zinc-200 dark:to-zinc-400 bg-clip-text text-transparent">
             Crafting Clean Code & Aesthetic Interfaces.
           </h2>
         </div>
@@ -77,77 +109,52 @@
 
   <!-- 3a. Running text: info translasi browser -->
   <div class="mt-4 overflow-hidden">
-    <div class="flex w-max animate-marquee-text whitespace-nowrap text-xs sm:text-sm italic tracking-wide text-zinc-600 dark:text-zinc-400">
-      <span class="shrink-0 pr-20">
-        If you would like to read this in Indonesian or another language, please use the built-in translation feature in your browser's settings..
-      </span>
-      <span class="shrink-0 pr-20">|</span>
-      <span class="shrink-0 pr-20" aria-hidden="true">
-        If you would like to read this in Indonesian or another language, please use the built-in translation feature in your browser's settings..
-      </span>
-      <span class="shrink-0 pr-20">|</span>
-      <span class="shrink-0 pr-20" aria-hidden="true">
-        If you would like to read this in Indonesian or another language, please use the built-in translation feature in your browser's settings..
-      </span>
-      <span class="shrink-0 pr-20">|</span>
-      <span class="shrink-0 pr-16" aria-hidden="true">
-        If you would like to read this in Indonesian or another language, please use the built-in translation feature in your browser's settings..
-      </span>
-      <span class="shrink-0 pr-20">|</span>
+    <div class="flex w-max items-center animate-marquee-text whitespace-nowrap text-xs sm:text-sm italic tracking-wide text-zinc-600 dark:text-zinc-400">
+      
+      <!-- Set Pertama -->
+      <div class="flex shrink-0">
+        {noticeRepeat.map(() => (
+          <>
+            <span class="shrink-0 pr-20">{translateNotice}</span>
+            <span class="shrink-0 pr-20">|</span>
+          </>
+        ))}
+      </div>
+
+      <!-- Set Kedua (duplikat untuk loop mulus, disembunyikan dari pembaca layar) -->
+      <div class="flex shrink-0" aria-hidden="true">
+        {noticeRepeat.map(() => (
+          <>
+            <span class="shrink-0 pr-20">{translateNotice}</span>
+            <span class="shrink-0 pr-20">|</span>
+          </>
+        ))}
+      </div>
+
     </div>
   </div>
   
   <!-- 3b. TECHSTACK RUNNING TEXT (Menggunakan SVG Lokal dari public/img/techstack/) -->
-  <div class="relative z-20 w-full bg-white/40 dark:bg-zinc-900/40 border-t border-zinc-200/60 dark:border-zinc-800/60 backdrop-blur-sm py-5 overflow-hidden select-none">
+  <div class="relative z-20 w-full bg-white/70 dark:bg-zinc-900/80 border-t border-zinc-200/60 dark:border-zinc-800/60 py-5 overflow-hidden select-none">
     <!-- Efek Fade Blur di Sisi Kiri & Kanan Slider -->
-    <div class="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-tan dark:from-dark to-transparent z-30 pointer-events-none"></div>
-    <div class="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-tan dark:from-dark to-transparent z-30 pointer-events-none"></div>
+    <div class="absolute inset-y-0 left-0 w-16 bg-linear-to-r from-tan dark:from-dark to-transparent z-30 pointer-events-none"></div>
+    <div class="absolute inset-y-0 right-0 w-16 bg-linear-to-l from-tan dark:from-dark to-transparent z-30 pointer-events-none"></div>
     
     <!-- Track Container Slider Berjalan -->
-    <div class="flex whitespace-nowrap min-w-full animate-marquee gap-16 items-center">
+    <div class="flex w-max items-center whitespace-nowrap animate-marquee">
       
       <!-- Set Pertama Ikon SVG -->
-      <div class="flex gap-16 items-center shrink-0">
-        <!-- lang img -->
-        <img src="/img/techstack/html.svg" alt="HTML5" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/css.svg" alt="CSS3" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/js.svg" alt="JavaScript" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/ts.svg" alt="TypeScript" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/php.svg" alt="php" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/mysql.svg" alt="mysql" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/tailwind.svg" alt="Tailwind" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/bootstrap.svg" alt="bootstrap" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/astro.svg" alt="Astro" class="h-8 w-auto opacity-75 grayscale dark:invert dark:hover:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/svelte.svg" alt="Svelte" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/nodejs.svg" alt="NodeJS" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <!-- tools img -->
-        <img src="/img/techstack/vite-tool.svg" alt="vite" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/firebase-tool.svg" alt="firebase" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/zed-tool.svg" alt="zed" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/gemini-tool.svg" alt="gemini" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/claude-tool.svg" alt="claude" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+      <div class="flex shrink-0 items-center gap-16 pr-16">
+        {techLogos.map((logo) => (
+          <img src={logo.src} alt={logo.alt} height="32" decoding="async" class={logoClass(logo.invertDark)} />
+        ))}
       </div>
 
       <!-- Set Kedua Duplikasi Ikon SVG (Wajib Sama Persis untuk Loop Mulus) -->
-      <div class="flex gap-16 items-center shrink-0">
-        <!-- lang img -->
-        <img src="/img/techstack/html.svg" alt="HTML5" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/css.svg" alt="CSS3" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/js.svg" alt="JavaScript" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/ts.svg" alt="TypeScript" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/php.svg" alt="php" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/mysql.svg" alt="mysql" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/tailwind.svg" alt="Tailwind" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/bootstrap.svg" alt="bootstrap" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/astro.svg" alt="Astro" class="h-8 w-auto opacity-75 grayscale dark:invert dark:hover:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/svelte.svg" alt="Svelte" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/nodejs.svg" alt="NodeJS" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <!-- tools img -->
-        <img src="/img/techstack/vite-tool.svg" alt="vite" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/firebase-tool.svg" alt="firebase" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/zed-tool.svg" alt="zed" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/gemini-tool.svg" alt="gemini" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
-        <img src="/img/techstack/claude-tool.svg" alt="claude" class="h-8 w-auto opacity-75 grayscale dark:invert-0 hover:grayscale-0 dark:hover:opacity-100 transition duration-300" />
+      <div class="flex shrink-0 items-center gap-16 pr-16" aria-hidden="true">
+        {techLogos.map((logo) => (
+          <img src={logo.src} alt="" height="32" decoding="async" loading="lazy" class={logoClass(logo.invertDark)} />
+        ))}
       </div>
 
     </div>
@@ -157,13 +164,15 @@
 
 <!-- 4. GAYA ANIMASI RUNNING TEXT (Scoped CSS) -->
 <style>
-  /* keyframe milik ribbon techstack */
+  /* keyframe milik ribbon techstack. Dua set identik dengan pr-16 di tiap set,
+     sehingga pergeseran -50% tepat sebesar satu set */
   @keyframes marquee {
-    0% { transform: translateX(0%); }
-    100% { transform: translateX(calc(-50% - 32px)); } /* Kompensasi gap pembungkus luar */
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
   }
   .animate-marquee {
     animation: marquee 25s linear infinite;
+    will-change: transform;
   }
   /* Menghentikan jalan teks saat di-hover kursor */
   .animate-marquee:hover {
@@ -172,16 +181,20 @@
 
   /* keyframe milik running text info */
   @keyframes marquee-text {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
   }
   .animate-marquee-text {
     animation: marquee-text 30s linear infinite;
+    will-change: transform;
   }
   .animate-marquee-text:hover {
     animation-play-state: paused;
   }
+
+  /* Hormati preferensi pengguna yang meminta gerakan dikurangi */
   @media (prefers-reduced-motion: reduce) {
+    .animate-marquee,
     .animate-marquee-text {
       animation: none;
     }
@@ -190,11 +203,21 @@
 
 <!-- 5. ANIMASI CANVAS PIPELINE (Responsive & Adaptif Skema Tema) -->
 <script>
+  import { createThemeWatcher, createCanvasLoop } from '../../../scripts/canvas-utils';
+
+  /* Teardown instance sebelumnya agar tidak ada loop ganda saat transisi halaman */
+  let teardown: (() => void) | null = null;
+
   function initPipeline() {
-    const canvas = document.getElementById('pipeline-canvas') as HTMLCanvasElement;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    const canvas = document.getElementById('pipeline-canvas') as HTMLCanvasElement | null;
+    if (!canvas || canvas.dataset.running === 'true') return;
+
+    const context = canvas.getContext('2d');
+    if (!context) return;
+    const ctx: CanvasRenderingContext2D = context;
+
+    teardown?.();
+    canvas.dataset.running = 'true';
 
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
@@ -241,44 +264,52 @@
       }
 
       draw() {
-        ctx!.fillStyle = this.color;
-        ctx!.beginPath();
-        ctx!.arc(this.x, this.y, 1.2, 0, Math.PI * 2);
-        ctx!.fill();
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 1.2, 0, Math.PI * 2);
+        ctx.fill();
       }
     }
 
     const maxPipes = 20;
-    const pipes: Pipe[] = [];
-    for (let i = 0; i < maxPipes; i++) {
-      pipes.push(new Pipe());
-    }
+    const pipes: Pipe[] = Array.from({ length: maxPipes }, () => new Pipe());
 
-    function animate() {
-      // Deteksi kelas tema aktif (dark / light)
-      const isDark = document.documentElement.classList.contains('dark') || document.body.classList.contains('dark');
-      
+    const theme = createThemeWatcher();
+
+    const frame = () => {
       // Jika dark gunakan variabel --color-dark (#1a1a1a), jika light gunakan --color-tan (#edeadf) dengan alpha transparan
-      ctx!.fillStyle = isDark ? 'rgba(26, 26, 26, 0.05)' : 'rgba(237, 234, 223, 0.05)';
-      ctx!.fillRect(0, 0, width, height);
+      ctx.fillStyle = theme.isDark() ? 'rgba(26, 26, 26, 0.05)' : 'rgba(237, 234, 223, 0.05)';
+      ctx.fillRect(0, 0, width, height);
 
-      pipes.forEach((pipe) => {
+      for (const pipe of pipes) {
         pipe.update();
         pipe.draw();
-      });
+      }
+    };
 
-      requestAnimationFrame(animate);
-    }
+    const loop = createCanvasLoop(canvas.closest('section'), frame);
 
-    window.addEventListener('resize', () => {
+    const onResize = () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-    });
+    };
+    window.addEventListener('resize', onResize, { passive: true });
 
-    animate();
+    teardown = () => {
+      loop.dispose();
+      theme.dispose();
+      window.removeEventListener('resize', onResize);
+      canvas.dataset.running = '';
+    };
+
+    loop.start();
   }
 
   // Integrasi mulus untuk transisi halaman Astro View Transitions
+  document.addEventListener('astro:before-swap', () => {
+    teardown?.();
+    teardown = null;
+  });
   document.addEventListener('astro:page-load', initPipeline);
   initPipeline();
 </script>

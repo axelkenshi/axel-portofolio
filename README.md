@@ -35,6 +35,7 @@ pages/index.astro adalah entry point sebagai Landing page.
 │   ├── styles/
 │   │   └── globals.css      # CSS global (reset, font, warna, dll.)
 │   ├── scripts/
+│   │   ├── canvas-utils.ts   # Optimasi javascript dev/ AboutMe & Milestone
 │   │   └── translate/
 │   │       └── translate-dom.ts   # Logika browser translator API chromium
 │   ├── content.config.ts
