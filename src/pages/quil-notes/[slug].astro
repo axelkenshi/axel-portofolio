@@ -41,27 +41,114 @@ const formattedDate = new Date(date).toLocaleDateString('en-EN', {
   month: 'long',
   day: 'numeric',
 });
+
+// Hapus sintaks Markdown/HTML agar hitungan kata mendekati teks yang dibaca
+// Penanda Markdown ditulis dengan escape \x60 (backtick) agar tidak ada backtick mentah di dalam kode editor
+const FENCED_CODE = /\x60{3}[\s\S]*?\x60{3}/g; // blok kode ```...```
+const INLINE_CODE = /\x60[^\x60]*\x60/g;        // inline code `...`
+const IMAGE       = /!\[[^\]]*\]\([^)]*\)/g;    // gambar ![alt](url)
+const LINK        = /\[([^\]]+)\]\([^)]*\)/g;   // link [teks](url), ambil teksnya saja
+const HTML_TAG    = /<[^>]+>/g;                 // tag HTML atau komponen
+const MD_SYMBOLS  = /[#>*_~|=-]+/g;             // heading, list, emphasis, tabel
+
+const stripMarkdown = (md: string): string =>
+  md
+    .replace(FENCED_CODE, ' ')
+    .replace(INLINE_CODE, ' ')
+    .replace(IMAGE, ' ')
+    .replace(LINK, '$1')
+    .replace(HTML_TAG, ' ')
+    .replace(MD_SYMBOLS, ' ');
+
+// blok kode
+// inline code
+// gambar
+// link -> ambil teksnya saja
+// tag HTML/komponen
+// penanda heading, list, dan emphasis
+
+const wordCount = stripMarkdown(note.body ?? '').split(/\s+/).filter(Boolean).length;
+
+// Asumsi kecepatan baca 200 kata per menit, minimal 1 menit
+const readingMinutes = Math.max(1, Math.ceil(wordCount / 200));
+
+// Tanggal ISO untuk kartu kredensial (format YYYY-MM-DD seperti di screenshot)
+const isoDate = date.toISOString().slice(0, 10);
+
+// URL kanonis catatan ini
+const canonicalUrl = `${Astro.url.origin}/quil-notes/${note.id}`;
+
+// Penulis: pakai field author jika ada di schema, jika tidak pakai nilai default
+const author = 'Axel Kenshi';
+
 ---
 
 <QuilLayout title={title}>
   <article class="space-y-6">
-    
-    <!-- Meta Catatan: Kategori, Tanggal, dan Tags -->
-    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-quil-fg-muted font-mono">
-      <span class="px-2 py-0.5 rounded bg-quilAccentMuted text-quilText border border-quilAccent/20">
-        {category}
-      </span>
-      <time datetime={date.toISOString()}>{formattedDate}</time>
-      <TranslateToggle />
-    </div>
 
+    <!-- Meta Waktu Baca: total kata dan estimasi waktu baca -->
+    <div class="flex items-center gap-4 text-xs text-quil-fg-muted font-mono">
+      <span class="inline-flex items-center gap-1.5">
+        <!-- Icon: text-align-justify-start -->
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-3.5 h-3.5 shrink-0"
+        >
+          <path d="M3 5h18" />
+          <path d="M3 12h18" />
+          <path d="M3 19h10" />
+        </svg>
+        {wordCount} words
+      </span>
+    
+      <span class="inline-flex items-center gap-1.5">
+        <!-- Icon: clock-fading -->
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-3.5 h-3.5 shrink-0"
+        >
+          <path d="M12 2a10 10 0 0 1 7.38 16.75" />
+          <path d="M12 6v6l4 2" />
+          <path d="M2.5 8.875a10 10 0 0 0-.5 3" />
+          <path d="M2.83 16a10 10 0 0 0 2.43 3.4" />
+          <path d="M4.636 5.235a10 10 0 0 1 .891-.857" />
+          <path d="M8.644 21.42a10 10 0 0 0 7.631-.38" />
+        </svg>
+        {readingMinutes} min read
+      </span>
+    </div>
     <!-- Area yang diterjemahkan: judul, deskripsi, gambar, dan isi markdown -->
     <div id="note-content" class="space-y-6">
       <!-- Judul Catatan -->
       <h1 class="text-3xl sm:text-4xl font-extrabold text-quil-fg tracking-tight leading-tight">
         {title}
       </h1>
-  
+
+      <!-- Meta Catatan: Kategori, Tanggal, dan Tags -->
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-quil-fg-muted font-mono">
+        <span class="px-2 py-0.5 rounded bg-quilAccentMuted text-quilText border border-quilAccent/20">
+          {category}
+        </span>
+        <time datetime={date.toISOString()}>{formattedDate}</time>
+        <TranslateToggle />
+      </div>
+      
       <!-- Deskripsi Pendek / Preamble (Jika Ada) -->
       {description && (
         <p class="text-sm text-quil-fg-soft italic bg-quil-surface/50 border-l-2 border-quilAccent p-3 rounded-r-xl leading-relaxed">
@@ -85,6 +172,61 @@ const formattedDate = new Date(date).toLocaleDateString('en-EN', {
       </div>
     </div>
 
+    <!-- Kartu Kredensial Sumber (di luar #note-content agar tidak ikut diterjemahkan) -->
+    <aside
+      class="relative overflow-hidden rounded-2xl border border-quil-border bg-quil-surface p-5 text-sm"
+      aria-label="Credencials"
+    >
+      <!-- Watermark CC: opacity rendah, di sisi kanan, tepinya sengaja terpotong kartu -->
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="pointer-events-none select-none absolute top-1/2 -right-6 -translate-y-1/2 h-42 w-46 text-quil-fg opacity-[0.06]"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M10 9.3a2.8 2.8 0 0 0-3.5 1 3.1 3.1 0 0 0 0 3.4 2.7 2.7 0 0 0 3.5 1" />
+        <path d="M17 9.3a2.8 2.8 0 0 0-3.5 1 3.1 3.1 0 0 0 0 3.4 2.7 2.7 0 0 0 3.5 1" />
+      </svg>
+    
+      <p class="relative font-bold text-quil-fg leading-snug mb-4">{title}</p>
+    
+      <a
+        href={canonicalUrl}
+        class="relative text-quilAccent break-all hover:underline"
+      >{canonicalUrl}</a>
+    
+      <dl class="relative mt-4 grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-3 text-xs">
+        <div>
+          <dt class="text-quil-fg-muted">Author</dt>
+          <dd class="mt-0.5 text-quil-fg">{author}</dd>
+        </div>
+        <div>
+          <dt class="text-quil-fg-muted">Published at</dt>
+          <dd class="mt-0.5 text-quil-fg">
+            <time datetime={isoDate}>{isoDate}</time>
+          </dd>
+        </div>
+        <div>
+          <dt class="text-quil-fg-muted">License</dt>
+          <dd class="mt-0.5">
+            <a
+              href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+              rel="license noopener noreferrer"
+              target="_blank"
+              class="text-quilAccent hover:underline"
+            >CC BY-NC-SA 4.0</a>
+          </dd>
+        </div>
+      </dl>
+    </aside>
+    
     <!-- Kaki Artikel: Render Kembali Tag yang Terkait -->
     {tags && tags.length > 0 && (
       <div class="pt-8 border-t border-quil-border flex flex-wrap gap-2 items-center">
