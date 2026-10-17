@@ -28,16 +28,9 @@ pages/index.astro adalah entry point sebagai Landing page.
 │   │   └── note-1.md
 ├── src/
 │   ├── components/
-│   │   ├── Navbar.svelte    # (Sudah ada dahulu) Menu navigasi responsif (seperti di mockup)
-│   │   ├── AboutMe.astro  # Komponen statis untuk Hero Canvas (animasi hero)
-│   │   ├── HeroCanvas.astro  # Komponen statis untuk Hero Canvas (animasi hero)
-│   │   ├── Certification.astro  # Komponen statis untuk bukti Sertifikasi
-│   │   ├── Milestone.astro   # Komponen statis untuk Experience
-│   │   ├── BlogFeeds.astro   # Komponen statis untuk Blog khusus portofolio
-│   │   ├── Projects.astro   # Komponen statis untuk Blog khusus show proyek
 │   │   └── ThemeInit.astro  # (Sudah ada dahulu) Komponen yang menginisialisasi tema (dark/light)
 │   ├── layouts/
-│   │   ├── Layout.astro     # Main layout (head, navbar, footer)
+│   │   ├── DevLayout.astro     # layout utama dev portofolio (head, navbar, footer)
 │   │   └── QuilLayout.astro   # Layout utama khusus untuk semua halaman Quil Notes
 │   ├── styles/
 │   │   └── globals.css      # CSS global (reset, font, warna, dll.)
@@ -45,10 +38,22 @@ pages/index.astro adalah entry point sebagai Landing page.
 │   │   └── translate/
 │   │       └── translate-dom.ts   # Logika browser translator API chromium
 │   ├── content.config.ts
+│   │
 │   └── pages/
 │       ├── index.astro      # Entry-point halaman ala linktree
+│       │
 │       ├── dev/
-│       │   └── index.astro  # Sub-Page developer Portofolio (panggil komponen; About, Exp, Cert, Project..etc)
+│       │   ├── index.astro  # Sub-Page developer Portofolio (panggil komponen; About, Exp, Cert, Project..etc)
+│       │   │
+│       │   └── _components/
+│       │       ├── Navbar.svelte    # (Sudah ada dahulu) Menu navigasi responsif (seperti di mockup)
+│       │       ├── AboutMe.astro  # Komponen statis untuk Hero Canvas (animasi hero)
+│       │       ├── HeroCanvas.astro  # Komponen statis untuk Hero Canvas (animasi hero)
+│       │       ├── Certification.astro  # Komponen statis untuk bukti Sertifikasi
+│       │       ├── Milestone.astro   # Komponen statis untuk Experience
+│       │       ├── BlogFeeds.astro   # Komponen statis untuk Blog khusus portofolio
+│       │       └── Projects.astro   # Komponen statis untuk Blog khusus show proyek
+│       │
 │       └── quil-notes/
 │           │
 │           ├── _components/

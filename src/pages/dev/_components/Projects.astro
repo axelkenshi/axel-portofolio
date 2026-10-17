@@ -4,7 +4,11 @@
 const projects = [
   {
     imgName: "orb.png",
-    techBadges: ["Astro", "Tailwind CSS", "TypeScript"],
+    techBadges: [
+      { tech: "Astro", logo: "/img/techstack/astro.svg" },
+      { tech: "Tailwind CSS", logo: "/img/techstack/tailwind.svg" },
+      { tech: "TypeScript", logo: "/img/techstack/ts.svg" },
+    ],
     title: "Orb Notes/ Static E-Learning",
     date: "May 2026",
     longDesc: `Static SSG based open source application for content needs such as textual dominant documentation, E-course sequences, and personal knowledge notes.
@@ -55,9 +59,10 @@ Main Features:
           <div class="p-5 flex-1 flex flex-col justify-between items-start gap-5">
             <div class="w-full">
               <div class="flex flex-wrap gap-1.5 mb-3.5">
-                {proj.techBadges.map(badge => (
-                  <span class="text-[10px] font-mono font-medium px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200/50 dark:border-zinc-700/50">
-                    {badge}
+                {proj.techBadges.map((badge) => (
+                  <span class="inline-flex items-center gap-1.5 text-[10px] font-mono font-medium px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200/50 dark:border-zinc-700/50">
+                    <img src={badge.logo} alt="" aria-hidden="true" width="12" height="12" class="w-3 h-3 shrink-0" loading="lazy" />
+                    {badge.tech}
                   </span>
                 ))}
               </div>

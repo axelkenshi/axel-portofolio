@@ -182,7 +182,7 @@
           aria-label="Toggle navigation menu"
           aria-expanded={isMenuOpen}
           class="flex flex-col items-center leading-none
-                text-dark dark:text-tan md:hidden"
+                text-dark dark:text-tan lg:hidden"
         >
           <!-- Ring container -->
           <div class="relative w-11 h-11 flex items-center justify-center">

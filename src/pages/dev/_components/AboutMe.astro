@@ -75,7 +75,29 @@
     </div>
   </div>
 
-  <!-- 3. TECHSTACK RUNNING TEXT (Menggunakan SVG Lokal dari public/img/techstack/) -->
+  <!-- 3a. Running text: info translasi browser -->
+  <div class="mt-4 overflow-hidden">
+    <div class="flex w-max animate-marquee-text whitespace-nowrap text-xs sm:text-sm italic tracking-wide text-zinc-600 dark:text-zinc-400">
+      <span class="shrink-0 pr-20">
+        If you would like to read this in Indonesian or another language, please use the built-in translation feature in your browser's settings..
+      </span>
+      <span class="shrink-0 pr-20">|</span>
+      <span class="shrink-0 pr-20" aria-hidden="true">
+        If you would like to read this in Indonesian or another language, please use the built-in translation feature in your browser's settings..
+      </span>
+      <span class="shrink-0 pr-20">|</span>
+      <span class="shrink-0 pr-20" aria-hidden="true">
+        If you would like to read this in Indonesian or another language, please use the built-in translation feature in your browser's settings..
+      </span>
+      <span class="shrink-0 pr-20">|</span>
+      <span class="shrink-0 pr-16" aria-hidden="true">
+        If you would like to read this in Indonesian or another language, please use the built-in translation feature in your browser's settings..
+      </span>
+      <span class="shrink-0 pr-20">|</span>
+    </div>
+  </div>
+  
+  <!-- 3b. TECHSTACK RUNNING TEXT (Menggunakan SVG Lokal dari public/img/techstack/) -->
   <div class="relative z-20 w-full bg-white/40 dark:bg-zinc-900/40 border-t border-zinc-200/60 dark:border-zinc-800/60 backdrop-blur-sm py-5 overflow-hidden select-none">
     <!-- Efek Fade Blur di Sisi Kiri & Kanan Slider -->
     <div class="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-tan dark:from-dark to-transparent z-30 pointer-events-none"></div>
@@ -135,6 +157,7 @@
 
 <!-- 4. GAYA ANIMASI RUNNING TEXT (Scoped CSS) -->
 <style>
+  /* keyframe milik ribbon techstack */
   @keyframes marquee {
     0% { transform: translateX(0%); }
     100% { transform: translateX(calc(-50% - 32px)); } /* Kompensasi gap pembungkus luar */
@@ -145,6 +168,23 @@
   /* Menghentikan jalan teks saat di-hover kursor */
   .animate-marquee:hover {
     animation-play-state: paused;
+  }
+
+  /* keyframe milik running text info */
+  @keyframes marquee-text {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .animate-marquee-text {
+    animation: marquee-text 30s linear infinite;
+  }
+  .animate-marquee-text:hover {
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee-text {
+      animation: none;
+    }
   }
 </style>
 
