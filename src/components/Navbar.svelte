@@ -4,7 +4,7 @@
   // 'slide' digunakan sebagai Svelte transition directive di template (transition:slide)
   // Warning Vite adalah false positive — Svelte compiler menangani ini secara internal
   void slide;
-  import { Grip, Sun, Moon, X, ChevronRight, ExternalLink, LibraryBig, Feather, Home, User, Briefcase, Award, FolderKanban, Mail } from "@lucide/svelte";
+  import { Grip, Sun, Moon, X, ChevronRight, ExternalLink, LibraryBig, Home, User, Briefcase, Award, FolderKanban, Mail } from "@lucide/svelte";
 
   // --- State (Svelte 5 runes) ---
   let isDark = $state(false);
@@ -139,13 +139,12 @@
   
       <!-- Center Navigation (Desktop View) -->
       <nav class="flex items-center hidden lg:block border rounded-full p-2 m-4">
-        <a href="/#about" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">About Me</a>
-        <a href="/#experience" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Experience</a>
-        <a href="/#certification" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Certification</a>
-        <a href="/#projects" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Projects</a>
-        <a href="/#contact" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Contact</a>
-        <a href="/#blog-section" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Blogs</a>
-        <a href="/quil-notes" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Qnote</a>
+        <a href="/dev/#about" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">About Me</a>
+        <a href="/dev/#experience" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Experience</a>
+        <a href="/dev/#certification" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Certification</a>
+        <a href="/dev/#projects" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Projects</a>
+        <a href="/dev/#blog-section" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Blogs</a>
+        <a href="/dev/#contact" onclick={handleAnchorClick} class="text-dark dark:text-tan mx-4 nav-hover">Contact</a>
       </nav>
   
       <!-- Right controls -->
@@ -239,7 +238,7 @@
           >
             <nav class="p-2 flex flex-col gap-1">
               <a
-                href="/"
+                href="/dev"
                 data-astro-prefetch
                 onclick={handleAnchorClick}
                 class="px-3 py-2 text-sm font-medium rounded-lg flex items-center justify-between hover:bg-gray-700 hover:text-white active:bg-gray-800 active:text-white transition-colors w-full"
@@ -248,7 +247,7 @@
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
-                href="/#about"
+                href="/dev/#about"
                 data-astro-prefetch
                 onclick={handleAnchorClick}
                 class="px-3 py-2 text-sm font-medium rounded-lg flex items-center justify-between hover:bg-gray-700 hover:text-white active:bg-gray-800 active:text-white transition-colors w-full"
@@ -257,7 +256,7 @@
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
-                href="/#experience"
+                href="/dev/#experience"
                 data-astro-prefetch
                 onclick={handleAnchorClick}
                 class="px-3 py-2 text-sm font-medium rounded-lg flex items-center justify-between hover:bg-gray-700 hover:text-white active:bg-gray-800 active:text-white transition-colors w-full"
@@ -266,7 +265,7 @@
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
-                href="/#certification"
+                href="/dev/#certification"
                 data-astro-prefetch
                 onclick={handleAnchorClick}
                 class="px-3 py-2 text-sm font-medium rounded-lg flex items-center justify-between hover:bg-gray-700 hover:text-white active:bg-gray-800 active:text-white transition-colors w-full"
@@ -275,7 +274,7 @@
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
-                href="/#projects"
+                href="/dev/#projects"
                 data-astro-prefetch
                 onclick={handleAnchorClick}
                 class="px-3 py-2 text-sm font-medium rounded-lg flex items-center justify-between hover:bg-gray-700 hover:text-white active:bg-gray-800 active:text-white transition-colors w-full"
@@ -284,16 +283,7 @@
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
-                href="/#contact"
-                data-astro-prefetch
-                onclick={handleAnchorClick}
-                class="px-3 py-2 text-sm font-medium rounded-lg flex items-center justify-between hover:bg-gray-700 hover:text-white active:bg-gray-800 active:text-white transition-colors w-full"
-              >
-                <span class="flex items-center"><Mail class="mr-2 h-4 w-4" /> Contact</span>
-                <ChevronRight class="h-4 w-4 text-tan" />
-              </a>
-              <a
-                href="/#blog-section"
+                href="/dev/#blog-section"
                 data-astro-prefetch
                 onclick={handleAnchorClick}
                 class="px-3 py-2 text-sm font-medium rounded-lg flex items-center justify-between hover:bg-gray-700 hover:text-white active:bg-gray-800 active:text-white transition-colors w-full"
@@ -302,13 +292,13 @@
                 <ChevronRight class="h-4 w-4 text-tan" />
               </a>
               <a
-                href="/quil-notes"
+                href="/dev/#contact"
                 data-astro-prefetch
                 onclick={handleAnchorClick}
                 class="px-3 py-2 text-sm font-medium rounded-lg flex items-center justify-between hover:bg-gray-700 hover:text-white active:bg-gray-800 active:text-white transition-colors w-full"
               >
-                <span class="flex items-center"><Feather class="mr-2 h-4 w-4" /> Quil Notes</span>
-                <ExternalLink class="h-4 w-4 text-tan" />
+                <span class="flex items-center"><Mail class="mr-2 h-4 w-4" /> Contact</span>
+                <ChevronRight class="h-4 w-4 text-tan" />
               </a>
             </nav>
           </div>

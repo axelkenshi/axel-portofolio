@@ -10,13 +10,13 @@ const profile = {
   photo: '/assets/1to1.webp',           // foto persegi, bisa URL CDN atau /img/...
   location: 'Bandung, Indonesia',
   acronym: 'Axstonedev sandcastle',
-  title: { id: 'Insinyur Perangkat Lunak', en: 'Software Engineer' },
+  title: { id: 'Pengembang Perangkat Lunak', en: 'Software Developer' },
   bio: {
     id: 'Membangun perangkat lunak yang rapi dan berguna. Menulis catatan tentang teknologi dan ide.',
     en: 'Building clean, useful software. Writing notes about technology and ideas.',
   },
   // Background: '' untuk menonaktifkan. Bisa URL CDN atau path lokal /img/...
-  background: { src: 'https://images.unsplash.com/photo-1558963235-eff20c9f7d99?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D', opacity: 0.6 },
+  background: { src: 'https://images.unsplash.com/photo-1770719269462-d3c1ed7e184f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D', opacity: 0.6 },
   // Access key dari dashboard Web3Forms (aman dipublikasikan di frontend)
   web3formsKey: '2a8d92b3-523a-45f6-8c84-a901616bf323',
 };
@@ -33,13 +33,13 @@ const links = [
   {
     title: { id: 'Portofolio Developer', en: 'Axel Portofolio\'s' },
     subtitle: { id: 'Website pribadi & portofolio pengembang', en: 'Personal site & dev portofolio\'s' },
-    url: 'https://axelkenshi.my.id/dev',
+    url: '/dev',
     icon: '/img/globe.svg', // GANTI ikon
   },
   {
     title: { id: 'Blog Pemikiran saya', en: 'Notes of an Eternal Mind' },
     subtitle: { id: 'Sebuah blog tentang apa yang saya pikirkan~', en: 'A blog about what\'s on my mind' },
-    url: 'https://axelkenshi.my.id/quil-notes',
+    url: '/quil-notes',
     icon: '/img/feather.svg', // GANTI ikon
   },
   {
@@ -140,7 +140,7 @@ const hasBg = profile.background.src !== '';
           />
         </button>
         <h1 class="text-2xl text-strong tracking-tight">{profile.name}</h1>
-        <p class="font-semibold text-site-accent">
+        <p class="font-semibold text-purple-500">
           <span data-lang="id">{profile.title.id}</span><span data-lang="en">{profile.title.en}</span>
         </p>
         <p class="text-sm text-soft">{profile.location}</p>
@@ -176,9 +176,9 @@ const hasBg = profile.background.src !== '';
         {links.map((l) => (
           <a
             href={l.url}
-            target="_self"
+            target="_blank"
             rel="noopener noreferrer"
-            class="glass-card group flex items-center gap-4 rounded-2xl px-4 py-3 transition hover:border-site-accent/60"
+            class="glass-card group flex items-center gap-4 rounded-2xl px-4 py-3"
           >
             <span class="icon-box">
               <span class="icon" style={`--icon:url('${l.icon}')`} aria-hidden="true"></span>
@@ -191,7 +191,7 @@ const hasBg = profile.background.src !== '';
                 <span data-lang="id">{l.subtitle.id}</span><span data-lang="en">{l.subtitle.en}</span>
               </span>
             </span>
-            <span aria-hidden="true" class="text-muted transition group-hover:text-site-accent">↗</span>
+            <span aria-hidden="true" class="text-muted transition">↗</span>
           </a>
         ))}
       </section>

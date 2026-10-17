@@ -89,11 +89,6 @@
   --color-site-text: rgb(255 255 255 / 1);
   --color-site-text-soft: rgb(255 255 255 / 0.88);
   --color-site-text-muted: rgb(255 255 255 / 0.72);
-
-  /* Aksen tetap, tanpa palet yang bisa diubah */
-  --color-site-accent: hsl(48 85% 55%);
-  --color-site-accent-muted: hsl(48 65% 20% / 0.4);
-  --color-site-accent-text: hsl(48 90% 65%);
 }
 
 /* ==========================================================================
@@ -278,6 +273,6 @@
 
 @utility nav-hover {
   @apply transition-colors duration-200 m-5 p-[6px] rounded-2xl
-  hover:bg-orange-400 active:bg-orange-400 hover:text-white
-  dark:hover:bg-orange-400 dark:active:bg-orange-400;
+  hover:bg-orange-400/50 active:bg-orange-400/50 hover:text-white
+  dark:hover:bg-orange-400/50 dark:active:bg-orange-400/50;
 }

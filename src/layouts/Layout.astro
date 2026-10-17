@@ -57,3 +57,16 @@ const { title, description = "Portfolio & Personal Notes" } = Astro.props;
 
   </body>
 </html>
+
+<style>
+/* Sembunyikan scrollbar bawaan browser, tetapi halaman tetap bisa di-scroll */
+html {
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* Edge lama */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;                  /* Chrome, Edge, Safari */
+}
+</style>

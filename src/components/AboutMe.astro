@@ -8,13 +8,13 @@
   <canvas id="pipeline-canvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-25 dark:opacity-35 z-0"></canvas>
   
   <!-- Overlay Gradient Halus (Dinamis Berdasarkan Tema) -->
-  <div class="absolute inset-0 bg-gradient-to-t from-tan via-transparent to-tan/50 dark:from-dark dark:via-transparent dark:to-dark/50 z-10 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-linear-to-t from-tan via-transparent to-tan/50 dark:from-dark dark:via-transparent dark:to-dark/50 z-10 pointer-events-none"></div>
 
   <!-- Spacer Atas agar Konten Utama Tetap Center -->
   <div class="flex-grow flex items-center justify-center">
     
     <!-- 2. KONTEN UTAMA (Foto di Atas Teks untuk Mobile, Berdampingan di Desktop) -->
-    <div class="relative z-20 max-w-5xl w-full px-6 py-12 grid md:grid-cols-12 gap-8 md:gap-12 items-center">
+    <div class="relative z-20 max-w-5xl w-full px-6 py-19 grid md:grid-cols-12 gap-8 md:gap-12 items-center">
       
       <!-- KOLOM FOTO (Urutan Pertama di Mobile, Pindah ke Kanan di Desktop) -->
       <div class="md:col-span-5 flex justify-center md:order-2">
@@ -27,7 +27,7 @@
             <img 
               src="/assets/my.webp" 
               alt="Axel Kenshi Profile Picture" 
-              class="rounded-xl object-cover grayscale hover:grayscale-0 active:grayscale-0 transition duration-500 bg-zinc-100 dark:bg-zinc-800" 
+              class="rounded-xl object-cover bg-zinc-100 dark:bg-zinc-800" 
               width="280" 
               height="280" 
             />
