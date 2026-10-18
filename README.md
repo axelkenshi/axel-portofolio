@@ -1,4 +1,4 @@
-<img width="1798" height="1080" alt="Image" src="https://github.com/user-attachments/assets/3902dec0-72bc-472f-8fe8-7d7de306a97c" />
+<img width="1757" height="1080" alt="Image" src="https://github.com/user-attachments/assets/172cd83f-3f80-4fce-867b-2fe55a0b5015" />
 
 ## Struktur folder
 

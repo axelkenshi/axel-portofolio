@@ -30,13 +30,13 @@ collections:
     slug:
       editable: [create]
     fields:
-      - { label: Judul, name: title, widget: string }
-      - { label: Deskripsi, name: description, widget: text, required: false }
-      - { label: URL Gambar (CDN), name: img, widget: string, required: false }
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text, required: false }
+      - { label: Cover Image URL (CDN), name: img, widget: string, required: false }
       - { label: Tags, name: tags, widget: list, required: false }
-      - { label: Tanggal, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
-      - { label: Kategori, name: category, widget: string, default: "Uncategorized" }
-      - { label: Isi, name: body, editor_components: [callout, youtube, cdn-image, iframe-embed], widget: markdown }
+      - { label: Date, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - { label: Category, name: category, widget: string, default: "Uncategorized" }
+      - { label: Content, name: body, editor_components: [callout, youtube, cdn-image, cdn-grid, link-card, pull-quote, code-file, terminal, details, code-diff, cdn-video, iframe-embed], widget: markdown }
 
   - name: blogging
     label: Blogging
@@ -48,10 +48,10 @@ collections:
     slug:
       editable: [create]
     fields:
-      - { label: Judul, name: title, widget: string }
-      - { label: Deskripsi, name: description, widget: text, required: false }
-      - { label: URL Gambar (CDN), name: img, widget: string, required: false }
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text, required: false }
+      - { label: Cover Image URL (CDN), name: img, widget: string, required: false }
       - { label: Tags, name: tags, widget: list, required: false }
-      - { label: Tanggal, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
-      - { label: Isi, name: body, editor_components: [callout, youtube, cdn-image, iframe-embed], widget: markdown }
+      - { label: Date, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - { label: Content, name: body, editor_components: [callout, youtube, cdn-image, cdn-grid, link-card, pull-quote, code-file, terminal, details, code-diff, cdn-video, iframe-embed], widget: markdown }
   

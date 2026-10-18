@@ -1,4 +1,4 @@
 /*
-  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' https://giscus.app; style-src 'self' 'unsafe-inline'; img-src 'self' https: data: blob:; font-src 'self' data:; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://giscus.app https:; connect-src 'self' https://api.web3forms.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  Content-Security-Policy-Report-Only: default-src 'self' https:; script-src 'self' https://giscus.app; style-src 'self' 'unsafe-inline'; img-src 'self' https: data: blob:; font-src 'self' data:; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://giscus.app https:; connect-src 'self' https://api.web3forms.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
