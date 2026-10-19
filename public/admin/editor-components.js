@@ -1,7 +1,23 @@
 CMS.registerPreviewStyle('/styles/callouts.css');
 
-// ===== Helper bersama =====
+// ===== Pengaman global: fromBlock yang melempar error tidak lagi menggagalkan seluruh dokumen =====
+const _registerEditorComponent = CMS.registerEditorComponent.bind(CMS);
+CMS.registerEditorComponent = (def) => {
+  if (def.fromBlock) {
+    const original = def.fromBlock;
+    def.fromBlock = (groups = {}) => {
+      try {
+        return original(groups);
+      } catch (err) {
+        console.error(`[${def.id}] fromBlock gagal, periksa blok ini:`, err, groups);
+        return { ...groups };
+      }
+    };
+  }
+  _registerEditorComponent(def);
+};
 
+// ===== Helper bersama =====
 // Escape tanda kutip saja, agar nilai tetap stabil saat round-trip
 const q = (s = '') => s.replace(/"/g, '&quot;');
 
@@ -150,6 +166,10 @@ CMS.registerEditorComponent({
     { name: 'height', label: 'Tinggi (px)', widget: 'number', default: 480 },
   ],
   pattern: /<div class="embed-iframe"><iframe src="(?<src>[^"]+)" height="(?<height>\d+)" loading="lazy" allowfullscreen><\/iframe><\/div>/,
+  fromBlock: ({ src = '', height = '480' } = {}) => ({
+    src: unesc(src),
+    height: Number(height) || 480,
+  }),
   toBlock: ({ src = '', height = 480 }) =>
     src
       ? `<div class="embed-iframe"><iframe src="${q(src)}" height="${height}" loading="lazy" allowfullscreen></iframe></div>`
@@ -169,6 +189,13 @@ CMS.registerEditorComponent({
 });
 
 // ===== 5. Render Grid block gambar 2-4 url cdn =====
+// Fungsi khusus from block grid
+const parseGridImages = (inner = '') =>
+  [...inner.matchAll(/<img src="([^"]+)" alt="([^"]*)"/g)].map(([, src, alt]) => ({
+    url: unesc(src),
+    alt: unesc(alt),
+  }));
+
 CMS.registerEditorComponent({
   id: 'cdn-grid',
   label: 'Grid Gambar CDN',
@@ -189,12 +216,11 @@ CMS.registerEditorComponent({
     },
   ],
   pattern: /<div class="embed-grid" data-cols="(?<cols>2|4)">(?<inner>[\s\S]*?)<\/div>/,
-  fromBlock: ({ cols, inner }) => ({
-    cols,
-    images: [...inner.matchAll(/<img src="([^"]+)" alt="([^"]*)"/g)].map(([, src, alt]) => ({
-      url: unesc(src),
-      alt: unesc(alt),
-    })),
+  
+  // fromBlock: menerima groups dari pattern, atau nilai field yang sudah diurai
+  fromBlock: ({ cols = '2', inner = '', images } = {}) => ({
+    cols: String(cols),
+    images: images ?? parseGridImages(inner),
   }),
   toBlock: asBlock(({ cols, images }) => gridHtml(cols, images)),
   toPreview: ({ cols, images }) => gridHtml(cols, images),
@@ -356,13 +382,7 @@ CMS.registerEditorComponent({
   trigger: 'button',
   fields: [
     { name: 'filename', label: 'Nama file (contoh: astro.config.mjs)', widget: 'string', required: false },
-    {
-      name: 'language',
-      label: 'Bahasa',
-      widget: 'select',
-      options: ['ts', 'js', 'astro', 'html', 'css', 'json', 'yaml', 'bash', 'md', 'text'],
-      default: 'ts',
-    },
+    { name: 'language', label: 'Bahasa (contoh: ts, astro, bash)', widget: 'string', default: 'ts' },
     { name: 'code', label: 'Kode', widget: 'text' },
   ],
   pattern: /(?<fence>\x60{3,})(?!diff[ \n])(?<language>[\w-]*)(?: title="(?<filename>[^"]*)")?\n(?<code>[\s\S]*?)\n\k<fence>(?!\x60)/,

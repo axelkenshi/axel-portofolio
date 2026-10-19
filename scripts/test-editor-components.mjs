@@ -65,3 +65,38 @@ for (const c of registry) {
   const md2 = c.toBlock(back);
   console.log(md === md2 ? 'OK    ' : 'BEDA  ', c.id);
 }
+
+// Uji 1: fromBlock tidak boleh melempar error walau input tidak lengkap
+const consoleErrors = [];
+const originalError = console.error;
+console.error = (...args) => consoleErrors.push(args[0]);
+for (const c of registry) {
+  if (c.fromBlock) c.fromBlock({});
+}
+console.error = originalError;
+consoleErrors.forEach((msg) => console.log('GAGAL fromBlock({}):', msg));
+
+// Uji 2: semua pattern harus cocok tepat satu kali dalam satu dokumen gabungan
+const doc = registry
+  .map((c) => (samples[c.id] ? c.toBlock(samples[c.id]) : ''))
+  .join('\n\n');
+for (const c of registry) {
+  if (!samples[c.id]) continue;
+  const count = [...doc.matchAll(new RegExp(c.pattern.source, 'g'))].length;
+  console.log(count === 1 ? 'OK    dokumen gabungan:' : `TUMPANG TINDIH (${count}):`, c.id);
+}
+
+// Uji normalisasi: tambah class ekstra dan spasi, lalu pastikan nilai tetap terbaca
+for (const c of registry) {
+  if (!samples[c.id] || c.id === 'callout') continue;
+  const md = c.toBlock(samples[c.id]);
+  const normalized = md.replace(/class="([^"]*)"/g, 'class="$1 ekstra"').replace(/\s>/g, '>');
+  const m = c.pattern.exec(normalized);
+  if (!m) {
+    console.log('GAGAL pattern setelah normalisasi:', c.id);
+    continue;
+  }
+  const back = c.fromBlock ? c.fromBlock(m.groups) : m.groups;
+  const same = JSON.stringify(back) === JSON.stringify(c.fromBlock(c.pattern.exec(md).groups));
+  console.log(same ? 'OK    normalisasi:' : 'BEDA  normalisasi:', c.id);
+}
