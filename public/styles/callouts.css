@@ -53,6 +53,13 @@
   max-width: 100%;
   border-radius: 0.75rem;
 }
+/* 3 gambar: gambar ketiga direntangkan penuh agar kolom kanan di baris kedua tidak kosong */
+.embed-grid[data-cols="3"] figure:last-child { grid-column: 1 / -1; }
+
+/* Rumus dan diagram: tetap di dalam kolom, rumus lebar digulir horizontal */
+.math-block { margin: 1.5rem 0; overflow-x: auto; overflow-y: hidden; }
+.mermaid-block, .mermaid { margin: 1.5rem 0; }
+.mermaid svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
 
 /* ===== Komponen tambahan (preview CMS) ===== */
 .embed-image, .embed-link, .embed-video, pre.terminal, pre.code-diff, details.fold {
@@ -71,22 +78,51 @@
 }
 .embed-image .credit a { color: inherit; text-decoration: underline; }
 
-/* Kartu tautan */
+/* Kartu tautan: kapsul dengan tinggi tetap, gambar mengisi tinggi dengan rasio aslinya */
 .embed-link {
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
+  align-items: stretch;
+  height: 9rem;                     /* tinggi kapsul, sesuaikan selera */
+  overflow: hidden;
   border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
   border-radius: 1rem;
   color: inherit;
   text-decoration: none;
 }
 .embed-link:hover { border-color: #7c3aed; }
-.link-body { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 0.25rem; }
+
+.link-body {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 1rem;
+}
 .link-title { font-weight: 700; }
 .link-desc { font-size: 0.875rem; opacity: 0.7; }
-.link-thumb { flex-shrink: 0; width: 96px; height: auto; border-radius: 0.5rem; }
+
+/* Tinggi penuh kapsul, lebar mengikuti rasio asli gambar */
+.link-thumb {
+  display: block;
+  margin: 0;                        /* menimpa margin img dari gaya prose situs */
+  flex-shrink: 0;
+  height: 100%;
+  width: auto;
+  max-width: 55%;
+  object-fit: contain;
+  border-radius: 0;
+}
+
+@media (max-width: 480px) {
+  .embed-link { height: 7rem; }
+  .link-thumb {
+    width: 50%;                     /* lebar tetap, mengisi sisa ruang */
+    max-width: width;
+    object-fit: cover;              /* gambar dipotong agar tidak ada ruang kosong */
+  }
+}
 
 /* Terminal */
 pre.terminal { background: #0b0f14; }

@@ -107,4 +107,6 @@ Sebelum "malas pergi" itu menjadi kekosongan.
 
 _Ia tidak pernah pergi. Ia hanya berhenti menjadi latar belakang, dan mulai menjadi satu-satunya hal yang terlihat._
 
-<div class="embed-grid" data-cols="2"><figure><img src="https://res.cloudinary.com/pfsm9q7t/image/upload/f_auto/q_auto/foq.webp" alt="cat" loading="lazy"></figure><figure><img src="https://res.cloudinary.com/pfsm9q7t/image/upload/f_auto/q_auto/kok.webp" alt="predator" loading="lazy"></figure></div>
+
+
+<div class="embed-grid" data-cols="2"><figure><img src="https://res.cloudinary.com/pfsm9q7t/image/upload/v1792303563/foq.webp" alt="cat" loading="lazy"></figure><figure><img src="https://res.cloudinary.com/pfsm9q7t/image/upload/v1792303563/kok.webp" alt="dog" loading="lazy"></figure></div>

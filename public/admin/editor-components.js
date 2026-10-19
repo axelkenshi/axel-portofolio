@@ -1,63 +1,124 @@
+/* global CMS */
 CMS.registerPreviewStyle('/styles/callouts.css');
 
-// ===== Pengaman global: fromBlock yang melempar error tidak lagi menggagalkan seluruh dokumen =====
-const _registerEditorComponent = CMS.registerEditorComponent.bind(CMS);
+// ===== Adapter fromBlock =====
+// Sveltia memanggil fromBlock dengan hasil pattern.exec (RegExpMatchArray).
+// Named group ada di match.groups. Adapter ini meneruskan groups ke fromBlock,
+// sehingga semua fromBlock di file ini cukup menerima objek groups biasa.
+// Jika Sveltia suatu saat langsung mengirim groups, adapter tetap berfungsi.
+const _register = CMS.registerEditorComponent.bind(CMS);
+const _shapeLogged = new Set();
+
 CMS.registerEditorComponent = (def) => {
   if (def.fromBlock) {
     const original = def.fromBlock;
-    def.fromBlock = (groups = {}) => {
+    def.fromBlock = (match) => {
+      const groups = (match && match.groups) || match || {};
+
+      // Diagnosa: sekali per komponen, hanya di browser. Boleh dihapus setelah masalah selesai.
+      if (typeof window !== 'undefined' && !_shapeLogged.has(def.id)) {
+        _shapeLogged.add(def.id);
+        console.info(
+          `[${def.id}] fromBlock menerima:`,
+          match && match.groups ? 'RegExpMatchArray' : 'objek groups',
+          groups,
+        );
+      }
+
       try {
         return original(groups);
       } catch (err) {
-        console.error(`[${def.id}] fromBlock gagal, periksa blok ini:`, err, groups);
-        return { ...groups };
+        console.error(`[${def.id}] fromBlock gagal:`, err, match);
+        return {};
       }
     };
   }
-  _registerEditorComponent(def);
+  _register(def);
 };
 
 // ===== Helper bersama =====
-// Escape tanda kutip saja, agar nilai tetap stabil saat round-trip
-const q = (s = '') => s.replace(/"/g, '&quot;');
-
-// esc: aman untuk nilai atribut dan teks HTML
+// Newline ditulis sebagai &#10; agar nilai multi-baris (rumus, diagram) tidak
+// memutus blok HTML di markdown dengan baris kosong.
 const esc = (s = '') =>
   String(s)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/"/g, '&quot;')
+    .replace(/\n/g, '&#10;');
 
-// unesc: kebalikan dari esc() saat membaca balik markdown
-// &amp; selalu didecode paling akhir agar tidak terjadi decode ganda
 const unesc = (s = '') =>
   String(s)
+    .replace(/&#10;/g, '\n')
     .replace(/&quot;/g, '"')
     .replace(/&gt;/g, '>')
     .replace(/&lt;/g, '<')
     .replace(/&amp;/g, '&');
 
-// asBlock: membungkus HTML hasil render dengan baris kosong agar markdown di sekitarnya tetap terpisah
+// Blok HTML diberi baris kosong di sekelilingnya agar tidak menempel ke paragraf
 const asBlock = (render) => (fields) => {
   const html = render(fields);
   return html ? `\n\n${html}\n\n` : '';
 };
 
-// Satu sumber untuk HTML grid, dipakai oleh toBlock (hasil markdown) dan toPreview (tampilan editor)
-const gridHtml = (cols = '2', images = []) => {
-  const n = Number(cols);
-  const items = images.filter((img) => img && img.url).slice(0, n);
-  if (items.length < n) return ''; // jumlah URL belum lengkap, jangan tulis blok rusak
+// Penanda blok memakai class CSS. Class tetap ada walaupun HTML dinormalisasi.
+const markerPattern = (className) =>
+  new RegExp(
+    `(?<html><(?<tag>[a-z]+)\\b[^>]*\\bclass="[^"]*\\b${className}\\b[^"]*"[^>]*>[\\s\\S]*?<\\/\\k<tag>>)`,
+  );
 
-  const figures = items
-    .map((img) => `<figure><img src="${esc(img.url)}" alt="${esc(img.alt ?? '')}" loading="lazy"></figure>`)
-    .join('');
-
-  return `<div class="embed-grid" data-cols="${n}">${figures}</div>`;
+// Nilai atribut dengan nama tertentu. Tidak bergantung pada urutan atribut.
+const attrOf = (html = '', name) => {
+  const match = html.match(new RegExp(`\\s${name}="([^"]*)"`));
+  return match ? unesc(match[1]) : '';
 };
 
-// ===== 1. Callout ala github =====
+// Teks di dalam elemen yang memiliki class tertentu
+const textOf = (html = '', className) => {
+  const match = html.match(new RegExp(`class="[^"]*\\b${className}\\b[^"]*"[^>]*>([^<]*)<`));
+  return match ? unesc(match[1]) : '';
+};
+
+// Sumber rumus dan diagram disimpan dalam base64. Base64 hanya berisi A-Z a-z 0-9 + / =,
+// sehingga tidak terpengaruh escape backslash dan newline yang dilakukan editor saat menyimpan.
+const b64encode = (s = '') => {
+  const bytes = new TextEncoder().encode(String(s));
+  let bin = '';
+  bytes.forEach((b) => {
+    bin += String.fromCharCode(b);
+  });
+  return btoa(bin);
+};
+
+const b64decode = (s = '') => {
+  if (!s) return '';
+  const bin = atob(s);
+  return new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0)));
+};
+
+// Validasi URL untuk field wajib. Format: [regex, pesan]
+const URL_PATTERN = [/^https?:\/\/\S+$/, 'URL harus diawali https://'];
+const YT_PATTERN = [
+  /^(https?:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\/\S+|[\w-]{11})$/,
+  'Isi link YouTube atau ID video 11 karakter',
+];
+
+// Satu pintu registrasi: toBlock memakai render (HTML yang disimpan).
+// toPreview memakai preview jika ada, supaya editor bisa menampilkan sumber mentah.
+const defineBlock = ({ id, label, icon, fields, marker, pattern, render, preview, fromBlock }) =>
+  CMS.registerEditorComponent({
+    id,
+    label,
+    icon,
+    trigger: 'button',
+    fields,
+    pattern: pattern ?? markerPattern(marker),
+    fromBlock,
+    toBlock: asBlock(render),
+    toPreview: preview ?? render,
+  });
+
+// ===== 1. Callout ala github (pola acuan, tidak diubah) =====
 CMS.registerEditorComponent({
   id: 'callout',
   label: 'Callout',
@@ -73,49 +134,34 @@ CMS.registerEditorComponent({
     `<div class="callout" data-type="${type}">\n\n${body}\n\n</div>`,
 });
 
-// ===== 2. Embed block video youtube =====
-// Fungsi khusus parsing url
+// ===== 2. YouTube =====
 // Ambil ID 11 karakter dari berbagai format link YouTube, atau dari ID saja
 const YT_ID = (input = '') => {
-  const raw = input.trim();
+  const raw = String(input).trim();
   if (/^[\w-]{11}$/.test(raw)) return raw;
-  const m = raw.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([\w-]{11})/);
-  return m ? m[1] : '';
+  const match = raw.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([\w-]{11})/);
+  return match ? match[1] : '';
 };
 
-CMS.registerEditorComponent({
+defineBlock({
   id: 'youtube',
   label: 'YouTube',
   icon: 'smart_display',
-  trigger: 'button',
-  fields: [
-    { name: 'url', label: 'Link YouTube (share)', widget: 'string' },
-  ],
-  pattern: /<div class="embed-youtube"><iframe src="https:\/\/www\.youtube\.com\/embed\/(?<id>[\w-]{11})"[^>]*><\/iframe><\/div>/,
-  fromBlock: ({ id }) => ({ url: `https://youtu.be/${id}` }),
-  toBlock: ({ url = '' }) => {
+  marker: 'embed-youtube',
+  fields: [{ name: 'url', label: 'Link YouTube (share)', widget: 'string', type: 'url', pattern: YT_PATTERN }],
+  render: ({ url = '' } = {}) => {
     const id = YT_ID(url);
     return id
       ? `<div class="embed-youtube"><iframe src="https://www.youtube.com/embed/${id}" loading="lazy" allowfullscreen></iframe></div>`
       : '';
   },
-  toPreview: ({ url = '' }) => {
-    const id = YT_ID(url);
-    const wrap = document.createElement('div');
-    wrap.className = 'embed-youtube';
-    if (id) {
-      const frame = document.createElement('iframe');
-      frame.src = `https://www.youtube.com/embed/${id}`;
-      frame.allowFullscreen = true;
-      wrap.appendChild(frame);
-    }
-    return wrap;
+  fromBlock: ({ html = '' } = {}) => {
+    const match = attrOf(html, 'src').match(/\/embed\/([\w-]{11})/);
+    return { url: match ? `https://youtu.be/${match[1]}` : '' };
   },
 });
 
-// ===== 3. GAMBAR CDN (caption dan kredit opsional) =====
-// Fungsi khusus embed single CDN image
-// Blok lama tanpa figcaption tetap terbaca karena bagian itu opsional di pattern
+// ===== 3. Gambar CDN (caption dan kredit opsional) =====
 const renderImage = ({ src = '', alt = '', caption = '', credit = '', creditUrl = '' } = {}) => {
   if (!src) return '';
 
@@ -131,227 +177,206 @@ const renderImage = ({ src = '', alt = '', caption = '', credit = '', creditUrl 
   return `<figure class="embed-image"><img src="${esc(src)}" alt="${esc(alt)}" loading="lazy">${figcaption}</figure>`;
 };
 
-CMS.registerEditorComponent({
+defineBlock({
   id: 'cdn-image',
   label: 'Gambar CDN',
   icon: 'image',
-  trigger: 'button',
+  marker: 'embed-image',
   fields: [
-    { name: 'src', label: 'URL gambar (CDN)', widget: 'string' },
+    { name: 'src', label: 'URL gambar (CDN)', widget: 'string', type: 'url', pattern: URL_PATTERN },
     { name: 'alt', label: 'Teks alternatif', widget: 'string', required: false },
     { name: 'caption', label: 'Caption (opsional)', widget: 'string', required: false },
     { name: 'credit', label: 'Kredit / nama sumber (opsional)', widget: 'string', required: false },
-    { name: 'creditUrl', label: 'URL kredit (opsional)', widget: 'string', required: false },
+    { name: 'creditUrl', label: 'URL kredit (opsional)', widget: 'string', type: 'url', required: false },
   ],
-  pattern: /<figure class="embed-image"><img src="(?<src>[^"]+)" alt="(?<alt>[^"]*)" loading="lazy">(?:<figcaption><span class="caption-text">(?<caption>[^<]*)<\/span><span class="credit">(?:<a href="(?<creditUrl>[^"]*)"[^>]*>)?(?<credit>[^<]*)(?:<\/a>)?<\/span><\/figcaption>)?<\/figure>/,
-  fromBlock: ({ src, alt, caption, credit, creditUrl }) => ({
-    src: unesc(src),
-    alt: unesc(alt),
-    caption: unesc(caption),
-    credit: unesc(credit),
-    creditUrl: unesc(creditUrl),
-  }),
-  toBlock: asBlock(renderImage),
-  toPreview: renderImage,
-});
-
-// ===== 4. Embed iframe url website external =====
-CMS.registerEditorComponent({
-  id: 'iframe-embed',
-  label: 'Iframe eksternal',
-  icon: 'web',
-  trigger: 'button',
-  fields: [
-    { name: 'src', label: 'URL halaman (iframe)', widget: 'string' },
-    { name: 'height', label: 'Tinggi (px)', widget: 'number', default: 480 },
-  ],
-  pattern: /<div class="embed-iframe"><iframe src="(?<src>[^"]+)" height="(?<height>\d+)" loading="lazy" allowfullscreen><\/iframe><\/div>/,
-  fromBlock: ({ src = '', height = '480' } = {}) => ({
-    src: unesc(src),
-    height: Number(height) || 480,
-  }),
-  toBlock: ({ src = '', height = 480 }) =>
-    src
-      ? `<div class="embed-iframe"><iframe src="${q(src)}" height="${height}" loading="lazy" allowfullscreen></iframe></div>`
-      : '',
-  toPreview: ({ src = '', height = 480 }) => {
-    const wrap = document.createElement('div');
-    wrap.className = 'embed-iframe';
-    if (src) {
-      const frame = document.createElement('iframe');
-      frame.src = src;
-      frame.height = String(height);
-      frame.allowFullscreen = true;
-      wrap.appendChild(frame);
-    }
-    return wrap;
+  render: renderImage,
+  fromBlock: ({ html = '' } = {}) => {
+    const credit = html.match(/\bcredit\b[^>]*>(?:<a\b[^>]*>)?([^<]*)/);
+    return {
+      src: attrOf(html, 'src'),
+      alt: attrOf(html, 'alt'),
+      caption: textOf(html, 'caption-text'),
+      credit: credit ? unesc(credit[1]) : '',
+      creditUrl: attrOf(html, 'href'),
+    };
   },
 });
 
-// ===== 5. Render Grid block gambar 2-4 url cdn =====
-// Fungsi khusus from block grid
-const parseGridImages = (inner = '') =>
-  [...inner.matchAll(/<img src="([^"]+)" alt="([^"]*)"/g)].map(([, src, alt]) => ({
-    url: unesc(src),
-    alt: unesc(alt),
-  }));
+// ===== 4. Iframe eksternal =====
+defineBlock({
+  id: 'iframe-embed',
+  label: 'Iframe eksternal',
+  icon: 'web',
+  marker: 'embed-iframe',
+  fields: [
+    { name: 'src', label: 'URL halaman (iframe)', widget: 'string', type: 'url', pattern: URL_PATTERN },
+    { name: 'height', label: 'Tinggi (px)', widget: 'number', value_type: 'int', min: 100, max: 2000, default: 480 },
+  ],
+  render: ({ src = '', height = 480 } = {}) => {
+    if (!src) return '';
+    const h = Number(height) || 480;
+    return `<div class="embed-iframe"><iframe src="${esc(src)}" height="${h}" loading="lazy" allowfullscreen></iframe></div>`;
+  },
+  fromBlock: ({ html = '' } = {}) => ({
+    src: attrOf(html, 'src'),
+    height: Number(attrOf(html, 'height')) || 480,
+  }),
+});
 
-CMS.registerEditorComponent({
+// ===== 5. Grid gambar CDN (2 sampai 4 gambar) =====
+// Jumlah kolom diambil dari jumlah gambar. Tidak ada field cols terpisah,
+// sehingga tidak mungkin ada nilai yang tidak cocok dengan jumlah gambar.
+const renderGrid = ({ images = [] } = {}) => {
+  const items = (images || []).filter((img) => img && img.url).slice(0, 4);
+  if (items.length < 2) return '';
+
+  const figures = items
+    .map((img) => `<figure><img src="${esc(img.url)}" alt="${esc(img.alt ?? '')}" loading="lazy"></figure>`)
+    .join('');
+
+  return `<div class="embed-grid" data-cols="${items.length}">${figures}</div>`;
+};
+
+defineBlock({
   id: 'cdn-grid',
   label: 'Grid Gambar CDN',
   icon: 'grid_view',
-  trigger: 'button',
+  marker: 'embed-grid',
   fields: [
-    { name: 'cols', label: 'Jumlah gambar', widget: 'select', options: ['2', '4'], default: '2' },
     {
       name: 'images',
-      label: 'Gambar (isi sesuai jumlah yang dipilih)',
+      label: 'Gambar (2 sampai 4)',
       widget: 'list',
       min: 2,
       max: 4,
       fields: [
-        { name: 'url', label: 'URL gambar (CDN)', widget: 'string' },
+        { name: 'url', label: 'URL gambar (CDN)', widget: 'string', type: 'url', pattern: URL_PATTERN },
         { name: 'alt', label: 'Teks alternatif', widget: 'string', required: false },
       ],
     },
   ],
-  pattern: /<div class="embed-grid" data-cols="(?<cols>2|4)">(?<inner>[\s\S]*?)<\/div>/,
-  
-  // fromBlock: menerima groups dari pattern, atau nilai field yang sudah diurai
-  fromBlock: ({ cols = '2', inner = '', images } = {}) => ({
-    cols: String(cols),
-    images: images ?? parseGridImages(inner),
+  render: renderGrid,
+  fromBlock: ({ html = '' } = {}) => ({
+    images: Array.from(html.matchAll(/<img\b[^>]*>/g), (m) => ({
+      url: attrOf(m[0], 'src'),
+      alt: attrOf(m[0], 'alt'),
+    })),
   }),
-  toBlock: asBlock(({ cols, images }) => gridHtml(cols, images)),
-  toPreview: ({ cols, images }) => gridHtml(cols, images),
 });
 
-// ===== 6. KARTU TAUTAN Previewed (link card) =====
-// Fungsi khusus kartu tautan interaktif
+// ===== 6. Kartu tautan =====
 const renderLinkCard = ({ title = '', description = '', url = '', image = '' } = {}) => {
   if (!title || !/^https?:\/\//.test(url)) return '';
 
-  const cleanDesc = description.replace(/\s*\n\s*/g, ' ').trim();
+  const cleanDesc = String(description).replace(/\s*\n\s*/g, ' ').trim();
   const thumb = image ? `<img class="link-thumb" src="${esc(image)}" alt="" loading="lazy">` : '';
 
   return `<a class="embed-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer"><span class="link-body"><span class="link-title">${esc(title)}</span><span class="link-desc">${esc(cleanDesc)}</span></span>${thumb}</a>`;
 };
 
-CMS.registerEditorComponent({
+defineBlock({
   id: 'link-card',
   label: 'Kartu tautan',
   icon: 'link',
-  trigger: 'button',
+  marker: 'embed-link',
   fields: [
     { name: 'title', label: 'Judul', widget: 'string' },
     { name: 'description', label: 'Deskripsi (opsional)', widget: 'text', required: false },
-    { name: 'url', label: 'URL tujuan (https://...)', widget: 'string' },
-    { name: 'image', label: 'URL gambar pratinjau (opsional)', widget: 'string', required: false },
+    { name: 'url', label: 'URL tujuan (https://...)', widget: 'string', type: 'url', pattern: URL_PATTERN },
+    { name: 'image', label: 'URL gambar pratinjau (opsional)', widget: 'string', type: 'url', required: false },
   ],
-  pattern: /<a class="embed-link" href="(?<url>[^"]+)" target="_blank" rel="noopener noreferrer"><span class="link-body"><span class="link-title">(?<title>[^<]*)<\/span><span class="link-desc">(?<description>[^<]*)<\/span><\/span>(?:<img class="link-thumb" src="(?<image>[^"]*)" alt="" loading="lazy">)?<\/a>/,
-  fromBlock: ({ url, title, description, image }) => ({
-    url: unesc(url),
-    title: unesc(title),
-    description: unesc(description),
-    image: unesc(image),
+  render: renderLinkCard,
+  fromBlock: ({ html = '' } = {}) => ({
+    url: attrOf(html, 'href'),
+    title: textOf(html, 'link-title'),
+    description: textOf(html, 'link-desc'),
+    image: attrOf(html, 'src'),
   }),
-  toBlock: asBlock(renderLinkCard),
-  toPreview: renderLinkCard,
 });
 
-// ===== 7. PERINTAH TERMINAL Sandbox =====
-// Fungsi khusus blok perintah terminal & output
+// ===== 7. Terminal =====
 const renderTerminal = ({ command = '', output = '' } = {}) => {
-  const cmd = command.replace(/\s*\n\s*/g, ' ').trim();
+  const cmd = String(command).trim();
   if (!cmd) return '';
 
-  const cleanOutput = output.trim();
+  const cleanOutput = String(output).trim();
   const outHtml = cleanOutput ? `\n<span class="term-out">${esc(cleanOutput)}</span>` : '';
 
   return `<pre class="terminal"><span class="term-cmd"><span class="term-prompt">$</span> ${esc(cmd)}</span>${outHtml}</pre>`;
 };
 
-CMS.registerEditorComponent({
+defineBlock({
   id: 'terminal',
   label: 'Terminal',
   icon: 'terminal',
-  trigger: 'button',
+  marker: 'terminal',
   fields: [
     { name: 'command', label: 'Perintah (tanpa prompt $)', widget: 'string' },
     { name: 'output', label: 'Output (opsional)', widget: 'text', required: false },
   ],
-  pattern: /<pre class="terminal"><span class="term-cmd"><span class="term-prompt">\$<\/span> (?<command>[^<]*)<\/span>(?:\n<span class="term-out">(?<output>[^<]*)<\/span>)?<\/pre>/,
-  fromBlock: ({ command, output }) => ({
-    command: unesc(command),
-    output: unesc(output),
-  }),
-  toBlock: asBlock(renderTerminal),
-  toPreview: renderTerminal,
+  render: renderTerminal,
+  fromBlock: ({ html = '' } = {}) => {
+    const cmd = html.match(/\bterm-cmd\b[^>]*>\s*<span[^>]*>\$<\/span>\s*([^<]*)/);
+    return {
+      command: cmd ? unesc(cmd[1]).trim() : '',
+      output: textOf(html, 'term-out'),
+    };
+  },
 });
 
-// ===== 8. DETAIL YANG BISA DILIPAT (details) =====
-// Fungsi khusus dropdown detail ala FaQ
-// Isi (body) tetap markdown. Baris kosong sebelum dan sesudah body memastikan markdown dirender.
+// ===== 8. Detail yang bisa dilipat =====
+// Pola khusus karena isi (body) adalah markdown dan dibaca apa adanya
 const renderDetails = ({ summary = '', body = '', open = false } = {}) => {
-  const cleanBody = body.trim();
+  const cleanBody = String(body).trim();
   if (!cleanBody) return '';
 
   return `<details class="fold"${open ? ' open' : ''}>\n<summary>${esc(summary || 'Selengkapnya')}</summary>\n\n${cleanBody}\n\n</details>`;
 };
 
-CMS.registerEditorComponent({
+defineBlock({
   id: 'details',
   label: 'Detail (bisa dilipat)',
   icon: 'unfold_more',
-  trigger: 'button',
+  pattern: /<details\b[^>]*\bclass="[^"]*\bfold\b[^"]*"(?<attrs>[^>]*)>\s*<summary>(?<summary>[^<]*)<\/summary>(?<body>[\s\S]*?)<\/details>/,
   fields: [
     { name: 'summary', label: 'Judul ringkas', widget: 'string' },
-    { name: 'body', label: 'Isi text', widget: 'text' },
+    { name: 'body', label: 'Isi (markdown)', widget: 'text' },
     { name: 'open', label: 'Terbuka secara default', widget: 'boolean', default: false, required: false },
   ],
-  pattern: /<details class="fold"(?<open> open)?>\n<summary>(?<summary>[^<]*)<\/summary>\n\n(?<body>[\s\S]*?)\n\n<\/details>/,
-  fromBlock: ({ open, summary, body }) => ({
-    open: Boolean(open),
+  render: renderDetails,
+  fromBlock: ({ attrs = '', summary = '', body = '' } = {}) => ({
+    open: /\bopen\b/.test(attrs),
     summary: unesc(summary),
-    body,
+    body: body.trim(),
   }),
-  toBlock: asBlock(renderDetails),
-  toPreview: renderDetails,
 });
 
-// ===== 9. EMBED VIDEO DARI CDN KOSTUM (Non Youtube Provider) =====
-// Fungsi khusus rendering video via CDN Source
+// ===== 9. Video dari CDN =====
 const renderVideo = ({ src = '', poster = '', caption = '' } = {}) => {
   if (!src) return '';
 
-  return `<figure class="embed-video"><video src="${esc(src)}" poster="${esc(poster)}" controls preload="metadata" playsinline></video><figcaption>${esc(caption)}</figcaption></figure>`;
+  return `<figure class="embed-video"><video src="${esc(src)}" poster="${esc(poster)}" controls preload="metadata" playsinline></video><figcaption class="caption-text">${esc(caption)}</figcaption></figure>`;
 };
 
-CMS.registerEditorComponent({
+defineBlock({
   id: 'cdn-video',
   label: 'Video CDN',
   icon: 'movie',
-  trigger: 'button',
+  marker: 'embed-video',
   fields: [
-    { name: 'src', label: 'URL video (CDN, .mp4 atau .webm)', widget: 'string' },
-    { name: 'poster', label: 'URL poster / thumbnail (opsional)', widget: 'string', required: false },
+    { name: 'src', label: 'URL video (CDN, .mp4 atau .webm)', widget: 'string', type: 'url', pattern: URL_PATTERN },
+    { name: 'poster', label: 'URL poster / thumbnail (opsional)', widget: 'string', type: 'url', required: false },
     { name: 'caption', label: 'Caption (opsional)', widget: 'string', required: false },
   ],
-  pattern: /<figure class="embed-video"><video src="(?<src>[^"]+)" poster="(?<poster>[^"]*)" controls preload="metadata" playsinline><\/video><figcaption>(?<caption>[^<]*)<\/figcaption><\/figure>/,
-  fromBlock: ({ src, poster, caption }) => ({
-    src: unesc(src),
-    poster: unesc(poster),
-    caption: unesc(caption),
+  render: renderVideo,
+  fromBlock: ({ html = '' } = {}) => ({
+    src: attrOf(html, 'src'),
+    poster: attrOf(html, 'poster'),
+    caption: textOf(html, 'caption-text'),
   }),
-  toBlock: asBlock(renderVideo),
-  toPreview: renderVideo,
 });
 
-// ===== 10. BLOK KODE DENGAN NAMA FILE =====
-// Fungsi khusus blok kode kostum (markdown fence, diproses Shiki/Expressive Code saat build)
-// Memakai <pre> agar baris kosong di dalam kode tidak memutus blok HTML di markdown
-// markdown fence Ia dibangun di atas Shiki dan berjalan saat build (package: astro-expressive-code)
-// Kode fence digunakan juga untuk diff
+// ===== 10. Kode dengan nama file (fence markdown, diproses Shiki saat build) =====
 const FENCE_CHAR = '\x60';
 
 // Panjang pagar minimal 3 dan selalu lebih panjang dari deretan backtick terpanjang di dalam kode
@@ -361,7 +386,7 @@ const fenceFor = (code) => {
   return FENCE_CHAR.repeat(Math.max(3, longest + 1));
 };
 
-// Output markdown asli. Kode tidak di-escape karena markdown menampilkan isi fence apa adanya.
+// Kode tidak di-escape karena markdown menampilkan isi fence apa adanya
 const renderCodeFile = ({ filename = '', language = 'text', code = '' } = {}) => {
   if (!code) return '';
   const fence = fenceFor(code);
@@ -385,8 +410,10 @@ CMS.registerEditorComponent({
     { name: 'language', label: 'Bahasa (contoh: ts, astro, bash)', widget: 'string', default: 'ts' },
     { name: 'code', label: 'Kode', widget: 'text' },
   ],
-  pattern: /(?<fence>\x60{3,})(?!diff[ \n])(?<language>[\w-]*)(?: title="(?<filename>[^"]*)")?\n(?<code>[\s\S]*?)\n\k<fence>(?!\x60)/,
-  fromBlock: ({ filename = '', language = '', code = '' }) => ({
+  // Pagar pembuka harus didahului baris kosong (atau awal dokumen), seperti yang dihasilkan asBlock.
+  // Tanpa ini, pagar penutup blok lain bisa salah dikenali sebagai pembuka.
+  pattern: /(?<=^|\n\n)(?<fence>\x60{3,})(?!diff[ \n])(?<language>[\w-]*)(?: title="(?<filename>[^"]*)")?\n(?<code>[\s\S]*?)\n\k<fence>(?!\x60)/,
+  fromBlock: ({ filename = '', language = '', code = '' } = {}) => ({
     filename,
     language: language || 'text',
     code,
@@ -395,13 +422,12 @@ CMS.registerEditorComponent({
   toPreview: renderCodePreview,
 });
 
-// ===== 11. PERBANDINGAN SEBELUM DAN SESUDAH (Simple code diff) =====
-// Kumpulan Fungsi inline diff ala github
-// Baris "-" untuk sebelum dan "+" untuk sesudah. Baris konteks tidak dimodelkan agar tetap sederhana.
+// ===== 11. Sebelum dan sesudah (diff sederhana) =====
+// Baris "-" untuk sebelum dan "+" untuk sesudah. Baris konteks tidak dimodelkan.
 const toLines = (s = '') =>
-  s.trim() === '' ? [] : s.replace(/\r/g, '').replace(/\n+$/, '').split('\n');
+  String(s).trim() === '' ? [] : String(s).replace(/\r/g, '').replace(/\n+$/, '').split('\n');
 
-// Output markdown asli: semua baris sebelum dulu, lalu semua baris sesudah
+// Output markdown: semua baris sebelum dulu, lalu semua baris sesudah
 const renderDiff = ({ filename = '', before = '', after = '' } = {}) => {
   const body = [
     ...toLines(before).map((line) => `- ${line}`),
@@ -414,7 +440,6 @@ const renderDiff = ({ filename = '', before = '', after = '' } = {}) => {
   return `${fence}diff${title}\n${body}\n${fence}`;
 };
 
-// Pratinjau di editor memakai HTML agar tampilan konsisten dengan blok lain
 const renderDiffPreview = ({ filename = '', before = '', after = '' } = {}) => {
   const rows = [
     ...toLines(before).map((line) => `<span class="diff-del">- ${esc(line)}</span>`),
@@ -425,7 +450,7 @@ const renderDiffPreview = ({ filename = '', before = '', after = '' } = {}) => {
   return `<pre class="code-diff" data-file="${esc(filename)}"><code>${rows.join('\n')}</code></pre>`;
 };
 
-// Membaca balik isi fence menjadi dua teks: sebelum (-) dan sesudah (+)
+// Membaca isi fence menjadi dua teks: sebelum (-) dan sesudah (+)
 const parseDiffBody = (body = '') => {
   const before = [];
   const after = [];
@@ -434,7 +459,6 @@ const parseDiffBody = (body = '') => {
     // "-" dan "+" tanpa spasi muncul jika editor membuang spasi di akhir baris kosong
     if (line === '-' || line.startsWith('- ')) before.push(line.slice(2));
     else if (line === '+' || line.startsWith('+ ')) after.push(line.slice(2));
-    // baris lain diabaikan karena komponen ini hanya menyimpan sebelum dan sesudah
   });
 
   return { before: before.join('\n'), after: after.join('\n') };
@@ -450,13 +474,62 @@ CMS.registerEditorComponent({
     { name: 'before', label: 'Sebelum', widget: 'text', required: false },
     { name: 'after', label: 'Sesudah', widget: 'text', required: false },
   ],
-  pattern: /(?<fence>\x60{3,})diff(?: title="(?<filename>[^"]*)")?\n(?<body>[\s\S]*?)\n\k<fence>(?!\x60)/,
-  fromBlock: ({ filename = '', body = '' }) => ({
+  pattern: /(?<=^|\n\n)(?<fence>\x60{3,})diff(?: title="(?<filename>[^"]*)")?\n(?<body>[\s\S]*?)\n\k<fence>(?!\x60)/,
+  fromBlock: ({ filename = '', body = '' } = {}) => ({
     filename,
     ...parseDiffBody(body),
   }),
   toBlock: asBlock(renderDiff),
   toPreview: renderDiffPreview,
+});
+
+// ===== 12. Rumus LaTeX (KaTeX, dirender di browser) =====
+// Sumber disimpan base64 di data-tex-b64. Skrip /js/blocks.js merendernya dengan KaTeX dari /vendor/katex/.
+const renderMath = ({ tex = '' } = {}) => {
+  const src = String(tex).trim();
+  if (!src) return '';
+  return `<div class="math-block" data-tex-b64="${b64encode(src)}"></div>`;
+};
+
+// Pratinjau di editor menampilkan sumber mentah, karena KaTeX tidak berjalan di admin
+const previewMath = ({ tex = '' } = {}) => {
+  const src = String(tex).trim();
+  return src ? `<pre class="math-preview"><code>${esc(src)}</code></pre>` : '';
+};
+
+defineBlock({
+  id: 'math',
+  label: 'Rumus LaTeX',
+  icon: 'functions',
+  marker: 'math-block',
+  fields: [{ name: 'tex', label: 'Rumus LaTeX (tanpa tanda $)', widget: 'text' }],
+  render: renderMath,
+  preview: previewMath,
+  fromBlock: ({ html = '' } = {}) => ({ tex: b64decode(attrOf(html, 'data-tex-b64')) }),
+});
+
+// ===== 13. Diagram Mermaid (dirender di browser) =====
+// Sumber disimpan base64 di data-src-b64. Skrip /js/blocks.js memanggil mermaid dari /vendor/mermaid/.
+const renderMermaid = ({ source = '' } = {}) => {
+  const src = String(source).trim();
+  if (!src) return '';
+  return `<div class="mermaid-block" data-src-b64="${b64encode(src)}"></div>`;
+};
+
+const previewMermaid = ({ source = '' } = {}) => {
+  const src = String(source).trim();
+  return src ? `<pre class="mermaid-preview"><code>${esc(src)}</code></pre>` : '';
+};
+
+defineBlock({
+  id: 'mermaid',
+  label: 'Diagram Mermaid',
+  icon: 'account_tree',
+  marker: 'mermaid-block',
+  fields: [{ name: 'source', label: 'Kode Mermaid', widget: 'text' }],
+  render: renderMermaid,
+  preview: previewMermaid,
+  fromBlock: ({ html = '' } = {}) => ({ source: b64decode(attrOf(html, 'data-src-b64')) }),
 });
 
 CMS.init();
