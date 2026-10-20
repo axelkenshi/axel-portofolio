@@ -1,9 +1,28 @@
-# Aturan untuk semua crawler, termasuk bot AI
+# Aturan dasar: boleh dibaca dan dipakai untuk pencarian dan jawaban AI real-time
 User-agent: *
+Content-Signal: search=yes,ai-input=yes,ai-train=no
 Allow: /
 Disallow: /admin/
 
-# Googlebot perlu grupnya sendiri jika aturannya berbeda
+# Larangan pelatihan AI
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: anthropic-ai
+User-agent: CCBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Bytespider
+User-agent: meta-externalagent
+Disallow: /
+
+# Agen yang dipicu pengguna tetap diizinkan
+User-agent: Claude-User
+User-agent: ChatGPT-User
+User-agent: Perplexity-User
+Allow: /
+Disallow: /admin/
+
+# Googlebot: pencarian Google tetap berjalan
 User-agent: Googlebot
 Allow: /
 Disallow: /admin/

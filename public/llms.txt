@@ -1,0 +1,11 @@
+# Xnshi Note's
+
+> Notes and works by Axel Kenshi. Contains personal writings and projects.
+
+## Article
+
+- [Judul artikel](https://axelkenshi.my.id/quil-notes/): collection of blog content
+
+## Portofolio
+
+- [Repo GitHub](https://github.com/axelkenshi/axel-portofolio): application source code, core engine
