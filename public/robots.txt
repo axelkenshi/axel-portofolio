@@ -1,14 +1,11 @@
-# Aturan untuk SEMUA mesin pencari (Google, Bing, DuckDuckGo, dll)
+# Aturan untuk semua crawler, termasuk bot AI
 User-agent: *
-Allow: /                     # Izinkan merayapi seluruh web secara umum
-Disallow: /fonts/     # Larang merayapi font
-Disallow: /assets/      # Larang merayapi file mentah/zip/pdf privat
-Disallow: /img/ # Larang merayapi gambar lokal
-Disallow: /admin/ # Larang merayapi panel admin sveltia
+Allow: /
+Disallow: /admin/
 
-# Aturan khusus hanya untuk Googlebot
+# Googlebot perlu grupnya sendiri jika aturannya berbeda
 User-agent: Googlebot
-Disallow: /draft-projects/   # Googlebot dilarang mengintip halaman draf proyek kamu
+Allow: /
+Disallow: /admin/
 
-# Tautan Peta Situs tetap ditaruh di paling bawah
 Sitemap: https://axelkenshi.my.id/sitemap-index.xml
