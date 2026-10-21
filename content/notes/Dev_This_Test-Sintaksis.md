@@ -9,6 +9,11 @@ category: DeveloperDocs
 
 ## Pengujian 01
 
+| nomor | huruf | kode |
+| --- | --- | --- |
+| 1 | satu | @ |
+| 2 | dua | \# |
+
 
 
 <figure class="embed-video"><video src="https://res.cloudinary.com/pfsm9q7t/video/upload/v1792320385/jj.mp4" poster="" controls preload="metadata" playsinline></video><figcaption class="caption-text">My cloudinary Assets</figcaption></figure>

@@ -14,7 +14,7 @@
     "new-blog": "bun run scripts/generate-content-manual.js blog"
   },
   "dependencies": {
-    "@astrojs/rss": "4.0.19",
+    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@astrojs/svelte": "^9.0.1",
     "@lucide/svelte": "^1.17.0",

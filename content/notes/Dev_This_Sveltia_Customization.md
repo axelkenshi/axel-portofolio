@@ -1,15 +1,24 @@
-# Custom block Sveltia: panduan pemeliharaan
+---
+title: D. Pola integrasi sveltia dan konfigurasi kostum nya
+description: Tata cara penyesuaian Sveltia CMS dan Pengembangan custom editor component nya
+img: ''
+tags: []
+date: 2025-01-04
+category: DeveloperDocs
+---
+
+## Custom block Sveltia: panduan integrasi
 
 Dokumen ini merangkum pola custom block di `public/admin/editor-components.js`, cara mengujinya, dan jebakan yang pernah terjadi. Tujuannya agar tidak mengulang siklus error yang sama saat menambah atau mengubah komponen.
 
 ## 1. Berkas yang terlibat
 
 | Berkas | Fungsi |
-|---|---|
+| --- | --- |
 | `public/admin/editor-components.js` | Definisi semua komponen (pattern, toBlock, fromBlock, toPreview) |
 | `public/admin/config.yml` | Daftar id komponen per koleksi (`editor_components: [...]`) |
 | `public/styles/callouts.css` | Gaya tampilan HTML komponen, dipakai di preview dan halaman |
-| `scripts/test-editor-components.mjs` | Harness uji Node, wajib dijalankan setelah setiap perubahan |
+| `scripts/test-editor-components.mjs` | Harness uji Node, wajib dijalankan setelah setiap perubahan, sebagai pengujian untuk mendeteksi bug |
 
 `callouts.css` hanya diubah bila benar-benar perlu. Callout adalah acuan pola dan tidak boleh diubah tanpa alasan kuat.
 
@@ -45,9 +54,12 @@ Komponen markdown (code-file, code-diff) memakai fence backtick. Pagar pembukany
 
 Jalankan dari root proyek:
 
-```bash
-node scripts/test-editor-components.mjs
-```
+
+
+<pre class="terminal"><span class="term-cmd"><span class="term-prompt">$</span> node scripts/test-editor-components.mjs</span>
+<span class="term-out">Output: OK...</span></pre>
+
+
 
 Harness ini memanggil `fromBlock` dengan `RegExpMatchArray`, sama seperti Sveltia. Ia menguji:
 
@@ -79,33 +91,44 @@ Untuk memastikan harness masih bisa menangkap bug, lakukan uji mutasi sesekali: 
 - Bentuk argumen `fromBlock` di Sveltia 0.248.0 belum dikonfirmasi dari tipe resminya. Adapter menangani kedua bentuk. Konfirmasi lewat log diagnosa di browser.
 - Komponen math (LaTeX) dan mermaid belum dibuat. Lihat catatan pengembangan terpisah.
 
+***
+
 ## Langkah Pemeliharaan Blok khusus KaTeX dan Mermaid Diagram
 
 Disalin manual dari paket npm. Jangan edit manual.
 
-```bash
-# 1. Pasang paket di folder sementara (tanpa menyentuh package.json proyek)
+Lakukan beberapa perintah berikut secara bertahap, Langkah ini juga berlaku jika anda ingin upgrade versi mereka (cukup ganti @x.x.x)
+
+
+
+```bash title="terminal_command.bash"
+# 1. Install the package in a temporary folder (without touching the project's package.json)
+
 PROJECT=$(pwd)
 TMP=$(mktemp -d)
 cd "$TMP" && bun init -y >/dev/null && bun add katex@0.19.0 mermaid@12.2.0
 cd "$PROJECT"
 
-# 2. Pastikan berkas sumber ada
+# 2. Ensure the source file exists
+
 ls "$TMP/node_modules/katex/dist/katex.min.js" "$TMP/node_modules/katex/dist/katex.min.css"
 ls "$TMP/node_modules/mermaid/dist/mermaid.esm.min.mjs" "$TMP/node_modules/mermaid/dist/chunks/mermaid.esm.min"
 
-# 3. Salin ke public/vendor
+# 3. copy to public/vendor
+
 mkdir -p public/vendor/katex public/vendor/mermaid/chunks
 cp "$TMP/node_modules/katex/dist/katex.min.js" "$TMP/node_modules/katex/dist/katex.min.css" public/vendor/katex/
 cp -r "$TMP/node_modules/katex/dist/fonts" public/vendor/katex/
 cp "$TMP/node_modules/mermaid/dist/mermaid.esm.min.mjs" public/vendor/mermaid/
 cp -r "$TMP/node_modules/mermaid/dist/chunks/mermaid.esm.min" public/vendor/mermaid/chunks/
 
-# 4. Catat versi dan hapus folder sementara
+# 4. Record the version and delete the temporary folder
+
 printf '# Versi aset vendor\n\n- katex 0.19.0\n- mermaid 12.2.0\n\nDisalin manual dari paket npm. Jangan edit manual.\n' > public/vendor/VERSIONS.md
 rm -rf "$TMP"
 
-# 5. Verifikasi
+# 5. Verify
+
 ls public/vendor/katex public/vendor/mermaid
 node scripts/test-editor-components.mjs
 ```

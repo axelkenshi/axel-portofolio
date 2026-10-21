@@ -15,7 +15,7 @@ export default defineConfig({
     svelte(),
     sitemap(), 
     expressiveCode({
-    themes: ['github-dark', 'github-light'],
+    themes: ['github-dark'],
   }),
   ],
   prefetch: {

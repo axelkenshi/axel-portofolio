@@ -1,10 +1,43 @@
+/* =====================================================================
+   global.css
+
+   Three sections. Each section is labeled and kept self-contained.
+
+   1. FOUNDATION (all pages)
+      Fonts, Tailwind entry, typography plugin, site base palette,
+      dark-mode variant, and @layer base (body, h1-h3, p).
+      Shared contract: changes here affect /dev and Quil Notes.
+
+   2. PORTFOLIO (/dev, /index)
+      Glass tokens, .blog-prose, nav-hover.
+      Safe to delete together with the /dev pages. Quil does NOT use it.
+
+   3. QUIL NOTES
+      --quil-* tokens, .quil-dark variant, .quil-prose, .quil-scrollbar.
+      Dark mode is handled by swapping tokens in .quil-dark, so no dark:
+      utilities are needed. Do NOT use classes from section 2 in Quil.
+
+   Ordering rules:
+   - @import must be the first statement in the file.
+   - @layer base must come before @layer utilities.
+   - Rules inside @layer utilities are kept in their original order.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. FOUNDATION
+   --------------------------------------------------------------------- */
+
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+/* KaTeX CSS is loaded at runtime by /js/blocks.js from /vendor/katex/. */
+
+/* Fonts (shared by all pages). Metric overrides reduce layout shift. */
 @font-face {
   font-family: "Mark Script";
   src: url("/fonts/MarckScript.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
-  font-display: swap; /* Tampilkan fallback font dulu, swap setelah font loaded */
-  /* Metrics untuk minimize layout shift dengan fallback serif */
+  font-display: swap; /* show fallback first, swap when loaded */
   ascent-override: 95%;
   descent-override: 25%;
   line-gap-override: 0%;
@@ -17,108 +50,28 @@
   font-weight: 200 900;
   font-style: normal;
   font-display: swap;
-  /* Metrics untuk minimize layout shift dengan fallback sans-serif */
   ascent-override: 90%;
   descent-override: 22%;
   line-gap-override: 0%;
   size-adjust: 108%;
 }
 
-@import "tailwindcss";
-@plugin "@tailwindcss/typography";
-/*@import "katex/dist/katex.min.css";*/
-
-:root {
-  --theme-hue: 360; /* Default: merah marun khas Quil Notes */
-
-  /* Quil light (default) */
-  --quil-bg: #f6f5f0;
-  --quil-card: #ffffff;
-  --quil-accent: hsl(var(--theme-hue) 85% 42%);
-  --quil-accent-muted: hsl(var(--theme-hue) 65% 90% / 0.6);
-  --quil-text: hsl(var(--theme-hue) 90% 30%);
-  --quil-fg: #18181b;
-  --quil-fg-soft: #3f3f46;
-  --quil-fg-muted: #71717a;
-  --quil-fg-faint: #8b8b95;
-  --quil-surface: #f4f4f5;
-  --quil-well: #fafafa;
-  --quil-border: #e4e4e7;
-  --quil-border-strong: #a1a1aa;
-}
-
-.quil-dark {
-  /* dark: nilai asli quil, zinc disalin agar tampilan tetap mirip */
-  --quil-bg: #0b0f12;
-  --quil-card: #12181d;
-  --quil-accent: hsl(var(--theme-hue) 85% 55%);
-  --quil-accent-muted: hsl(var(--theme-hue) 65% 20% / 0.4);
-  --quil-text: hsl(var(--theme-hue) 90% 65%);
-  --quil-fg: #f4f4f5;
-  --quil-fg-soft: #d4d4d8;
-  --quil-fg-muted: #71717a;
-  --quil-fg-faint: #52525b;
-  --quil-surface: #18181b;
-  --quil-well: #09090b;
-  --quil-border: #27272a;
-  --quil-border-strong: #3f3f46;
-}
-
-/* Dark mode: class-based — default is ALWAYS light, dark hanya dari toggle */
-@custom-variant dark (&:is(.dark, .dark *));
-
-/*Dark mode: milik quil-notes secara independen*/
-@custom-variant quil-dark (&:is(.quil-dark, .quil-dark *));
-
+/* Site base palette and font tokens.
+   Used by @layer base, so they belong to the foundation even though
+   the colors were originally named for /dev. */
 @theme {
-  /* Global palette set lama portofolio /dev */
-  --color-tan: #edeadf;
-  --color-dark: #1a1a1a;
   --font-mark-script: "Mark Script", ui-serif, Georgia, serif;
   --font-source-sans: "Source Sans 3", ui-sans-serif, Roboto, sans-serif;
 
+  --color-tan: #edeadf;
+  --color-dark: #1a1a1a;
   --color-bg-light: var(--color-tan);
   --color-bg-dark: var(--color-dark);
-
-  /* Jalur aksen ala linktree myLinks (Khusus pages/index.astro)*/
-  /* Kaca transparan: tint sangat tipis, tanpa lapisan putih tebal */
-  --color-site-glass: rgb(255 255 255 / 0.08);
-  --color-site-glass-dark: rgb(0 0 0 / 0.2);
-
-  /* Teks utama dan sekunder dengan kontras lebih tinggi di atas background gambar */
-  --color-site-text: rgb(255 255 255 / 1);
-  --color-site-text-soft: rgb(255 255 255 / 0.88);
-  --color-site-text-muted: rgb(255 255 255 / 0.72);
 }
 
-/* ==========================================================================
-   EKSPANSI TOKEN BARU UNTUK INDEPENDENSI konten QuilNotes (TAILWIND V4)
-   ========================================================================== */
-@theme inline {
-  /* alias camelCase untuk komponen lama */
-  --color-quilBg: var(--quil-bg);
-  --color-quilCard: var(--quil-card);
-  --color-quilAccent: var(--quil-accent);
-  --color-quilAccentMuted: var(--quil-accent-muted);
-  --color-quilText: var(--quil-text);
-
-  /* alias kebab-case untuk selection: dan .blog-prose */
-  --color-quil-bg: var(--quil-bg);
-  --color-quil-card: var(--quil-card);
-  --color-quil-accent: var(--quil-accent);
-  --color-quil-accent-muted: var(--quil-accent-muted);
-  --color-quil-text: var(--quil-text);
-
-  /* token semantik */
-  --color-quil-fg: var(--quil-fg);
-  --color-quil-fg-soft: var(--quil-fg-soft);
-  --color-quil-fg-muted: var(--quil-fg-muted);
-  --color-quil-fg-faint: var(--quil-fg-faint);
-  --color-quil-surface: var(--quil-surface);
-  --color-quil-well: var(--quil-well);
-  --color-quil-border: var(--quil-border);
-  --color-quil-border-strong: var(--quil-border-strong);
-}
+/* Class-based dark mode for the foundation (`.dark` on an ancestor).
+   Quil Notes does not use this variant; see section 3. */
+@custom-variant dark (&:is(.dark, .dark *));
 
 @layer base {
   body {
@@ -145,8 +98,25 @@
   }
 }
 
+/* ---------------------------------------------------------------------
+   2. PORTFOLIO (/dev, /index)
+   Delete this section together with the /dev pages if they are removed.
+   --------------------------------------------------------------------- */
+
+/* Glass tokens for the link-tree style on pages/index.astro.
+   Transparent glass tint, no thick white layer. */
+@theme {
+  --color-site-glass: rgb(255 255 255 / 0.08);
+  --color-site-glass-dark: rgb(0 0 0 / 0.2);
+
+  /* Text colors with higher contrast over background images */
+  --color-site-text: rgb(255 255 255 / 1);
+  --color-site-text-soft: rgb(255 255 255 / 0.88);
+  --color-site-text-muted: rgb(255 255 255 / 0.72);
+}
+
 @layer utilities {
-  /* .blog-prose orisinil milik Anda */
+  /* Article prose for /dev. Default link color is purple. */
   .blog-prose {
     @apply prose prose-sm sm:prose-base max-w-none;
     @apply text-zinc-700 dark:text-zinc-300 leading-relaxed tracking-wide;
@@ -167,7 +137,6 @@
       @apply text-lg sm:text-xl;
     }
 
-    /* Default warna link portofolio utama: Ungu */
     & a {
       @apply text-purple-600 dark:text-purple-400 font-semibold no-underline border-b border-transparent hover:border-purple-500 transition-colors duration-200;
     }
@@ -208,54 +177,184 @@
       @apply rounded-xl border border-zinc-200/60 dark:border-zinc-800/80 my-6 mx-auto object-cover max-h-[400px] w-full;
     }
   }
+}
 
-  /* ==========================================================================
-     TRIK KONTEKSTUAL: OTOMATIS SWAP UNGU -> HUE ACCENT DI QUIL GARDEN
-     ========================================================================== */
-  .quil-garden {
-    .blog-prose {
-      & a {
-        @apply text-quil-text dark:text-quil-text hover:border-quil-accent!;
-      }
-      & li::marker {
-        @apply text-quil-accent!;
-      }
-      & :not(pre) > code {
-        @apply text-quil-text dark:text-quil-text bg-quil-accent-muted!;
-      }
-      & blockquote {
-        @apply border-quil-accent! text-zinc-400 dark:text-zinc-400;
-      }
-    }
+/* Nav hover for /dev. */
+@utility nav-hover {
+  @apply transition-colors duration-200 m-5 p-[6px] rounded-2xl
+    hover:bg-orange-400/50 active:bg-orange-400/50 hover:text-white
+    dark:hover:bg-orange-400/50 dark:active:bg-orange-400/50;
+}
+
+/* ---------------------------------------------------------------------
+   3. QUIL NOTES
+   Self-contained. Uses only --quil-* tokens and its own classes.
+   --------------------------------------------------------------------- */
+
+/* Accent hue. Change this one value to re-tint the whole Quil theme. */
+:root {
+  --theme-hue: 174;
+
+  /* Light (default) */
+  --quil-bg: #f6f5f0;
+  --quil-card: #ffffff;
+  --quil-accent: hsl(var(--theme-hue) 85% 42%);
+  --quil-accent-muted: hsl(var(--theme-hue) 65% 90% / 0.6);
+  --quil-text: hsl(var(--theme-hue) 90% 30%);
+  --quil-fg: #18181b;
+  --quil-fg-soft: #3f3f46;
+  --quil-fg-muted: #71717a;
+  --quil-fg-faint: #8b8b95;
+  --quil-surface: #f4f4f5;
+  --quil-well: #fafafa;
+  --quil-border: #e4e4e7;
+  --quil-border-strong: #a1a1aa;
+}
+
+/* Dark: applied to an ancestor of Quil content. Only tokens change. */
+.quil-dark {
+  --quil-bg: #0b0f12;
+  --quil-card: #12181d;
+  --quil-accent: hsl(var(--theme-hue) 85% 55%);
+  --quil-accent-muted: hsl(var(--theme-hue) 65% 20% / 0.4);
+  --quil-text: hsl(var(--theme-hue) 90% 65%);
+  --quil-fg: #f4f4f5;
+  --quil-fg-soft: #d4d4d8;
+  --quil-fg-muted: #71717a;
+  --quil-fg-faint: #52525b;
+  --quil-surface: #18181b;
+  --quil-well: #09090b;
+  --quil-border: #27272a;
+  --quil-border-strong: #3f3f46;
+}
+
+/* Quil's own dark variant, independent of the foundation's `.dark`. */
+@custom-variant quil-dark (&:is(.quil-dark, .quil-dark *));
+
+/* Aliases for components. Keep the legacy names so existing markup works. */
+@theme inline {
+  --color-quilBg: var(--quil-bg);
+  --color-quilCard: var(--quil-card);
+  --color-quilAccent: var(--quil-accent);
+  --color-quilAccentMuted: var(--quil-accent-muted);
+  --color-quilText: var(--quil-text);
+
+  --color-quil-bg: var(--quil-bg);
+  --color-quil-card: var(--quil-card);
+  --color-quil-accent: var(--quil-accent);
+  --color-quil-accent-muted: var(--quil-accent-muted);
+  --color-quil-text: var(--quil-text);
+
+  --color-quil-fg: var(--quil-fg);
+  --color-quil-fg-soft: var(--quil-fg-soft);
+  --color-quil-fg-muted: var(--quil-fg-muted);
+  --color-quil-fg-faint: var(--quil-fg-faint);
+  --color-quil-surface: var(--quil-surface);
+  --color-quil-well: var(--quil-well);
+  --color-quil-border: var(--quil-border);
+  --color-quil-border-strong: var(--quil-border-strong);
+}
+
+@layer utilities {
+  /* Article prose for Quil Notes. Colors come from tokens, so light and
+     dark modes follow automatically. Code blocks stay dark in both modes. */
+  .quil-prose {
+    @apply prose prose-sm sm:prose-base max-w-none leading-relaxed tracking-wide;
+
+    /* 
+    The Typography plugin assigns color to child elements via --tw-prose-*. 
+    Colors inherited from the root will be lost, so all variables must be set here. 
+    This declaration is written after @apply to override the plugin defaults.
+    */
+    --tw-prose-body: var(--quil-fg-soft);
+    --tw-prose-lead: var(--quil-fg-muted);
+    --tw-prose-headings: var(--quil-fg);
+    --tw-prose-links: var(--quil-text);
+    --tw-prose-bold: var(--quil-fg);
+    --tw-prose-counters: var(--quil-fg-muted);
+    --tw-prose-bullets: var(--quil-accent);
+    --tw-prose-hr: var(--quil-border);
+    --tw-prose-quotes: #a1a1aa;
+    --tw-prose-quote-borders: var(--quil-accent);
+    --tw-prose-captions: var(--quil-fg-muted);
+    --tw-prose-code: var(--quil-text);
+    --tw-prose-pre-code: #f4f4f5; /* tetap gelap di kedua tema */
+    --tw-prose-pre-bg: #09090b; /* tetap gelap di kedua tema */
+    --tw-prose-th-borders: var(--quil-border-strong);
+    --tw-prose-td-borders: var(--quil-border);
+
+    color: var(--quil-fg-soft);
   }
 
-  .quil-dark .blog-prose {
-    @apply text-zinc-300;
+  .quil-prose :is(h1, h2, h3, h4) {
+    @apply mt-8 mb-4 font-extrabold tracking-tight;
+    color: var(--quil-fg);
   }
-  .quil-dark .blog-prose h1,
-  .quil-dark .blog-prose h2,
-  .quil-dark .blog-prose h3,
-  .quil-dark .blog-prose h4,
-  .quil-dark .blog-prose strong {
-    @apply text-zinc-50;
+  .quil-prose h2 {
+    @apply text-xl sm:text-2xl pb-2;
+    border-bottom: 1px solid var(--quil-border);
   }
-  .quil-dark .blog-prose h2 {
-    @apply border-zinc-800/60;
+  .quil-prose h3 {
+    @apply text-lg sm:text-xl;
   }
-  .quil-dark .blog-prose hr {
-    @apply border-zinc-800;
+
+  .quil-prose a {
+    @apply font-semibold no-underline border-b border-transparent transition-colors duration-200;
+    color: var(--quil-text);
   }
-  .quil-dark .blog-prose img {
-    @apply border-zinc-800/80;
+  .quil-prose a:hover {
+    border-bottom-color: var(--quil-accent);
   }
-  .quil-dark .blog-prose :not(pre) > code {
-    @apply bg-zinc-800/80 text-purple-400;
+
+  .quil-prose ul {
+    @apply my-4 pl-5 list-disc;
   }
-  .quil-dark .blog-prose blockquote {
-    @apply text-zinc-400;
+  .quil-prose ol {
+    @apply my-4 pl-5 list-decimal;
+  }
+  .quil-prose li {
+    @apply mb-2 pl-1;
+  }
+  .quil-prose li::marker {
+    @apply font-bold;
+    color: var(--quil-accent);
+  }
+
+  .quil-prose pre {
+    @apply p-4 my-6 rounded-xl overflow-x-auto font-mono text-xs sm:text-sm shadow-sm;
+    background: #09090b; /* fixed: zinc-950 in both themes */
+    color: #f4f4f5; /* fixed: zinc-100 in both themes */
+    border: 1px solid #27272a;
+  }
+
+  .quil-prose :not(pre) > code {
+    @apply font-mono px-1.5 py-0.5 rounded text-[0.875em] font-semibold before:content-none after:content-none;
+    color: var(--quil-text);
+    background: var(--quil-accent-muted);
+  }
+
+  .quil-prose blockquote {
+    @apply pl-4 my-6 italic font-normal border-l-4;
+    border-color: var(--quil-accent);
+    color: #a1a1aa; /* fixed: zinc-400 in both themes */
+  }
+
+  .quil-prose hr {
+    @apply my-8;
+    border-color: var(--quil-border);
+  }
+
+  .quil-prose strong {
+    @apply font-bold;
+    color: var(--quil-fg);
+  }
+
+  .quil-prose img {
+    @apply my-6 mx-auto w-full max-h-[400px] rounded-xl object-cover border;
+    border-color: var(--quil-border);
   }
   
-  /* Kustomisasi Scrollbar Halus khas Fuwari */
+  /* Scrollbar for Quil panels */
   .quil-scrollbar::-webkit-scrollbar {
     width: 6px;
   }
@@ -269,10 +368,4 @@
   .quil-scrollbar::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--theme-hue) 85% 55%);
   }
-}
-
-@utility nav-hover {
-  @apply transition-colors duration-200 m-5 p-[6px] rounded-2xl
-  hover:bg-orange-400/50 active:bg-orange-400/50 hover:text-white
-  dark:hover:bg-orange-400/50 dark:active:bg-orange-400/50;
 }

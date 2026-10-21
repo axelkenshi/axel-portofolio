@@ -39,7 +39,7 @@ const { title, activeMenu = 'home' } = Astro.props;
     <!-- SCRIPT ANTI-KEDIP (BLOCKING EXECUTION) -->
     <script is:inline>
       try {
-        var hue = localStorage.getItem('quil-theme-hue') || '360';
+        var hue = localStorage.getItem('quil-theme-hue') || '174';
         document.documentElement.style.setProperty('--theme-hue', hue);
 
         // Default light: dark hanya aktif jika pengunjung memilih dark (ganti jika ingin gelap [!== 'light'])

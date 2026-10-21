@@ -2,10 +2,10 @@
 CMS.registerPreviewStyle('/styles/callouts.css');
 
 // ===== Adapter fromBlock =====
-// Sveltia memanggil fromBlock dengan hasil pattern.exec (RegExpMatchArray).
-// Named group ada di match.groups. Adapter ini meneruskan groups ke fromBlock,
-// sehingga semua fromBlock di file ini cukup menerima objek groups biasa.
-// Jika Sveltia suatu saat langsung mengirim groups, adapter tetap berfungsi.
+// Sveltia calls fromBlock with the result pattern.exec(RegExpMatchArray).
+// Named groups are in match.groups. This adapter passes groups to fromBlock,
+// so that all fromBlocks in this file simply accept regular groups objects.
+// If Sveltia at any time directly sends groups, the adapter still functions.
 const _register = CMS.registerEditorComponent.bind(CMS);
 const _shapeLogged = new Set();
 
@@ -16,14 +16,14 @@ CMS.registerEditorComponent = (def) => {
       const groups = (match && match.groups) || match || {};
 
       // Diagnosa: sekali per komponen, hanya di browser. Boleh dihapus setelah masalah selesai.
-      if (typeof window !== 'undefined' && !_shapeLogged.has(def.id)) {
-        _shapeLogged.add(def.id);
-        console.info(
-          `[${def.id}] fromBlock menerima:`,
-          match && match.groups ? 'RegExpMatchArray' : 'objek groups',
-          groups,
-        );
-      }
+      // if (typeof window !== 'undefined' && !_shapeLogged.has(def.id)) {
+      //   _shapeLogged.add(def.id);
+      //   console.info(
+      //     `[${def.id}] fromBlock menerima:`,
+      //     match && match.groups ? 'RegExpMatchArray' : 'objek groups',
+      //     groups,
+      //   );
+      // }
 
       try {
         return original(groups);
@@ -37,8 +37,7 @@ CMS.registerEditorComponent = (def) => {
 };
 
 // ===== Helper bersama =====
-// Newline ditulis sebagai &#10; agar nilai multi-baris (rumus, diagram) tidak
-// memutus blok HTML di markdown dengan baris kosong.
+// Newline ditulis sebagai &#10; agar nilai multi-baris (rumus, diagram) tidak memutus blok HTML di markdown dengan baris kosong.
 const esc = (s = '') =>
   String(s)
     .replace(/&/g, '&amp;')

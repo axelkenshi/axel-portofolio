@@ -6,12 +6,12 @@ backend:
 media_folder: public/media
 public_folder: /media
 
-# Logo dan ikon tab browser admin (dipakai dari /favicon.svg di folder public)
+# Admin browser tab logo and icon (sourced from /favicon.svg in the public folder)
 logo:
   src: /favicon.svg
   show_in_header: true
 
-# Pembersihan teks slug (global)
+# Text slug cleaning (global), Markdown filename generator
 slug:
   encoding: ascii
   clean_accents: true
@@ -36,7 +36,7 @@ collections:
       - { label: Tags, name: tags, widget: list, required: false }
       - { label: Date, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
       - { label: Category, name: category, widget: string, default: "Uncategorized" }
-      - { label: Content, name: body, editor_components: [callout, youtube, cdn-image, cdn-grid, link-card, code-file, terminal, details, code-diff, cdn-video, iframe-embed, math, mermaid], widget: markdown }
+      - { label: Content, name: body, editor_components: [table, callout, youtube, cdn-image, cdn-grid, link-card, code-file, terminal, details, code-diff, cdn-video, iframe-embed, math, mermaid], widget: markdown }
 
   - name: blogging
     label: Blogging
