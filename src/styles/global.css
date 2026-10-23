@@ -331,6 +331,7 @@
     @apply font-mono px-1.5 py-0.5 rounded text-[0.875em] font-semibold before:content-none after:content-none;
     color: var(--quil-text);
     background: var(--quil-accent-muted);
+    overflow-wrap: anywhere; /* teks panjang tanpa spasi turun ke baris berikutnya */
   }
 
   .quil-prose blockquote {
@@ -353,7 +354,15 @@
     @apply my-6 mx-auto w-full max-h-[400px] rounded-xl object-cover border;
     border-color: var(--quil-border);
   }
-  
+
+  /* Tabel lebar: digulir di dalam artikel, tidak keluar dari kartu */
+  .quil-prose table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   /* Scrollbar for Quil panels */
   .quil-scrollbar::-webkit-scrollbar {
     width: 6px;

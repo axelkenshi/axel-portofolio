@@ -106,7 +106,7 @@ bun install
 bun run dev
 ```
 
-Open `http://localhost:4321` in your browser. To read the [further documentation](#further-documentation) in local mode, replace the domain in the documentation links with `localhost:4321`.
+Open `http://localhost:4321` in your browser.
 
 ### Enabling Sveltia CMS
 
@@ -205,6 +205,10 @@ All more detailed technical documentation is stored in `content/notes/Dev...md`.
 2. Quil Notes code structure guide: `https://axelkenshi.my.id/quil-notes/dev_this_quilnotes_code-structure`
 3. Guide to fully removing `/dev` and `pages/index.astro` _(coming soon)_
 4. Sveltia configuration and Sveltia custom block editor guide: `https://axelkenshi.my.id/quil-notes/dev_this_sveltia_customization`
+
+Change my domain name to the prefix `localhost:4321` to view it locally, or simply look for it under the "DeveloperDocs" category on the Quil Notes page.
+
+Since it is naturally written in Indonesian, please use the API translator button located in the top-right corner of the content metadata bar (⇄ ID to EN).
 
 ## License
 

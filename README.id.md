@@ -204,6 +204,8 @@ Seluruh dokumentasi teknis yang lebih detail disimpan di `content/notes/Dev...md
 3. Panduan pencabutan total `/dev` dan `pages/index.astro` _(segera hadir)_
 4. Panduan konfigurasi Sveltia & custom block editor Sveltia: `https://axelkenshi.my.id/quil-notes/dev_this_sveltia_customization`
 
+Ganti nama domain saya menjadi awalan localhost:4321 untuk melihatnya secara lokal, atau cari saja dalam kategori di laman Quil Notes dengan inisial DeveloperDocs
+
 ## Lisensi
 
 Proyek ini dirilis di bawah lisensi [MIT](LICENSE).

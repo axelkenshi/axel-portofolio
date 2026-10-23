@@ -89,7 +89,7 @@
   color: inherit;
   text-decoration: none;
 }
-.embed-link:hover { border-color: #7c3aed; }
+.embed-link:hover { border-color: inherit; }
 
 .link-body {
   display: flex;
@@ -145,3 +145,30 @@ details.fold[open] > summary { margin-bottom: 0.5rem; }
 /* Video */
 .embed-video video { display: block; width: 100%; border-radius: 1rem; }
 .embed-video figcaption { margin-top: 0.5rem; font-size: 0.75rem; opacity: 0.7; }
+
+/* 2d diagram math */
+.embed-plot {
+  margin: 1.5rem auto;
+  text-align: center;
+}
+
+.embed-plot .plot-svg,
+.plot-svg {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  color: inherit;
+}
+
+/* 2d Charts diagram */
+.embed-chart {
+  margin: 1.5rem auto;
+  text-align: center;
+}
+
+.chart-svg {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  color: inherit;
+}

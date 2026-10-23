@@ -1,7 +1,7 @@
 ---
 title: Mengapa Teknologi Canggih Terasa Seperti Sihir?
 description: Sebuah perenungan filosofis tentang jarak antara kompleksitas barisan kode, abstraksi dunia digital, dan bagaimana peradaban manusia membangun keajaiban modern di atas fondasi ilmu masa lalu
-img: https://unsplash.com/id/foto/ladang-bunga-hijau-dan-kuning-saat-matahari-terbenam-Dd9Bdgd4h78
+img: https://images.unsplash.com/photo-1792692408822-db89719ac79a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
 tags:
   - Opinion
 date: 2026-10-22
