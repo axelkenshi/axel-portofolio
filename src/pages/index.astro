@@ -7,21 +7,59 @@ import '../styles/global.css';
 
 const profile = {
   name: 'Axel Kenshi',
-  photo: '/assets/1to1.webp',           // foto persegi, bisa URL CDN atau /img/...
+  photo: '/assets/1to1.webp',
   location: 'Bandung, Indonesia',
-  acronym: 'Axstonedev sandcastle',
+  acronym: 'Axstonedev',
   title: { id: 'Pengembang Perangkat Lunak', en: 'Software Developer' },
   bio: {
     id: 'Membangun perangkat lunak yang rapi dan berguna. Menulis catatan tentang teknologi dan ide.',
     en: 'Building clean, useful software. Writing notes about technology and ideas.',
   },
-  // Background: '' untuk menonaktifkan. Bisa URL CDN atau path lokal /img/...
-  background: { src: 'https://images.unsplash.com/photo-1770719269462-d3c1ed7e184f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D', opacity: 0.6 },
-  // Access key dari dashboard Web3Forms (aman dipublikasikan di frontend)
+  background: { src: '', opacity: 0.6 },
   web3formsKey: '2a8d92b3-523a-45f6-8c84-a901616bf323',
+
+  devSkills: {
+    tech: [
+      { name: 'Astro',      icon: '/img/techstack/astro.svg' },
+      { name: 'TypeScript', icon: '/img/techstack/ts.svg' },
+      { name: 'Tailwind',   icon: '/img/techstack/tailwind.svg' },
+      { name: 'Node.js',    icon: '/img/techstack/nodejs.svg' },
+      { name: 'MySql',      icon: '/img/techstack/mysql.svg' },
+    ],
+    tools: [
+      { name: 'Zed',        icon: '/img/techstack/zed-tool.svg' },
+      { name: 'Vite',       icon: '/img/techstack/vite-tool.svg' },
+      { name: 'Git',        icon: '/img/tools/git.svg' },
+      { name: 'Figma',      icon: '/img/tools/figma.svg' },
+      { name: 'Vercel',     icon: '/img/tools/vercel.svg' },
+    ],
+  },
 };
 
-// Ikon: path SVG di public/img/. Ganti sesuai file yang Anda miliki.
+const work = [
+  {
+    name: "Plants Growth",
+    logo: "/img/projects/pgt.png",
+    linkprev: "(optional)",
+    shortDescEn: "A web app to monitor plant growth using IoT sensors and real-time dashboards.",
+    shortDescId: "Aplikasi web untuk memantau pertumbuhan tanaman menggunakan sensor IoT dan dasbor real-time."
+  },
+  {
+    name: "Neo Docs",
+    logo: "/img/projects/porto.png",
+    linkprev: "/dev",
+    shortDescEn: "Personal site & developer portfolio built with Astro and Tailwind CSS.",
+    shortDescId: "Situs pribadi & portofolio pengembang yang dibangun dengan Astro dan Tailwind CSS."
+  },
+  {
+    name: "Coming Soon",
+    logo: "/img/projects/soon.png",
+    linkprev: "", // Kosong untuk mengetes logo sebagai anchor
+    shortDescEn: "An upcoming project.",
+    shortDescId: "Proyek yang akan datang."
+  }
+];
+
 const socials = [
   { label: 'GitHub', url: 'https://github.com/axelkenshi', icon: '/img/github.svg' },
   { label: 'LinkedIn', url: 'https://linkedin.com/in/axel-kenshi-mikaeel', icon: '/img/linkedin.svg' },
@@ -34,30 +72,28 @@ const links = [
     title: { id: 'Portofolio Developer', en: 'Axel Portofolio\'s' },
     subtitle: { id: 'Website pribadi & portofolio pengembang', en: 'Personal site & dev portofolio\'s' },
     url: '/dev',
-    icon: '/img/globe.svg', // GANTI ikon
+    icon: '/img/globe.svg',
   },
   {
     title: { id: 'Blog Pemikiran saya', en: 'Notes of an Eternal Mind' },
     subtitle: { id: 'Sebuah blog tentang apa yang saya pikirkan~', en: 'A blog about what\'s on my mind' },
     url: '/quil-notes',
-    icon: '/img/feather.svg', // GANTI ikon
+    icon: '/img/feather.svg',
   },
   {
     title: { id: 'Dokumenter pengetahuan terbuka', en: 'My knowledge foundation' },
     subtitle: { id: 'ORBknownrie: Observatorium Riset dan Curah Gagasan. Repositori pengetahuan dalam keabadian.', en: 'ORBknownrie: Observatory of Research & Brainstorming. Knownledge repository in eternity.' },
     url: 'https://orb.axelkenshi.web.id/',
-    icon: '/img/orbit.svg', // GANTI ikon
+    icon: '/img/orbit.svg',
   },
 ];
 
-/* ===================================================================== */
-
 const siteUrl = Astro.site?.toString() ?? 'https://axelkenshi.my.id';
-const hasBg = profile.background.src !== '';
+const hasBg = profile.background.src.trim() !== '';
 ---
 
 <!doctype html>
-<html lang="id" data-lang="id">
+<html lang="id" data-lang="id" class="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -70,28 +106,21 @@ const hasBg = profile.background.src !== '';
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Axel" />
     <link rel="manifest" href="/site.webmanifest" />
-
-    <!-- Hindari kedip light sebelum dark (flash) -->
-    <script is:inline>
-      try {
-        if (localStorage.getItem('site-theme') !== 'light') {
-          document.documentElement.classList.add('dark');
-        }
-      } catch {
-        document.documentElement.classList.add('dark');
-      }
-    </script>
+    <!-- Umami tracking -->
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="ed1cb26d-5b85-4329-a1d9-06cf4e8d87fa"></script>
   </head>
 
   <body class="min-h-dvh bg-tan text-dark transition-colors dark:bg-dark dark:text-tan">
 
-    {hasBg && (
+    {hasBg ? (
       <div
         id="bg-layer"
         aria-hidden="true"
         class="pointer-events-none fixed inset-0 -z-10 bg-cover bg-center"
         style={`background-image:url('${profile.background.src}');opacity:${profile.background.opacity}`}
       ></div>
+    ) : (
+      <div id="bg-fallback" aria-hidden="true"></div>
     )}
 
     <main class="mx-auto flex w-full max-w-md flex-col gap-6 px-4 py-8">
@@ -99,18 +128,43 @@ const hasBg = profile.background.src !== '';
       <!-- A. NAVIGASI -->
       <nav aria-label="Navigasi utama" class="flex items-center justify-between gap-2">
         <div class="flex gap-2">
-          <button id="theme-toggle" type="button" class="nav-btn" aria-label="Ganti tema">
-            <span aria-hidden="true">◐</span>
-          </button>
-          <button id="lang-toggle" type="button" class="nav-btn" aria-label="Ganti bahasa">
+          <button id="lang-toggle" type="button" class="nav-btn" aria-label="Ganti bahasa" data-umami-event="Portofolio: Ganti Bahasa">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/>
+              <path d="m22 22-5-10-5 10"/><path d="M14 18h6"/>
+            </svg>
             <span data-lang="id">ID</span><span data-lang="en">EN</span>
+          </button>
+          <button id="share-btn" type="button" class="nav-btn" data-url={siteUrl} aria-label="Bagikan halaman" data-umami-event="Portofolio: Klik Bagikan">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/>
+              <line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/>
+            </svg>
+            <span class="nav-feedback" aria-hidden="true"></span>
           </button>
         </div>
         <div class="flex gap-2">
-          <button id="copy-link" type="button" class="nav-btn" data-url={siteUrl} aria-label="Salin tautan">
-            <span aria-hidden="true">⧉</span>
+          <button id="work-open" type="button" class="nav-btn" aria-label="Karya saya" data-umami-event="Portofolio: Buka Karya">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/>
+              <path d="M8 10v4"/><path d="M12 10v2"/><path d="M16 10v6"/>
+            </svg>
           </button>
-          <button id="qr-open" type="button" class="nav-btn" aria-label="Tampilkan QR code">QR</button>
+          <button id="skill-open" type="button" class="nav-btn" aria-label="Keahlian saya" data-umami-event="Portofolio: Buka Keahlian">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>
+          </button>
+          <button id="qr-open" type="button" class="nav-btn" aria-label="Tampilkan QR code" data-umami-event="Portofolio: QR Code">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect width="5" height="5" x="3" y="3" rx="1"/>
+              <rect width="5" height="5" x="16" y="3" rx="1"/>
+              <rect width="5" height="5" x="3" y="16" rx="1"/>
+              <path d="M21 16h-3a2 2 0 0 0-2 2v3"/>
+              <path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/>
+              <path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/>
+              <path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/>
+            </svg>
+          </button>
         </div>
       </nav>
 
@@ -118,6 +172,96 @@ const hasBg = profile.background.src !== '';
         <img src="/img/qr-me.png" alt="QR code menuju situs ini" width="256" height="256" class="mx-auto rounded-xl bg-white p-3" />
         <form method="dialog" class="mt-4 text-center text-soft">
           <button class="nav-btn px-4">
+            <span data-lang="id">Tutup</span><span data-lang="en">Close</span>
+          </button>
+        </form>
+      </dialog>
+
+      <dialog id="skill-dialog" class="glass rounded-3xl p-6 skill-dialog" aria-labelledby="skill-heading">
+        <h2 id="skill-heading" class="mb-5 text-lg text-strong">
+          <span data-lang="id">Keahlian Saya</span><span data-lang="en">My Skills</span>
+        </h2>
+
+        <section class="mb-6">
+          <h3 class="mb-3 text-sm font-semibold text-soft">
+            <span data-lang="id">Teknologi yang saya kuasai</span><span data-lang="en">Technologies I'm familiar with</span>
+          </h3>
+          <ul class="skill-grid" aria-label="Tech stack">
+            {profile.devSkills.tech.map((s) => (
+              <li class="skill-item">
+                <img src={s.icon} alt="" width="32" height="32" class="skill-icon" />
+                <span class="skill-name">{s.name}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section>
+          <h3 class="mb-3 text-sm font-semibold text-soft">
+            <span data-lang="id">Utilitas alat saya</span><span data-lang="en">My Utility Tools</span>
+          </h3>
+          <ul class="skill-grid" aria-label="Tools">
+            {profile.devSkills.tools.map((s) => (
+              <li class="skill-item">
+                <img src={s.icon} alt="" width="32" height="32" class="skill-icon" />
+                <span class="skill-name">{s.name}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <form method="dialog" class="mt-6 text-center text-sm font-semibold text-soft">
+          <button class="nav-btn px-4">
+            <span data-lang="id">Tutup</span><span data-lang="en">Close</span>
+          </button>
+        </form>
+      </dialog>
+
+      <!-- WORK DIALOG -->
+      <dialog id="work-dialog" class="glass rounded-3xl p-6 work-dialog" aria-labelledby="work-heading">
+        <h2 id="work-heading" class="mb-1 text-lg text-strong">
+          <span data-lang="id">Karya Digital</span><span data-lang="en">Digital Works</span>
+        </h2>
+        <p class="mb-5 text-sm text-soft">
+          <span data-lang="id">Apa yang pernah saya kerjakan?</span><span data-lang="en">What I have worked on</span>
+        </p>
+
+        <ul class="work-grid" aria-label="Projects">
+          {work.map((w) => (
+            <li class="work-item">
+              {/* Logo sebagai Anchor jika linkprev ada */}
+              {w.linkprev ? (
+                <a
+                  href={w.linkprev}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Buka ${w.name}`}
+                  data-umami-event={`Klik Logo Proyek: ${w.name}`}
+                >
+                  <img src={w.logo} alt={w.name} class="work-logo" />
+                </a>
+              ) : (
+                <img src={w.logo} alt={w.name} class="work-logo" />
+              )}
+
+              <button type="button" class="work-name-btn" data-umami-event={`Lihat Deskripsi Proyek: ${w.name}`}>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m18 15-6-6-6 6"/>
+                </svg>
+                <span class="work-name">{w.name}</span>
+              </button>
+
+              <!-- Tooltip Deskripsi -->
+              <div class="work-tooltip glass" role="tooltip">
+                <span data-lang="id">{w.shortDescId}</span>
+                <span data-lang="en">{w.shortDescEn}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <form class="mt-8 text-center text-sm font-semibold text-soft">
+          <button type="button" id="close-work-btn" class="nav-btn px-4">
             <span data-lang="id">Tutup</span><span data-lang="en">Close</span>
           </button>
         </form>
@@ -152,7 +296,14 @@ const hasBg = profile.background.src !== '';
         <ul class="flex flex-wrap justify-center gap-2 pt-1" aria-label="Sosial media">
           {socials.map((s) => (
             <li>
-              <a href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.label} class="badge">
+              <a
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.label}
+                class="badge"
+                data-umami-event={`Klik Sosmed: ${s.label}`}
+              >
                 <span class="icon" style={`--icon:url('${s.icon}')`} aria-hidden="true"></span>
               </a>
             </li>
@@ -181,6 +332,7 @@ const hasBg = profile.background.src !== '';
             target="_blank"
             rel="noopener noreferrer"
             class="glass-card group flex items-center gap-4 rounded-2xl px-4 py-3"
+            data-umami-event={`Klik Link: ${l.title.en}`}
           >
             <span class="icon-box">
               <span class="icon" style={`--icon:url('${l.icon}')`} aria-hidden="true"></span>
@@ -205,7 +357,6 @@ const hasBg = profile.background.src !== '';
         </h2>
         <form id="contact-form" class="flex flex-col gap-3">
           <input type="hidden" name="access_key" value={profile.web3formsKey} />
-          <!-- honeypot: disembunyikan dari pengguna -->
           <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" class="hidden" />
           <input name="name" required placeholder="Name" class="field placeholder:text-white/60" />
           <input name="email" type="email" required placeholder="Email" class="field placeholder:text-white/60" />
@@ -223,7 +374,7 @@ const hasBg = profile.background.src !== '';
               class="field"
             />
           </label>
-          <button type="submit" class="self-start rounded-full bg-dark px-5 py-2 text-sm font-semibold text-tan dark:bg-tan dark:text-dark">
+          <button type="submit" class="self-start rounded-full bg-dark px-5 py-2 text-sm font-semibold text-tan dark:bg-tan dark:text-dark" data-umami-event="Portofolio: Kirim Form Kontak">
             <span data-lang="id">Kirim Pesan</span><span data-lang="en">Send</span>
           </button>
           <p id="contact-status" role="status" aria-live="polite" class="text-xs text-soft"></p>
@@ -233,11 +384,11 @@ const hasBg = profile.background.src !== '';
       <!-- D. LIVE COMMENT (Giscus) -->
       <section aria-labelledby="comments-heading" class="glass rounded-3xl p-4 sm:p-6">
         <h2 id="comments-heading" class="mb-3 text-lg text-strong">
-          <span data-lang="id">Komentar</span><span data-lang="en">Comments</span>
+          <span data-lang="id">Tinggalkan Komentar!</span><span data-lang="en">Leave a comment!</span>
         </h2>
         <div class="giscus"></div>
       </section>
-      
+
     </main>
   </body>
 </html>
@@ -249,24 +400,74 @@ const hasBg = profile.background.src !== '';
 
   /* Sembunyikan scrollbar bawaan browser, tetapi halaman tetap bisa di-scroll */
   html {
-    scrollbar-width: none;          /* Firefox */
-    -ms-overflow-style: none;       /* Edge lama */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
-  
+
   html::-webkit-scrollbar,
   body::-webkit-scrollbar {
-    display: none;                  /* Chrome, Edge, Safari */
+    display: none;
   }
-  
-  /* Light mode: gambar diredupkan */
-  #bg-layer {
-    filter: brightness(0.4);
+
+  :root {
+    --color-site-glass: rgb(255 255 255 / 0.08);
+    --color-site-glass-dark: rgb(0 0 0 / 0.2);
+    --color-site-text: rgb(255 255 255 / 1);
+    --color-site-text-soft: rgb(255 255 255 / 0.88);
+    --color-site-text-muted: rgb(255 255 255 / 0.72);
   }
-  
-  /* Dark mode: tetap terang seperti semula */
-  .dark #bg-layer {
-    filter: none;
+
+  /* ---------- Fallback background (SaaS Modern ala Payload CMS) ---------- */
+  #bg-fallback {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    pointer-events: none;
+    overflow: hidden;
+    background-color: #050505;
+    contain: strict;
+
+    background-image:
+      url("data:image/svg+xml,%3Csvg width='320' height='320' viewBox='0 0 320 320' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 64 0 L 64 320 M 128 0 L 128 320 M 192 0 L 192 320 M 256 0 L 256 320 M 0 64 L 320 64 M 0 128 L 320 128 M 0 192 L 320 192 M 0 256 L 320 256' fill='none' stroke='rgba(255,255,255,0.025)' stroke-width='1'/%3E%3Cg fill='rgba(255,255,255,0.08)' font-family='monospace' font-size='14' text-anchor='middle' dominant-baseline='central'%3E%3Ctext x='32' y='32'%3E@%3C/text%3E%3Ctext x='96' y='32'%3E%23%3C/text%3E%3Ctext x='160' y='32'%3E$%3C/text%3E%3Ctext x='224' y='32'%3E%25%3C/text%3E%3Ctext x='288' y='32'%3E%26amp%3B%3C/text%3E%3Ctext x='32' y='96'%3E!%3C/text%3E%3Ctext x='96' y='96'%3E?%3C/text%3E%3Ctext x='160' y='96'%3E%26lt%3B%3C/text%3E%3Ctext x='224' y='96'%3E%26gt%3B%3C/text%3E%3Ctext x='288' y='96'%3E;%3C/text%3E%3Ctext x='32' y='160'%3E%23%3C/text%3E%3Ctext x='96' y='160'%3E$%3C/text%3E%3Ctext x='160' y='160'%3E%25%3C/text%3E%3Ctext x='224' y='160'%3E%26amp%3B%3C/text%3E%3Ctext x='288' y='160'%3E@%3C/text%3E%3Ctext x='32' y='224'%3E?%3C/text%3E%3Ctext x='96' y='224'%3E%26lt%3B%3C/text%3E%3Ctext x='160' y='224'%3E%26gt%3B%3C/text%3E%3Ctext x='224' y='224'%3E;%3C/text%3E%3Ctext x='288' y='224'%3E!%3C/text%3E%3Ctext x='32' y='288'%3E$%3C/text%3E%3Ctext x='96' y='288'%3E%25%3C/text%3E%3Ctext x='160' y='288'%3E%26amp%3B%3C/text%3E%3Ctext x='224' y='288'%3E@%3C/text%3E%3Ctext x='288' y='288'%3E%23%3C/text%3E%3C/g%3E%3C/svg%3E"),
+      radial-gradient(circle at 50% 50%, #0a0a0c 0%, #030303 100%);
+
+    background-size:
+      320px 320px,
+      100% 100%;
+    background-position: center center;
   }
+
+  #bg-fallback::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    background:
+      linear-gradient(135deg, transparent 20%, rgba(255, 255, 255, 0.02) 40%, rgba(255, 255, 255, 0.1) 48%, rgba(255, 255, 255, 0.18) 50%, rgba(255, 255, 255, 0.1) 52%, rgba(255, 255, 255, 0.02) 60%, transparent 80%),
+      linear-gradient(45deg, transparent 10%, rgba(180, 190, 210, 0.04) 30%, rgba(180, 190, 210, 0.12) 45%, transparent 70%);
+    filter: blur(20px);
+    animation: bg-sweep 16s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  @keyframes bg-sweep {
+    0%   { transform: translate3d(-15%, -15%, 0) scale(1); }
+    100% { transform: translate3d(15%, 15%, 0) scale(1.05); }
+  }
+
+  #bg-fallback::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.15;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #bg-fallback::before { animation: none; }
+  }
+  /* --------------------------------------------------------------------------- */
 
   #qr-dialog {
     position: fixed;
@@ -282,7 +483,7 @@ const hasBg = profile.background.src !== '';
     width: 5rem;
     text-align: center;
   }
-  
+
   .avatar-dialog {
     background: transparent;
     border: none;
@@ -291,25 +492,209 @@ const hasBg = profile.background.src !== '';
     max-width: 100vw;
     max-height: 100vh;
   }
-  
-  /* Latar sekitar foto: gelap tipis dengan blur */
+
   .avatar-dialog::backdrop {
     background: rgb(0 0 0 / 0.45);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
   }
-  
-  /* Animasi kecil saat muncul */
-  .avatar-dialog[open] {
-    animation: avatar-in 220ms ease-out;
-  }
-  
+
+  .avatar-dialog[open] { animation: avatar-in 220ms ease-out; }
+
   @keyframes avatar-in {
     from { opacity: 0; transform: scale(0.96); }
     to   { opacity: 1; transform: none; }
   }
-  
-  /* Ikon SVG: mengikuti warna teks lewat mask */
+
+  /* ---------- Dialog Keahlian & Karya ---------- */
+  .skill-dialog,
+  .work-dialog {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+    max-width: calc(100vw - 2rem);
+    max-height: calc(100vh - 2rem);
+    padding: 1.5rem;
+  }
+
+  /* PENTING: Hanya jadikan Flexbox SAAT dialog terbuka [open] agar tidak menimpa display: none bawaan */
+  .work-dialog[open] {
+    display: flex;
+    flex-direction: column;
+    min-height: 22rem; /* Tinggi minimal proporsional saat item sedikit */
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  /* Mendorong tombol close ke bawah container secara proporsional */
+  .work-dialog form {
+    margin-top: auto;
+    padding-top: 2rem;
+    position: relative;
+    z-index: 60; /* Memastikan area klik berada di atas tooltip (z-index: 50) */
+  }
+
+  .skill-dialog::backdrop,
+  .work-dialog::backdrop {
+    background: rgb(0 0 0 / 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .skill-dialog[open],
+  .work-dialog[open] { animation: avatar-in 200ms ease-out; }
+
+  .skill-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+    width: 20rem;
+    max-width: 100%;
+  }
+
+  .skill-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0.25rem;
+  }
+
+  .skill-icon {
+    width: 2rem;
+    height: 2rem;
+    object-fit: contain;
+    display: block;
+  }
+
+  .skill-name {
+    font-size: 0.7rem;
+    line-height: 1.2;
+    text-align: center;
+    color: rgb(255 255 255 / 0.55);
+    letter-spacing: 0.01em;
+  }
+
+  /* ---------- Karya Digital ---------- */
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem 0.5rem;
+    width: 22rem;
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .work-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .work-item a {
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  .work-item a:hover {
+    transform: scale(1.05);
+  }
+
+  .work-logo {
+    width: 3rem;
+    height: 3rem;
+    object-fit: contain;
+    border-radius: 0.5rem;
+  }
+
+  .work-name-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    color: rgb(255 255 255 / 0.55);
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .work-name-btn:hover {
+    color: rgb(255 255 255 / 0.9);
+  }
+
+  .chevron {
+    width: 0.85rem;
+    height: 0.85rem;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .work-item:hover .chevron,
+  .work-item.is-active .chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Popup Independen (Tooltip) */
+  .work-tooltip {
+    position: absolute;
+    top: 100%;
+    bottom: auto;
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    width: 14rem;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    text-align: center;
+    color: var(--color-site-text-soft);
+    word-wrap: break-word;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    z-index: 50;
+    pointer-events: none;
+    background: rgba(15, 15, 18, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .work-item:hover .work-tooltip,
+  .work-item.is-active .work-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(8px);
+  }
+
+  .work-item:nth-child(3n+1) .work-tooltip {
+    left: 0;
+    transform: translateY(4px);
+  }
+  .work-item:nth-child(3n+1):hover .work-tooltip,
+  .work-item:nth-child(3n+1).is-active .work-tooltip {
+    transform: translateY(8px);
+  }
+
+  .work-item:nth-child(3n+3) .work-tooltip {
+    left: auto;
+    right: 0;
+    transform: translateY(4px);
+  }
+  .work-item:nth-child(3n+3):hover .work-tooltip,
+  .work-item:nth-child(3n+3).is-active .work-tooltip {
+    transform: translateY(8px);
+  }
+
+  /* ---------------------------------------------------- */
+
   .icon {
     display: inline-block;
     width: 1.25rem;
@@ -332,11 +717,12 @@ const hasBg = profile.background.src !== '';
     -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 6px 20px rgb(0 0 0 / 0.05);
   }
-  
+
   .nav-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 0.375rem;
     height: 2.5rem;
     min-width: 2.5rem;
     padding: 0 0.75rem;
@@ -344,7 +730,22 @@ const hasBg = profile.background.src !== '';
     font-size: 0.75rem;
     font-family: ui-monospace, monospace;
   }
-  
+
+  .nav-btn .nav-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .nav-btn .nav-feedback {
+    display: none;
+    font-size: 0.85rem;
+    line-height: 1;
+  }
+  .nav-btn.is-feedback .nav-icon { display: none; }
+  .nav-btn.is-feedback .nav-feedback { display: inline; }
+
   .badge, .icon-box {
     display: inline-flex;
     align-items: center;
@@ -353,8 +754,9 @@ const hasBg = profile.background.src !== '';
     height: 2.45rem;
     border-radius: 9999px;
   }
-  
+
   .icon-box { width: 2.5rem; height: 2.5rem; border-radius: 0.75rem; flex-shrink: 0; }
+
   .field {
     width: 100%;
     border-radius: 0.75rem;
@@ -391,12 +793,6 @@ const hasBg = profile.background.src !== '';
     set: (k: string, v: string) => { try { localStorage.setItem(k, v); } catch {} },
   };
 
-  /* Tema */
-  document.getElementById('theme-toggle')?.addEventListener('click', () => {
-    store.set('site-theme', root.classList.toggle('dark') ? 'dark' : 'light');
-    syncGiscus({ theme: giscusTheme(isDark) });
-  });
-
   /* Bahasa */
   const savedLang = store.get('site-lang');
   if (savedLang === 'id' || savedLang === 'en') {
@@ -413,47 +809,107 @@ const hasBg = profile.background.src !== '';
 
   /* Avatar */
   const avatarDialog = document.getElementById('avatar-dialog') as HTMLDialogElement;
-  
+
   document.querySelector('[data-avatar-open]')?.addEventListener('click', () => {
     avatarDialog.showModal();
   });
-  
+
   avatarDialog.querySelector('[data-avatar-close]')?.addEventListener('click', () => {
     avatarDialog.close();
   });
-  
-    // Klik di area latar (bukan di foto) menutup dialog
+
   avatarDialog.addEventListener('click', (e) => {
     if (e.target === avatarDialog) avatarDialog.close();
   });
-  
+
   /* QR */
   const dialog = document.getElementById('qr-dialog') as HTMLDialogElement | null;
   document.getElementById('qr-open')?.addEventListener('click', () => dialog?.showModal());
 
-  /* Salin tautan */
-  const copyBtn = document.getElementById('copy-link');
-  copyBtn?.addEventListener('click', async () => {
-    const icon = copyBtn.querySelector('span');
-    try {
-      await navigator.clipboard.writeText(copyBtn.dataset.url ?? '');
-      if (icon) icon.textContent = '✓';
-    } catch {
-      if (icon) icon.textContent = '×';
-    }
-    setTimeout(() => { if (icon) icon.textContent = '⧉'; }, 1500);
+  /* Keahlian (skill popup) */
+  const skillDialog = document.getElementById('skill-dialog') as HTMLDialogElement | null;
+  document.getElementById('skill-open')?.addEventListener('click', () => skillDialog?.showModal());
+  skillDialog?.addEventListener('click', (e) => {
+    if (e.target === skillDialog) skillDialog.close();
   });
+
+  /* Karya Digital (work popup) */
+  const workDialog = document.getElementById('work-dialog') as HTMLDialogElement | null;
+  document.getElementById('work-open')?.addEventListener('click', () => {
+    workDialog?.showModal();
+  });
+
+  /* Eksplisit menutup dialog work untuk mencegah bug layout */
+  document.getElementById('close-work-btn')?.addEventListener('click', () => {
+    workDialog?.close();
+  });
+
+  workDialog?.addEventListener('click', (e) => {
+    // Tutup dialog jika mengklik area backdrop
+    if (e.target === workDialog) {
+      workDialog.close();
+    } else if (!(e.target as Element).closest('.work-item')) {
+      // Tutup tooltip aktif jika mengklik di luar item proyek
+      document.querySelectorAll('.work-item').forEach(el => el.classList.remove('is-active'));
+    }
+  });
+
+  /* Interaksi Tooltip Karya Digital */
+  document.querySelectorAll('.work-name-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const item = btn.closest('.work-item');
+      const isActive = item?.classList.contains('is-active');
+
+      // Tutup semua item lain
+      document.querySelectorAll('.work-item').forEach(el => el.classList.remove('is-active'));
+
+      // Toggle item yang diklik (berguna untuk pengguna mobile yang tidak punya state hover)
+      if (!isActive && item) {
+        item.classList.add('is-active');
+      }
+    });
+  });
+
+  /* Bagikan (Web Share API) */
+  const shareBtn = document.getElementById('share-btn');
+  if (shareBtn) {
+    const url = shareBtn.dataset.url ?? location.href;
+    const feedback = shareBtn.querySelector('.nav-feedback');
+
+    const flash = (glyph: string) => {
+      if (!feedback) return;
+      feedback.textContent = glyph;
+      shareBtn.classList.add('is-feedback');
+      setTimeout(() => {
+        shareBtn.classList.remove('is-feedback');
+        feedback.textContent = '';
+      }, 1500);
+    };
+
+    shareBtn.addEventListener('click', async () => {
+      if (navigator.share) {
+        try { await navigator.share({ title: document.title, url }); } catch {}
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(url);
+        flash('✓');
+      } catch {
+        flash('×');
+      }
+    });
+  }
 
   /* Kontak: Web3Forms */
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
-  /* Captcha matematika sederhana */
   const captchaQ = document.getElementById('captcha-q');
   const captchaInput = document.getElementById('captcha-input') as HTMLInputElement | null;
   let captchaAnswer = 0;
-  
+
   function newCaptcha() {
-    const a = Math.floor(Math.random() * 9) + 1; // 1–9
-    const b = Math.floor(Math.random() * 9) + 1; // 1–9
+    const a = Math.floor(Math.random() * 9) + 1;
+    const b = Math.floor(Math.random() * 9) + 1;
     captchaAnswer = a + b;
     if (captchaQ) captchaQ.textContent = `${a} + ${b}`;
     if (captchaInput) captchaInput.value = '';
@@ -462,14 +918,13 @@ const hasBg = profile.background.src !== '';
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const status = document.getElementById('contact-status');
-  
-    // Validasi captcha
+
     if (Number(captchaInput?.value) !== captchaAnswer) {
       if (status) status.textContent = 'Incorrect answer, please try again.';
       newCaptcha();
       return;
     }
-  
+
     if (status) status.textContent = 'Send...';
     try {
       const res = await fetch('https://api.web3forms.com/submit', {
@@ -486,34 +941,29 @@ const hasBg = profile.background.src !== '';
     newCaptcha();
   });
 
-  /* Giscus: komentar */
+  /* Giscus */
   const giscusHost = document.querySelector('.giscus');
-  
-  function giscusTheme(isDark: boolean) {
-    return isDark ? 'transparent_dark' : 'light';
-  }
-  
+
   if (giscusHost) {
     const s = document.createElement('script');
     s.src = 'https://giscus.app/client.js';
     s.async = true;
     s.crossOrigin = 'anonymous';
-    s.setAttribute('data-repo', 'axelkenshi/axel-portofolio');              // ganti
-    s.setAttribute('data-repo-id', 'R_kgDOS8YSxQ');              // ganti
-    s.setAttribute('data-category', 'Comments');            // ganti sesuai nama kategori
-    s.setAttribute('data-category-id', 'DIC_kwDOS8YSxc4DId9z');      // ganti
+    s.setAttribute('data-repo', 'axelkenshi/axel-portofolio');
+    s.setAttribute('data-repo-id', 'R_kgDOS8YSxQ');
+    s.setAttribute('data-category', 'Comments');
+    s.setAttribute('data-category-id', 'DIC_kwDOS8YSxc4DId9z');
     s.setAttribute('data-mapping', 'pathname');
     s.setAttribute('data-strict', '0');
     s.setAttribute('data-reactions-enabled', '1');
     s.setAttribute('data-emit-metadata', '0');
     s.setAttribute('data-input-position', 'top');
     s.setAttribute('data-lang', root.dataset.lang === 'en' ? 'en' : 'id');
-    s.setAttribute('data-theme', giscusTheme(root.classList.contains('dark')));
+    s.setAttribute('data-theme', 'transparent_dark');
     giscusHost.appendChild(s);
   }
-  
-  /* Sinkronkan konfigurasi giscus (tema dan/atau bahasa) */
-  function syncGiscus(setConfig: { theme?: string; lang?: string }) {
+
+  function syncGiscus(setConfig: { lang?: string }) {
     const frame = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
     frame?.contentWindow?.postMessage(
       { giscus: { setConfig } },

@@ -96,24 +96,22 @@
   p {
     @apply font-light font-source-sans;
   }
+
+  .inline-code {
+    @apply text-[#F17778]! bg-[#2D2D2D]!;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-family: monospace !important;
+    font-size: 0.9em !important;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
 }
 
 /* ---------------------------------------------------------------------
-   2. PORTFOLIO (/dev, /index)
+   2. PORTFOLIO (/dev)
    Delete this section together with the /dev pages if they are removed.
    --------------------------------------------------------------------- */
-
-/* Glass tokens for the link-tree style on pages/index.astro.
-   Transparent glass tint, no thick white layer. */
-@theme {
-  --color-site-glass: rgb(255 255 255 / 0.08);
-  --color-site-glass-dark: rgb(0 0 0 / 0.2);
-
-  /* Text colors with higher contrast over background images */
-  --color-site-text: rgb(255 255 255 / 1);
-  --color-site-text-soft: rgb(255 255 255 / 0.88);
-  --color-site-text-muted: rgb(255 255 255 / 0.72);
-}
 
 @layer utilities {
   /* Article prose for /dev. Default link color is purple. */
