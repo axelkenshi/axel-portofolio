@@ -20,43 +20,40 @@ const profile = {
 
   devSkills: {
     tech: [
+      { name: 'PHP',      icon: '/img/techstack/php.svg' },
       { name: 'Astro',      icon: '/img/techstack/astro.svg' },
+      { name: 'Svelte',      icon: '/img/techstack/svelte.svg' },
+      { name: 'Dart', icon: '/img/techstack/dart.svg' },
+      { name: 'JavaScript', icon: '/img/techstack/js.svg' },
       { name: 'TypeScript', icon: '/img/techstack/ts.svg' },
       { name: 'Tailwind',   icon: '/img/techstack/tailwind.svg' },
       { name: 'Node.js',    icon: '/img/techstack/nodejs.svg' },
       { name: 'MySql',      icon: '/img/techstack/mysql.svg' },
+      { name: 'SqLite',      icon: '/img/techstack/sqlite.svg' },
     ],
     tools: [
       { name: 'Zed',        icon: '/img/techstack/zed-tool.svg' },
       { name: 'Vite',       icon: '/img/techstack/vite-tool.svg' },
-      { name: 'Git',        icon: '/img/tools/git.svg' },
-      { name: 'Figma',      icon: '/img/tools/figma.svg' },
-      { name: 'Vercel',     icon: '/img/tools/vercel.svg' },
+      { name: 'Git',        icon: '/img/techstack/git-tool.svg' },
+      { name: 'Figma',      icon: '/img/techstack/figma-tool.svg' },
+      { name: 'Docker',      icon: '/img/techstack/docker-tool.svg' },
+      { name: 'Vercel',     icon: '/img/techstack/vercel-tool.svg' },
+      { name: 'Netlify',     icon: '/img/techstack/netlify-tool.svg' },
+      { name: 'Firebase',     icon: '/img/techstack/firebase-tool.svg' },
+      { name: 'Cloudflare',     icon: '/img/techstack/cloudflare-tool.svg' },
+      { name: 'Claude AI',     icon: '/img/techstack/claude-tool.svg' },
+      { name: 'Cloudinary CDN',     icon: '/img/techstack/cloudinary-tool.svg' },
     ],
   },
 };
 
 const work = [
   {
-    name: "Plants Growth",
-    logo: "/img/projects/pgt.png",
-    linkprev: "(optional)",
-    shortDescEn: "A web app to monitor plant growth using IoT sensors and real-time dashboards.",
-    shortDescId: "Aplikasi web untuk memantau pertumbuhan tanaman menggunakan sensor IoT dan dasbor real-time."
-  },
-  {
     name: "Neo Docs",
-    logo: "/img/projects/porto.png",
-    linkprev: "/dev",
-    shortDescEn: "Personal site & developer portfolio built with Astro and Tailwind CSS.",
-    shortDescId: "Situs pribadi & portofolio pengembang yang dibangun dengan Astro dan Tailwind CSS."
-  },
-  {
-    name: "Coming Soon",
-    logo: "/img/projects/soon.png",
-    linkprev: "", // Kosong untuk mengetes logo sebagai anchor
-    shortDescEn: "An upcoming project.",
-    shortDescId: "Proyek yang akan datang."
+    logo: "https://res.cloudinary.com/pfsm9q7t/image/upload/f_auto/q_auto/favicon.png",
+    linkprev: "https://github.com/Kenshie-Labs/orb-project",
+    shortDescEn: "An open-source, neo-brutalist-style documentation site that supports multi-layered grouping of Markdown content.",
+    shortDescId: "Situs dokumentasi bergaya neo-brutalis yang bersifat sumber terbuka (open-source) dan mendukung pengelompokan konten Markdown secara berlapis."
   }
 ];
 
@@ -184,7 +181,7 @@ const hasBg = profile.background.src.trim() !== '';
 
         <section class="mb-6">
           <h3 class="mb-3 text-sm font-semibold text-soft">
-            <span data-lang="id">Teknologi yang saya kuasai</span><span data-lang="en">Technologies I'm familiar with</span>
+            <span data-lang="id">Teknologi yang saya pelajari</span><span data-lang="en">Technologies I'm familiar with</span>
           </h3>
           <ul class="skill-grid" aria-label="Tech stack">
             {profile.devSkills.tech.map((s) => (
@@ -545,6 +542,17 @@ const hasBg = profile.background.src.trim() !== '';
 
   .skill-dialog[open],
   .work-dialog[open] { animation: avatar-in 200ms ease-out; }
+
+  /* ---------- Hapus Scrollbar untuk Dialog ---------- */
+  dialog {
+    scrollbar-width: none;      /* Untuk Firefox */
+    -ms-overflow-style: none;   /* Untuk IE/Edge lama */
+  }
+
+  dialog::-webkit-scrollbar {
+    display: none;              /* Untuk Chrome, Safari, dan Edge modern */
+  }
+  /* ---------------------------------------------------- */
 
   .skill-grid {
     display: grid;
