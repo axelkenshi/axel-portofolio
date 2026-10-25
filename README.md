@@ -5,7 +5,7 @@
 
 <p align="center">
   <a href="https://deepwiki.com/axelkenshi/axel-portofolio">
-    <img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki">
+    <img src="https://img.shields.io/badge/Ask_DeepWiki-%5Binteractive_Docs%5D-4ee31a?style=for-the-badge&logo=databricks&logoColor=white" alt="Ask DeepWiki">
   </a>
   <a href="https://app.netlify.com/sites/myaxel/deploys">
     <img src="https://api.netlify.com/api/v1/badges/bbbaf767-8c46-4f47-8536-b2e61cecb094/deploy-status" alt="Netlify Status">
