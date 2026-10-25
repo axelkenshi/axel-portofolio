@@ -1,11 +1,17 @@
 <!-- Banner -->
-<img width="1757" height="1080" alt="Banner axel-portofolio" src="https://github.com/user-attachments/assets/172cd83f-3f80-4fce-867b-2fe55a0b5015" />
+<img width="1679" height="1080" alt="Image" src="https://github.com/user-attachments/assets/e45ec4c9-fd2b-447c-bda0-89da5cfb3e86" />
 
 ---
 
 <p align="center">
+  <a href="https://deepwiki.com/axelkenshi/axel-portofolio">
+    <img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki">
+  </a>
   <a href="https://app.netlify.com/sites/myaxel/deploys">
     <img src="https://api.netlify.com/api/v1/badges/bbbaf767-8c46-4f47-8536-b2e61cecb094/deploy-status" alt="Netlify Status">
+  </a>
+  <a href="#ai-development--transparency-notes">
+    <img src="https://img.shields.io/badge/AI_Assisted-Claude_%26_DeepSeek-blueviolet?style=for-the-badge&logo=openai&logoColor=white" alt="AI Assisted">
   </a>
   <a href="https://github.com/axelkenshi/axel-portofolio/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge&logo=opensourceinitiative&logoColor=white" alt="License">
@@ -44,6 +50,7 @@ If you would like to read this in [Indonesian](README.id.md)
   - [Local development](#local-development)
   - [Enabling Sveltia CMS](#enabling-sveltia-cms)
 - [Deploying to Netlify](#deploying-to-netlify)
+- [AI Development & Transparency Notes](#ai-development--transparency-notes)
 - [Further documentation](#further-documentation)
 - [License](#license)
 
@@ -196,6 +203,12 @@ If Netlify is not relevant to you, delete the `netlify.toml` file and the Netlif
 This website was originally designed for personal use, such as blogging and storytelling. If you want to use it for an organization, you will need to thoroughly rework the CMS integration and several other things on your own.
 
 </details>
+
+## AI Development & Transparency Notes
+
+This portfolio project was designed, directed, and curated entirely by **Axel Kenshi** in his capacity as *Lead Developer*. Throughout the creation process, the development of code and logical structures was significantly supported by advanced AI models (**Claude** and **DeepSeek**), which served as *pair programmers* to accelerate coding and optimize the architecture.
+
+In-depth architectural documentation and system flowcharts for this project can be accessed interactively via the [DeepWiki Axel Portfolio](https://deepwiki.com/axelkenshi/axel-portofolio).
 
 ## Further documentation
 

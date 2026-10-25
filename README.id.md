@@ -1,11 +1,19 @@
 <!-- Banner -->
-<img width="1757" height="1080" alt="Banner axel-portofolio" src="https://github.com/user-attachments/assets/172cd83f-3f80-4fce-867b-2fe55a0b5015" />
+<img width="1679" height="1080" alt="Image" src="https://github.com/user-attachments/assets/e45ec4c9-fd2b-447c-bda0-89da5cfb3e86" />
 
 ---
 
 <p align="center">
   <a href="https://app.netlify.com/sites/myaxel/deploys">
     <img src="https://api.netlify.com/api/v1/badges/bbbaf767-8c46-4f47-8536-b2e61cecb094/deploy-status" alt="Netlify Status">
+  </a>
+  <!-- Badge Dokumentasi Interaktif DeepWiki -->
+  <a href="https://deepwiki.com/axelkenshi/axel-portofolio">
+    <img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki">
+  </a>
+  <!-- Badge Transparansi AI-Assisted -->
+  <a href="#catatan-pengembangan--transparansi-ai">
+    <img src="https://img.shields.io/badge/AI_Assisted-Claude_%26_DeepSeek-blueviolet?style=for-the-badge&logo=openai&logoColor=white" alt="AI Assisted">
   </a>
   <a href="https://github.com/axelkenshi/axel-portofolio/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge&logo=opensourceinitiative&logoColor=white" alt="License">
@@ -42,7 +50,9 @@
   - [Development lokal](#development-lokal)
   - [Mengaktifkan Sveltia CMS](#mengaktifkan-sveltia-cms)
 - [Deploy ke Netlify](#deploy-ke-netlify)
+- [Catatan Pengembangan](#catatan-pengembangan--transparansi-ai)
 - [Dokumentasi lanjutan](#dokumentasi-lanjutan)
+- [Opsional: Ringkasan untuk pages/index.astro](LandingPage_docs.id.md)
 - [Lisensi](#lisensi)
 
 ---
@@ -194,6 +204,12 @@ Hapus file `netlify.toml` dan pertahanan CSP Netlify di folder `public/Content-S
 Tujuan awal website ini dirancang untuk penggunaan personal seperti blogging/storytelling, tetapi jika anda tertarik menggunakannya untuk penggunaan organisasi, anda perlu merombak integrasi CMS menyeluruh dan beberapa hal lainnya secara mandiri.
 
 </details>
+
+## Catatan Pengembangan & Transparansi AI
+
+Proyek portofolio ini dirancang, diarahkan, dan dikurasi sepenuhnya oleh **Axel Kenshi** selaku *Lead Developer*. Dalam proses pembuatannya, pengembangan kode dan struktur logika banyak dibantu oleh model AI mutakhir (**Claude** dan **DeepSeek**) sebagai *pair programmer* untuk mempercepat *coding* dan optimalisasi arsitektur. 
+
+Dokumentasi arsitektur mendalam dan diagram alur sistem dari proyek ini dapat diakses secara interaktif melalui [DeepWiki Axel-Portofolio](https://deepwiki.com/axelkenshi/axel-portofolio).
 
 ## Dokumentasi lanjutan
 

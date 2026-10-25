@@ -856,15 +856,18 @@ const hasBg = profile.background.src.trim() !== '';
 
   /* Keahlian (skill popup) */
   const skillDialog = document.getElementById('skill-dialog') as HTMLDialogElement | null;
-  document.getElementById('skill-open')?.addEventListener('click', () => skillDialog?.showModal());
-  skillDialog?.addEventListener('click', (e) => {
-    if (e.target === skillDialog) skillDialog.close();
+  document.getElementById('skill-open')?.addEventListener('click', () => {
+    skillDialog?.showModal();
+    // Memaksa scroll kembali ke paling atas saat dibuka
+    if (skillDialog) skillDialog.scrollTop = 0; 
   });
 
   /* Karya Digital (work popup) */
   const workDialog = document.getElementById('work-dialog') as HTMLDialogElement | null;
   document.getElementById('work-open')?.addEventListener('click', () => {
     workDialog?.showModal();
+    // Memaksa scroll kembali ke paling atas saat dibuka
+    if (workDialog) workDialog.scrollTop = 0; 
   });
 
   /* Eksplisit menutup dialog work untuk mencegah bug layout */
