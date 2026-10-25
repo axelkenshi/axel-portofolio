@@ -507,13 +507,22 @@ const hasBg = profile.background.src.trim() !== '';
   .skill-dialog,
   .work-dialog {
     position: fixed;
-    inset: 0;
+    /* Memberikan jarak aman dari tepi layar, mendukung safe-area (notch) iOS */
+    top: max(1rem, env(safe-area-inset-top));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    left: 1rem;
+    right: 1rem;
     margin: auto;
     width: fit-content;
     height: fit-content;
-    max-width: calc(100vw - 2rem);
-    max-height: calc(100vh - 2rem);
+    max-width: 100%;
+    max-height: 100%;
     padding: 1.5rem;
+    
+    /* Memastikan konten panjang bisa di-scroll */
+    overflow-y: auto;
+    /* Mencegah halaman di belakang ikut ter-scroll (scroll chaining) */
+    overscroll-behavior: contain; 
   }
 
   /* PENTING: Hanya jadikan Flexbox SAAT dialog terbuka [open] agar tidak menimpa display: none bawaan */
