@@ -533,13 +533,25 @@ const hasBg = profile.background.src.trim() !== '';
     z-index: 60; /* Memastikan area klik berada di atas tooltip (z-index: 50) */
   }
 
+  /* Fallback: Warna solid jika blur tidak didukung */
   .skill-dialog::backdrop,
   .work-dialog::backdrop {
-    background: rgb(0 0 0 / 0.5);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: rgb(0 0 0 / 0.7); /* Warna lebih gelap sebagai cadangan */
   }
-
+  
+  /* Terapkan blur hanya jika didukung */
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .skill-dialog::backdrop,
+    .work-dialog::backdrop {
+      background: rgb(0 0 0 / 0.5);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      /* Paksa GPU rendering */
+      transform: translateZ(0);
+      will-change: backdrop-filter;
+    }
+  }
+  
   .skill-dialog[open],
   .work-dialog[open] { animation: avatar-in 200ms ease-out; }
 
