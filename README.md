@@ -222,6 +222,7 @@ All more detailed technical documentation is stored within `content/notes/Dev...
 6. (Universal) building application accessibility (basic features) in accordance with WCAG standards: [F. Basic Accesibility](content/notes/Dev_This_F_Accesibility.md)
 
 > [!IMPORTANT]
+> It is highly recommended to read it using the QuilNotes interface, as it includes a language-swapping feature that allows for a seamless transition from my native language to English.
 > Since it is naturally written in Indonesian, please use the API translator button located in the top-right corner of the content metadata bar (⇄ ID to EN).
 
 ## License

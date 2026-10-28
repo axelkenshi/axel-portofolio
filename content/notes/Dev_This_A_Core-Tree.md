@@ -45,7 +45,8 @@ Jika suatu saat anda ingin merubah struktur file untuk kebutuhan pribadi, pastik
 │   │   └── note-1.md
 ├── src/
 │   ├── components/
-│   │   └── ThemeInit.astro  # (Sudah ada dahulu) Komponen yang menginisialisasi tema (dark/light)
+│   │   ├── AccesibilityDock.astro  # Modal popup Aksesibilitas universal
+│   │   └── ThemeInit.astro  # (Sudah ada dahulu) Komponen yang menginisialisasi tema (dark/light) untuk dev/
 │   ├── layouts/
 │   │   ├── DevLayout.astro     # layout utama dev portofolio (head, navbar, footer)
 │   │   └── QuilLayout.astro   # Layout utama khusus untuk semua halaman Quil Notes
@@ -53,6 +54,8 @@ Jika suatu saat anda ingin merubah struktur file untuk kebutuhan pribadi, pastik
 │   │   └── globals.css      # CSS global (reset, font, warna, dll.)
 │   ├── scripts/
 │   │   ├── canvas-utils.ts   # Optimasi javascript dev/ AboutMe & Milestone
+│   │   ├── a11y.ts           # Accesibility functionability
+│   │   ├── tts.ts            # Text-to-Speech via web API Logic
 │   │   └── translate/
 │   │       └── translate-dom.ts   # Logika browser translator API chromium
 │   ├── content.config.ts
