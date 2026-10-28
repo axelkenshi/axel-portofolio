@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import QuilLayout from '../../../layouts/QuilLayout.astro';
+import TranslateToggle from '../_components/TranslateToggle.astro';
 
 // 1. Ekstrak seluruh variasi kategori yang unik untuk dipetakan sebagai rute URL statis
 export async function getStaticPaths() {
@@ -27,15 +28,18 @@ const { categoryName, notes } = Astro.props;
 ---
 
 <QuilLayout title={`Category: ${categoryName}`}>
-  <div class="space-y-6">
+  <div class="space-y-6" id="note-content">
     
     <div class="pb-1 border-b border-quil-border">
-      <h2 class="text-xl font-bold text-quil-fg flex items-center gap-2">
-        <svg class="w-5 h-5 text-quilAccent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-        </svg>
-        list of categories: <span class="text-quilText">{categoryName}</span>
-      </h2>
+      <div class="flex">
+        <h2 class="text-xl font-bold text-quil-fg flex items-center gap-2">
+          <svg class="w-5 h-5 text-quilAccent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+          </svg>
+          list of categories: <span class="text-quilText">{categoryName}</span>
+        </h2>
+        <TranslateToggle />
+      </div>
       <p class="text-sm text-quil-fg-soft mt-5">Found {notes.length} relevant record entries.</p>
     </div>
 

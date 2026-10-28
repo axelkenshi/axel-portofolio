@@ -212,16 +212,17 @@ In-depth architectural documentation and system flowcharts for this project can 
 
 ## Further documentation
 
-All more detailed technical documentation is stored in `content/notes/Dev...md`. You can read it directly through the Quil Notes interface:
+All more detailed technical documentation is stored within `content/notes/Dev...md`. You can read it directly via the Quil Notes interface under the 'DeveloperDocs' category, or view it at the file path (using another markdown rendering tool):
 
-1. Core engine structure guide (global): `https://axelkenshi.my.id/quil-notes/dev_this_core-engine`
-2. Quil Notes code structure guide: `https://axelkenshi.my.id/quil-notes/dev_this_quilnotes_code-structure`
-3. Guide to fully removing `/dev` and `pages/index.astro` _(coming soon)_
-4. Sveltia configuration and Sveltia custom block editor guide: `https://axelkenshi.my.id/quil-notes/dev_this_sveltia_customization`
+1. Core engine structure guide (global): [A. Core engine Tree](content/notes/Dev_This_A_Core-Tree.md)
+2. Quil Notes code structure guide: [B. QuilNotes engine](content/notes/Dev_This_B_QuilEngine_Code-Structure.md)
+3. Guide to fully removing `/dev` and `pages/index.astro` _(C. coming soon)_
+4. Sveltia configuration and Sveltia custom block editor guide: [D. Sveltia Configurations](content/notes/Dev_This_D_Sveltia_Customization.md)
+5. (Optional) Lightweight documentation regarding the development of my personal landing page: [E. pages/index.astro](content/notes/Dev_This_E_Landing-Page.md)
+6. (Universal) building application accessibility (basic features) in accordance with WCAG standards: [F. Basic Accesibility](content/notes/Dev_This_F_Accesibility.md)
 
-Change my domain name to the prefix `localhost:4321` to view it locally, or simply look for it under the "DeveloperDocs" category on the Quil Notes page.
-
-Since it is naturally written in Indonesian, please use the API translator button located in the top-right corner of the content metadata bar (⇄ ID to EN).
+> [!IMPORTANT]
+> Since it is naturally written in Indonesian, please use the API translator button located in the top-right corner of the content metadata bar (⇄ ID to EN).
 
 ## License
 

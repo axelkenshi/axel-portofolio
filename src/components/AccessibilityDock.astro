@@ -1,0 +1,262 @@
+<!-- Popup aksesibilitas -->
+<!-- Bahasa default: Indonesia. Atribut data-a11y-lang="en" pada dialog mengganti tampilan ke Inggris (lihat global.css). -->
+<dialog class="dock-dialog" data-dialog="a11y" aria-label="Aksesibilitas">
+  <div class="dock-dialog-head">
+    <span>
+      <span data-lang="id">Aksesibilitas</span><span data-lang="en">Accessibility</span>
+    </span>
+    <div class="flex items-center gap-2">
+      <!-- Tombol swap bahasa: menampilkan bahasa yang akan dipilih -->
+      <button type="button" class="lang-toggle" data-lang-toggle aria-label="Ganti bahasa / Switch language">
+        <span data-lang="id">EN</span><span data-lang="en">ID</span>
+      </button>
+      <button type="button" class="dock-close" data-close aria-label="Tutup">✕</button>
+    </div>
+  </div>
+
+  <div class="dock-dialog-body a11y-body">
+
+    <!-- Ukuran teks -->
+    <section class="a11y-group">
+      <h3 class="a11y-title">
+        <span data-lang="id">Ukuran teks</span><span data-lang="en">Text size</span>
+      </h3>
+      <div class="a11y-segment" role="radiogroup" aria-label="Ukuran teks">
+        <button type="button" role="radio" data-a11y="textSize" data-value="normal" aria-checked="true"><span class="text-sm">a</span></button>
+        <button type="button" role="radio" data-a11y="textSize" data-value="large" aria-checked="false"><span class="text-lg font-bold">A</span></button>
+      </div>
+    </section>
+
+    <!-- Jarak teks -->
+    <section class="a11y-group">
+      <h3 class="a11y-title">
+        <span data-lang="id">Jarak huruf dan baris</span><span data-lang="en">Letter and line spacing</span>
+      </h3>
+      <div class="a11y-segment" role="radiogroup" aria-label="Jarak teks">
+        <button type="button" role="radio" data-a11y="spacing" data-value="normal" aria-checked="true">
+          <span data-lang="id">Normal</span><span data-lang="en">Normal</span>
+        </button>
+        <button type="button" role="radio" data-a11y="spacing" data-value="wide" aria-checked="false">
+          <span data-lang="id">Lebar</span><span data-lang="en">Wide</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Kontras -->
+    <section class="a11y-group">
+      <h3 class="a11y-title">
+        <span data-lang="id">Kontras</span><span data-lang="en">Contrast</span>
+      </h3>
+        <div class="a11y-segment" role="radiogroup" aria-label="Kontras">
+          <button type="button" role="radio" data-a11y="contrast" data-value="normal" aria-checked="true">
+            <span data-lang="id">Normal</span><span data-lang="en">Normal</span>
+          </button>
+          <button type="button" role="radio" data-a11y="contrast" data-value="high" aria-checked="false">
+            <span data-lang="id">Tinggi</span><span data-lang="en">High</span>
+          </button>
+        </div>
+    </section>
+
+    <!-- Filter warna -->
+    <section class="a11y-group">
+      <h3 class="a11y-title">
+        <span data-lang="id">Filter warna</span><span data-lang="en">Color filter</span>
+        <span class="a11y-badge">
+          <span data-lang="id">Eksperimental</span><span data-lang="en">Experimental</span>
+        </span>
+      </h3>
+      <p class="a11y-note">
+        <span data-lang="id">Membantu sebagian pengguna, belum tentu cocok untuk semua jenis buta warna.</span><span data-lang="en">Helps some users. It may not suit every type of color blindness.</span>
+      </p>
+      <div class="a11y-segment" role="radiogroup" aria-label="Filter warna">
+        <button type="button" role="radio" data-a11y="colorFilter" data-value="none" aria-checked="true">
+          <span data-lang="id">Normal</span><span data-lang="en">Normal</span>
+        </button>
+        <button type="button" role="radio" data-a11y="colorFilter" data-value="protanopia" aria-checked="false">Protan</button>
+        <button type="button" role="radio" data-a11y="colorFilter" data-value="deuteranopia" aria-checked="false">Deutan</button>
+        <button type="button" role="radio" data-a11y="colorFilter" data-value="tritanopia" aria-checked="false">Tritan</button>
+      </div>
+    </section>
+
+    <!-- Tampilan -->
+    <section class="a11y-group">
+      <h3 class="a11y-title">
+        <span data-lang="id">Tampilan</span><span data-lang="en">Display</span>
+      </h3>
+        <label class="a11y-toggle">
+          <input type="checkbox" data-a11y="monochrome" />
+          <span>
+            <span data-lang="id">Hitam putih</span><span data-lang="en">Grayscale</span>
+          </span>
+        </label>
+        <label class="a11y-toggle">
+          <input type="checkbox" data-a11y="dyslexic" />
+          <span>
+            <span data-lang="id">Font ramah disleksia</span><span data-lang="en">Dyslexia-friendly font</span>
+          </span>
+        </label>
+        <label class="a11y-toggle">
+          <input type="checkbox" data-a11y="readFocus" />
+          <span>
+            <span data-lang="id">Mode fokus membaca</span><span data-lang="en">Reading focus mode</span>
+          </span> <br/>
+          <span class="a11y-hint">
+            <span data-lang="id">ini akan menyingkirkan beberapa kartu</span><span data-lang="en">This will get rid of some cards</span>
+          </span>
+        </label>
+    </section>
+
+    <!-- Gerak -->
+    <section class="a11y-group">
+      <h3 class="a11y-title">
+        <span data-lang="id">Gerak</span><span data-lang="en">Motion</span>
+      </h3>
+      <label class="a11y-toggle">
+      <input type="checkbox" data-a11y="reduceMotion" />
+      <span>
+        <span data-lang="id">Kurangi animasi</span><span data-lang="en">Reduce animation</span>
+      </span>
+      </label>
+    </section>
+
+    <!-- Bacaan suara (eksperimental) -->
+    <section class="a11y-group" data-tts-panel>
+      <h3 class="a11y-title">
+        <span data-lang="id">Bacaan suara</span><span data-lang="en">Read aloud</span>
+        <span class="a11y-badge">
+          <span data-lang="id">Eksperimental</span><span data-lang="en">Experimental</span>
+        </span>
+      </h3>
+      <p class="a11y-note">
+        <span data-lang="id">Memakai suara bawaan perangkat. Dukungan bahasa dan kualitas suara bisa berbeda di setiap browser dan perangkat.</span><span data-lang="en">Uses the device's built-in voices. Language support and voice quality vary by browser and device.</span>
+      </p>
+
+      <div class="a11y-segment a11y-tts">
+        <button type="button" data-tts="play">
+          <span data-lang="id">Putar</span><span data-lang="en">Play</span>
+        </button>
+        <button type="button" data-tts="pause" disabled>
+          <span data-lang="id">Jeda</span><span data-lang="en">Pause</span>
+        </button>
+        <button type="button" data-tts="resume" disabled>
+          <span data-lang="id">Lanjut</span><span data-lang="en">Resume</span>
+        </button>
+        <button type="button" data-tts="stop" disabled>
+          <span data-lang="id">Berhenti</span><span data-lang="en">Stop</span>
+        </button>
+      </div>
+
+      <label class="a11y-slider">
+        <span>
+          <span data-lang="id">Kecepatan</span><span data-lang="en">Speed</span>
+          <output data-tts-rate-value>1.0</output>×
+        </span>
+        <input type="range" value="1" data-tts-rate />
+      </label>
+
+      <label class="a11y-slider">
+        <span>
+          <span data-lang="id">Suara</span><span data-lang="en">Voice</span>
+        </span>
+        <select class="a11y-select" data-tts-voice>
+          <option value="">Otomatis (sesuai bahasa)</option>
+        </select>
+      </label>
+
+      <label class="a11y-toggle">
+        <input type="checkbox" data-tts-title-only />
+        <span>
+          <span data-lang="id">Bacakan judul saja</span><span data-lang="en">Read headings only</span>
+        </span>
+      </label>
+
+      <p class="a11y-status" data-tts-status aria-live="polite"></p>
+    </section>
+
+    <button type="button" class="a11y-reset" data-a11y-reset>
+      <span data-lang="id">Reset konfigurasi</span><span data-lang="en">Reset settings</span>
+    </button>
+  </div>
+</dialog>
+
+<!-- Definisi filter warna (SVG). Dipanggil dari CSS lewat url(#...). -->
+<!-- matriks di atas adalah simulasi cara penglihatan dengan defisiensi warna, bukan koreksi -->
+<svg class="a11y-svg-defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="cb-protanopia" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="0.152286 1.052583 -0.204868 0 0  0.114503 0.786281 0.099216 0 0  -0.003882 -0.048116 1.051998 0 0  0 0 0 1 0" />
+    </filter>
+    <filter id="cb-deuteranopia" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="0.367322 0.860646 -0.227968 0 0  0.280085 0.672501 0.047413 0 0  -0.011820 0.042940 0.968881 0 0  0 0 0 1 0" />
+    </filter>
+    <filter id="cb-tritanopia" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="1.255528 -0.076749 -0.178779 0 0  -0.078411 0.930809 0.147602 0 0  0.004733 0.691367 0.303900 0 0  0 0 0 1 0" />
+    </filter>
+  </defs>
+</svg>
+
+<!-- Logika swap bahasa: event delegation, dipasang sekali, bertahan setelah ClientRouter -->
+<script>
+  const LANG_KEY = "a11y-lang";
+  let langWired = false;
+
+  // Terapkan bahasa ke dialog a11y. "id" adalah default, jadi atributnya dihapus.
+  function applyLang(lang: string) {
+    document
+      .querySelectorAll<HTMLDialogElement>('dialog[data-dialog="a11y"]')
+      .forEach((d) => {
+        if (lang === "en") d.dataset.a11yLang = "en";
+        else delete d.dataset.a11yLang;
+      });
+  }
+
+  function currentLang(): string {
+    try {
+      return localStorage.getItem(LANG_KEY) === "en" ? "en" : "id";
+    } catch {
+      return "id";
+    }
+  }
+
+  function setupLang() {
+    // Dialog baru hasil navigasi ikut mengikuti pilihan yang tersimpan
+    applyLang(currentLang());
+
+    if (langWired) return;
+    langWired = true;
+
+    document.addEventListener("click", (e) => {
+      const btn = (e.target as Element | null)?.closest("[data-lang-toggle]");
+      if (!btn) return;
+      const next = currentLang() === "en" ? "id" : "en";
+      try {
+        localStorage.setItem(LANG_KEY, next);
+      } catch {}
+      applyLang(next);
+    });
+  }
+
+  setupLang();
+  document.addEventListener("astro:page-load", setupLang);
+</script>
+
+<!-- Quil Accesibility Init -->
+<script is:inline>
+const root = document.documentElement;
+  (function () {
+    try {
+      const raw = window.localStorage.getItem("a11y");
+      if (raw) {
+        const a11y = JSON.parse(raw);
+        if (a11y.textSize && a11y.textSize !== "normal") root.dataset.textSize = a11y.textSize;
+        if (a11y.spacing && a11y.spacing !== "normal") root.dataset.spacing = a11y.spacing;
+        if (a11y.contrast && a11y.contrast !== "normal") root.dataset.contrast = a11y.contrast;
+        if (a11y.colorFilter && a11y.colorFilter !== "none") root.dataset.colorFilter = a11y.colorFilter;
+        if (a11y.monochrome) root.dataset.monochrome = "true";
+        if (a11y.dyslexic) root.dataset.dyslexic = "true";
+        if (a11y.reduceMotion) root.dataset.reduceMotion = "true";
+        if (a11y.readFocus) root.dataset.readFocus = "true";
+      }
+    } catch (_) {}
+  })();
+</script>

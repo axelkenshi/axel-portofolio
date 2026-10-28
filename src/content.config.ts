@@ -22,9 +22,7 @@ const notesCollection = defineCollection({
     img: z.string().optional(),         // Opsional, agar tidak wajib ada gambar di setiap catatan
     tags: z.array(z.string()).default([]), // Jika lupa menulis tag, otomatis jadi array kosong []
     date: z.coerce.date(),
-    category: z.string().default('Uncategorized'), // Tambahan untuk fitur kategori seperti di mockup
-    penerbit: z.string().default('jurnalis'),
-    
+    category: z.string().default('Uncategorized'),
   }),
 });
 

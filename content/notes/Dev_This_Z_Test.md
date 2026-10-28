@@ -3,7 +3,7 @@ title: test sintaks highlighting
 description: ini adalah bagan pengujian teknis sintaksis dan blok khusus dari integrasi widget Sveltia
 img: https://plus.unsplash.com/premium_photo-1790978185420-2f96c7d1ab16?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D
 tags: []
-date: 2025-10-18
+date: 2025-01-10
 category: DeveloperDocs
 ---
 

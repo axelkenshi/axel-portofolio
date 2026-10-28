@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import QuilLayout from '../../layouts/QuilLayout.astro';
+import TranslateToggle from './_components/TranslateToggle.astro';
 
 // 1. Ambil seluruh catatan dan urutkan berdasarkan tanggal terbaru
 const allNotes = await getCollection('notes');
@@ -21,12 +22,15 @@ const years = Object.keys(groupedByYear).map(Number).sort((a, b) => b - a);
 ---
 
 <QuilLayout title="Arsip Catatan" activeMenu="archive">
-  <div class="space-y-8">
+  <div class="space-y-8" id="note-content">
     <div>
-      <h2 class="text-xl font-bold text-quil-fg flex items-center gap-2">
-        <span class="w-1.5 h-4 bg-quilAccent rounded-full"></span>
-        Archive Timeline
-      </h2>
+      <div class="flex">
+        <h2 class="text-xl font-bold text-quil-fg flex items-center gap-2">
+          <span class="w-1.5 h-4 bg-quilAccent rounded-full"></span>
+          Archive Timeline
+        </h2>
+        <TranslateToggle />
+      </div>
       <p class="text-xs text-quil-fg-muted mt-1">Total recorded {allNotes.length} of my note entries.</p>
     </div>
 

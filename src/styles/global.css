@@ -108,6 +108,15 @@
   }
 }
 
+html[data-contrast="high"] {
+  --color-tan: var(--a11y-hc-light-bg);
+  --color-dark: var(--a11y-hc-light-fg);
+}
+html[data-contrast="high"].dark {
+  --color-tan: var(--a11y-hc-dark-fg);
+  --color-dark: var(--a11y-hc-dark-bg);
+}
+
 /* ---------------------------------------------------------------------
    2. PORTFOLIO (/dev)
    Delete this section together with the /dev pages if they are removed.
@@ -375,4 +384,30 @@
   .quil-scrollbar::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--theme-hue) 85% 55%);
   }
+}
+
+/*Quil Accesibility - it needs to be configured here because --quil-* is defined there */
+html.quil-root[data-contrast="high"] {
+  --quil-card: var(--a11y-hc-light-bg);
+  --quil-fg: var(--a11y-hc-light-fg);
+  --quil-fg-soft: var(--a11y-hc-light-fg);
+  --quil-fg-muted: #1f1f1f;
+  --quil-fg-faint: #3a3a3a;
+  --quil-border: var(--a11y-hc-light-fg);
+  --quil-border-strong: var(--a11y-hc-light-fg);
+  --quil-text: hsl(var(--theme-hue) 100% 20%);
+}
+html.quil-root.quil-dark[data-contrast="high"] {
+  --quil-card: var(--a11y-hc-dark-bg);
+  --quil-fg: var(--a11y-hc-dark-fg);
+  --quil-fg-soft: var(--a11y-hc-dark-fg);
+  --quil-fg-muted: #e5e5e5;
+  --quil-fg-faint: #cccccc;
+  --quil-border: var(--a11y-hc-dark-fg);
+  --quil-border-strong: var(--a11y-hc-dark-fg);
+  --quil-text: hsl(var(--theme-hue) 100% 80%);
+}
+
+html[data-read-focus="true"] #quil-content {
+  grid-column: 1 / -1;
 }

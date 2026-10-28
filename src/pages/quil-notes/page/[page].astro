@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import QuilLayout from '../../../layouts/QuilLayout.astro';
 import Pagination from '../_components/Pagination.astro';
 import SearchBar from '../_components/SearchBar.svelte';
+import TranslateToggle from '../_components/TranslateToggle.astro';
 
 // 1. Manfaatkan fungsi paginate bawaan Astro untuk kebutuhan SSG
 export async function getStaticPaths({ paginate }) {
@@ -31,15 +32,18 @@ const searchIndex = sortedNotes.map((note) => ({
 ---
 
 <QuilLayout title={`Digital Garden Feed - Page ${page.currentPage}`} activeMenu="home">
-  <div class="space-y-6">
+  <div class="space-y-6" id="note-content">
     
     <!-- Ucapan Selamat Datang / Preamble Hub -->
     <div class="pb-4 border-b border-quil-border">
-      <h2 class="text-xl font-bold text-quil-fg flex items-center gap-2">
-        <span class="w-1.5 h-4 bg-quilAccent rounded-full"></span>
-        Recent Garden Entries
-      </h2>
-      <p class="text-xs text-quil-fg-muted mt-1">Mengarsip fragmen pemikiran logis, rancangan kode, dan catatan harian.</p>
+      <div class="flex">
+        <h2 class="text-xl font-bold text-quil-fg flex items-center gap-2">
+          <span class="w-1.5 h-4 bg-quilAccent rounded-full"></span>
+          Recent Garden Entries
+        </h2>
+        <TranslateToggle />
+      </div>
+      <p class="text-xs text-quil-fg-muted mt-1">Archive fragments of logical thinking, code design, and diaries.</p>
     </div>
 
     <!-- FEED CARD UTAMA (Sama persis dengan tata letak index.astro) -->

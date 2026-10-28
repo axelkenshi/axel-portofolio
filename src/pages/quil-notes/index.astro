@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import QuilLayout from '../../layouts/QuilLayout.astro';
 import Pagination from './_components/Pagination.astro';
 import SearchBar from './_components/SearchBar.svelte';
+import TranslateToggle from './_components/TranslateToggle.astro';
 
 // 1. Tarik & urutkan catatan berdasarkan tanggal eksekusi terbaru
 const allNotes = await getCollection('notes');
@@ -25,14 +26,17 @@ const searchIndex = sortedNotes.map((note) => ({
 ---
 
 <QuilLayout title="Digital Garden Feed" activeMenu="home">
-  <div class="space-y-6">
+  <div class="space-y-6" id="note-content">
     
     <!-- Ucapan Selamat Datang / Preamble Hub -->
     <div class="pb-4 border-b border-quil-border">
-      <h2 class="text-xl font-bold text-quil-fg flex items-center gap-2">
-        <span class="w-1.5 h-4 bg-quilAccent rounded-full"></span>
-        Recent Notes Entries
-      </h2>
+      <div class="flex">
+        <h2 class="text-xl font-bold text-quil-fg flex items-center gap-2">
+          <span class="w-1.5 h-4 bg-quilAccent rounded-full"></span>
+          Recent Notes Entries
+        </h2>
+        <TranslateToggle />
+      </div>
       <p class="text-xs text-quil-fg-muted mt-1">Archiving logical thought fragments, code drafts, and diary entries.</p>
     </div>
 

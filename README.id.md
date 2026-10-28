@@ -214,14 +214,14 @@ Dokumentasi arsitektur mendalam dan diagram alur sistem dari proyek ini dapat di
 
 ## Dokumentasi lanjutan
 
-Seluruh dokumentasi teknis yang lebih detail disimpan di `content/notes/Dev...md`. Anda bisa membacanya langsung lewat antarmuka Quil Notes:
+Semua dokumentasi teknis yang lebih detail disimpan di content/notes/Dev...md. Anda dapat membacanya langsung di antarmuka Quil Notes pada kategori ‘DeveloperDocs’, atau membuka berkas tersebut melalui path-nya dengan penampil markdown lain:
 
-1. Panduan struktur kode inti (global): `https://axelkenshi.my.id/quil-notes/dev_this_core-engine`
-2. Panduan kode Quil Notes: `https://axelkenshi.my.id/quil-notes/dev_this_quilnotes_code-structure`
-3. Panduan pencabutan total `/dev` dan `pages/index.astro` _(segera hadir)_
-4. Panduan konfigurasi Sveltia & custom block editor Sveltia: `https://axelkenshi.my.id/quil-notes/dev_this_sveltia_customization`
-
-Ganti nama domain saya menjadi awalan localhost:4321 untuk melihatnya secara lokal, atau cari saja dalam kategori di laman Quil Notes dengan inisial DeveloperDocs
+Panduan struktur engine inti (global): [A. Core engine Tree](content/notes/Dev_This_A_Core-Tree.md)
+Panduan struktur kode Quil Notes: [B. QuilNotes engine](content/notes/Dev_This_B_QuilEngine_Code-Structure.md)
+Panduan untuk menghapus /dev dan pages/index.astro secara menyeluruh (C. segera hadir)
+Panduan konfigurasi Sveltia dan editor blok kustom Sveltia: [D. Sveltia Configurations](content/notes/Dev_This_D_Sveltia_Customization.md)
+(Opsional) Dokumentasi ringan tentang pengembangan landing page pribadi saya: [E. pages/index.astro](content/notes/Dev_This_E_Landing-Page.md)
+(Universal) Membangun fitur aksesibilitas dasar aplikasi sesuai standar WCAG: [F. Basic Accesibility](content/notes/Dev_This_F_Accesibility.md)
 
 ## Lisensi
 

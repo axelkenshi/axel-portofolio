@@ -1,9 +1,12 @@
 ---
 // 1. Sekarang jalurnya sangat pendek dan dijamin terbaca sempurna oleh Vite
 import '../styles/global.css';
+import '../styles/a11y.css';
 // 2. Sesuaikan jalur impor ke arah komponen Quil yang berada di folder pages
 import QuilNavbar from '../pages/quil-notes/_components/QuilNavbar.astro';
 import QuilSidebar from '../pages/quil-notes/_components/QuilSidebar.astro';
+// 3. Komponen aksesibilitas global
+import AccessibilityDock from "../components/AccessibilityDock.astro";
 
 interface Props {
   title: string;
@@ -14,7 +17,7 @@ const { title, activeMenu = 'home' } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="id" class="quil-scrollbar">
+<html lang="id" class="quil-scrollbar quil-root">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,13 +32,13 @@ const { title, activeMenu = 'home' } = Astro.props;
     <link rel="stylesheet" href="/styles/callouts.css" />
     <!-- Umami tracking -->
     <script defer src="https://cloud.umami.is/script.js" data-website-id="ed1cb26d-5b85-4329-a1d9-06cf4e8d87fa"></script>
-    
+
     <!-- rss -->
-    <link 
-      rel="alternate" 
-      type="application/rss+xml" 
-      title="RSS Feed untuk Quil Notes" 
-      href="/rss.xml" 
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="RSS Feed untuk Quil Notes"
+      href="/rss.xml"
     />
     <!-- SCRIPT ANTI-KEDIP (BLOCKING EXECUTION) -->
     <script is:inline>
@@ -53,24 +56,26 @@ const { title, activeMenu = 'home' } = Astro.props;
       }
     </script>
   </head>
-  
+
   <body class="bg-quilBg text-quil-fg-soft font-source-sans antialiased min-h-screen flex flex-col selection:bg-quil-accent-muted selection:text-quil-text">
-    
+
     <!-- HEADER / NAVIGATION (Akan kita isi di Tahap 3) -->
     <header class="sticky top-0 z-40 w-full px-4 pt-4">
       <QuilNavbar active={activeMenu} />
     </header>
 
+    <AccessibilityDock />
+
     <!-- CONTAINER DUA KOLOM UTAMA -->
     <main class="w-full max-w-7xl mx-auto px-4 py-6 flex-grow grid grid-cols-1 lg:grid-cols-12 gap-6">
-      
+
       <!-- KOLOM KIRI: SIDEBAR (PROFIL, KATEGORI, TAGS) SIDEBAR AUTOMATED TAKSONOMI -->
       <aside class="lg:col-span-3">
         <QuilSidebar />
       </aside>
 
       <!-- KOLOM KANAN: KONTEN DINAMIS (DIUNGKUS .quil-garden AGAR KONTEN PROSE IKUT DINAMIS) -->
-      <section id="quil-content" class="lg:col-span-9 quil-garden flex flex-col gap-6 scroll-mt-24">
+      <section id="quil-content" data-a11y-text class="lg:col-span-9 quil-garden flex flex-col gap-6 scroll-mt-24">
         <div class="bg-quilCard border border-quil-border rounded-2xl p-6 lg:p-8 shadow-xl flex-grow">
           <slot />
         </div>
@@ -81,23 +86,23 @@ const { title, activeMenu = 'home' } = Astro.props;
     <!-- FOOTER -->
     <footer class="w-full text-center py-8 text-xs text-quil-fg-faint border-t border-quil-border mt-12 bg-quilCard/20">
       <p>
-        © {new Date().getFullYear()} Axel Kenshi. All Rights Reserved. 
-        <span class="mx-1.5 text-quil-border-strong">/</span> 
-        
-        <a 
-          href="/rss.xml" 
-          target="_blank" 
+        © {new Date().getFullYear()} Axel Kenshi. All Rights Reserved.
+        <span class="mx-1.5 text-quil-border-strong">/</span>
+
+        <a
+          href="/rss.xml"
+          target="_blank"
           data-astro-reload
           class="text-quilText hover:text-quilAccent transition-colors duration-200 font-medium hover:underline"
         >
           RSS
-        </a> 
-        
-        <span class="mx-1.5 text-quil-border-strong">/</span> 
-        
-        <a 
-          href="/sitemap-index.xml" 
-          target="_blank" 
+        </a>
+
+        <span class="mx-1.5 text-quil-border-strong">/</span>
+
+        <a
+          href="/sitemap-index.xml"
+          target="_blank"
           data-astro-reload
           class="text-quilText hover:text-quilAccent transition-colors duration-200 font-medium hover:underline"
         >
@@ -112,24 +117,24 @@ const { title, activeMenu = 'home' } = Astro.props;
     <!-- Auto Scroll Function -->
     <script>
       const content = document.getElementById('quil-content');
-    
+
       // Breakpoint mengikuti grid di <main> (lg = 1024px). Di bawahnya, kolom kanan berada di bawah sidebar.
       const isStackedLayout = window.matchMedia('(max-width: 1023px)').matches;
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
+
       // Matikan pemulihan scroll bawaan browser agar tidak bertabrakan dengan script ini
       if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    
+
       function scrollToContent() {
         // Lewati jika pengguna sudah scroll sendiri atau membuka link #anchor
         if (window.scrollY > 10 || window.location.hash) return;
-    
+
         content?.scrollIntoView({
           behavior: prefersReducedMotion ? 'auto' : 'smooth',
           block: 'start',
         });
       }
-    
+
       if (content && isStackedLayout) {
         // Tunggu gambar dan font selesai dimuat agar posisi final sudah stabil
         if (document.readyState === 'complete') {
@@ -138,6 +143,20 @@ const { title, activeMenu = 'home' } = Astro.props;
           window.addEventListener('load', scrollToContent, { once: true });
         }
       }
+    </script>
+
+    <!-- run accesibility dock core engine -->
+    <script>
+      import { setupDock, setupA11y } from "../scripts/a11y";
+      import { initTts } from "../scripts/tts";
+
+      const init = () => {
+        setupDock();
+        setupA11y();
+        initTts();
+      };
+      init();
+      document.addEventListener("astro:page-load", init);
     </script>
   </body>
 </html>

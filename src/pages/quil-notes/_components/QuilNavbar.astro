@@ -99,6 +99,18 @@ const navLinks = [
       <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
     </button>
 
+    <button
+      type="button"
+      data-open="a11y"
+      aria-haspopup="dialog"
+      aria-label="Buka pengaturan aksesibilitas"
+      class="items-center justify-center p-2 bg-quil-surface hover:bg-quilAccentMuted active:bg-quilAccentMuted border border-quil-border rounded-lg text-quil-fg-soft hover:text-quilAccent active:text-quilAccent transition-all cursor-pointer active:scale-95"
+    >
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="5" r="1"/><path d="m9 20 3-6 3 6"/><path d="m6 8 6 2 6-2"/><path d="M12 10v4"/>
+      </svg>
+    </button>
+
     <button 
       id="mobileMenuToggleBtn"
       class="lg:hidden flex flex-col items-center justify-center gap-1 group cursor-pointer focus:outline-none"
@@ -313,4 +325,7 @@ const navLinks = [
       localStorage.setItem('quil-theme-hue', '174');
     }
   });
+  
+  // to ensure the mobile menu closes when a dialog is opened. The mobile panel calls stopPropagation, preventing the document listener from closing it.
+  document.querySelector('[data-a11y-mobile]')?.addEventListener('click', () => closeMobileMenu());
 </script>
